@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.a_main_driver_ui.account.MainDriverAccountFragment"
+    android:id="@+id/frameLayout2">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout4"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:background="@color/text_main_driver"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+      >
+
+
+        <TextView
+            android:id="@+id/textView53"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Profile"
+            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="32dp"
+            app:cardCornerRadius="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/imageView14"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+
+                android:src="@drawable/com_facebook_profile_picture_blank_square" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/textView58"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:text="Hoang Tien Cong"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/cardView4"
+            app:layout_constraintTop_toTopOf="@+id/cardView4" />
+
+        <TextView
+            android:id="@+id/textView59"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="+84 326699576"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@+id/textView58"
+            app:layout_constraintTop_toBottomOf="@+id/textView58" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@color/gmp_sys_color_light_transparent_surface"
+            android:padding="8dp"
+            android:src="@drawable/baseline_edit_square_24"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cardView4"
+            app:tint="@color/white"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/white_bg_stroke_4"
+            android:elevation="4dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:paddingVertical="16dp">
+
+            <ImageView
+                android:id="@+id/imageView15"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="24dp"
+                android:src="@drawable/busticket"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView60"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Danh sách vé"
+                android:textColor="@color/text_main_driver"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView15"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/white_bg_stroke_4"
+            android:elevation="4dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:paddingVertical="16dp">
+
+            <ImageView
+                android:id="@+id/imageView16"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="24dp"
+                android:src="@drawable/outline_supervisor_account_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView61"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Danh sách hành khách"
+                android:textColor="@color/text_main_driver"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView16"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/white_bg_stroke_4"
+            android:elevation="4dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:paddingVertical="16dp">
+
+            <ImageView
+                android:id="@+id/imageView17"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="24dp"
+                android:src="@drawable/outline_account_balance_wallet_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView62"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Ví của tôi"
+                android:textColor="@color/text_main_driver"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView17"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/white_bg_stroke_4"
+            android:elevation="4dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:paddingVertical="16dp">
+
+            <ImageView
+                android:id="@+id/imageView18"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="24dp"
+                android:src="@drawable/outline_contact_support_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/text_main_driver" />
+
+            <TextView
+                android:id="@+id/textView63"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Hỏi đáp và hỗ trợ"
+                android:textColor="@color/text_main_driver"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView18"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/white_bg_stroke_4"
+            android:elevation="4dp"
+            android:paddingVertical="16dp">
+
+            <ImageView
+                android:id="@+id/imageView19"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="24dp"
+                android:src="@drawable/ic_logout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/text_main_driver" />
+
+            <TextView
+                android:id="@+id/textView64"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Đăng xuất"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textColor="@color/text_main_driver"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView19"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

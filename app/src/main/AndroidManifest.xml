@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/logo"
+        android:label="Xe Vân Anh"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AuthenticateUserAndPass"
+        tools:ignore="ObsoleteSdkInt"
+        tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAyqExml_1CLWxc4g3pFIVMWxFYf3qBP3o" />
+        <activity
+            android:name=".ui.a_main_driver_ui.home.HomeMainDriverActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.a_shuttle_driver_ui.home.errorReport.ErrorReportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.a_shuttle_driver_ui.home.HomeShuttleDriverActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.a_admin_ui.HomeAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.a_shuttle_driver_ui.login.LoginActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.payment.PaymentNotification"
+            android:exported="true" />
+        <activity
+            android:name=".ui.payment.ChoosePaymentActivity"
+            android:exported="true"
+            android:label="Merchant Demo"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="app"
+                    android:scheme="demozpdk" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.payment.PaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.contactinfomation.ContactInformationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.pickdroplocation.PickAnDropActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.chooseSeat.ChooseSeatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.findticket.FindTicketActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.InputInfoActivity"
+            android:exported="false" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity
+            android:name=".ui.account.updateProfile.UpdateProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.account.viewprofile.ViewProfileActivity"
+            android:exported="false" /> <!-- Facebook SDK bắt buộc -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id_2" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="438573a9af9df42f786eac0a0a146cfa" /> <!-- Facebook Login activity -->
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" /> <!-- Facebook Custom Tab (nếu dùng LoginManager) -->
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

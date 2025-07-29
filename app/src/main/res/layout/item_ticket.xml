@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/bg_ticket">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.7" />
+
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="3dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/vertical_dotted_line"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_price_ticket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="180"
+            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+            android:textColor="@color/blue_text_price"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text=".000 vnđ"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="@color/blue_text_price"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/tv_price_ticket"
+            app:layout_constraintStart_toStartOf="@+id/tv_price_ticket"
+            app:layout_constraintTop_toBottomOf="@+id/tv_price_ticket" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="285dp"
+        android:layout_height="148dp"
+        android:orientation="vertical"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvCountdown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:text="Xe Vân Anh"
+                android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:text="00:00"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_calendar_month_24"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="08/7/2025"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="8dp">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/ic_bus_24"
+                android:layout_marginStart="8dp"
+                app:tint="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="XE VIP 24 PHÒNG"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="8dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Còn"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+            <TextView
+                android:id="@+id/tv_number_seats_available"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="24"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                android:textColor="@color/orangeDrak" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="/24 phòng"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/orangeDrak"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="24dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="8dp">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_watch_later_24"
+                app:tint="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="Khởi hành:"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+            <TextView
+                android:id="@+id/tv_time_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="05:00"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

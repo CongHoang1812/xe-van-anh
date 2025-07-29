@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/update_account"
+        android:icon="@drawable/baseline_edit_square_24"
+        android:title="update"
+        app:showAsAction="ifRoom|withText" />
+</menu>

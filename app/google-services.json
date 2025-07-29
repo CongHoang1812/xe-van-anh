@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "594429138889",
+    "firebase_url": "https://auth-user-pass-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "auth-user-pass",
+    "storage_bucket": "auth-user-pass.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594429138889:android:f49a741ad4bd97eb0e3a18",
+        "android_client_info": {
+          "package_name": "com.example.authenticateuserandpass"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594429138889-1rf90i6pfdacdi39dov25a787l518bui.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.authenticateuserandpass",
+            "certificate_hash": "8f18543a65889f33c9f1fb277c8c59cb6f2b788d"
+          }
+        },
+        {
+          "client_id": "594429138889-edg4tve8gr29bdg1lhggeadfj7ood327.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDR7uDvKwmnlTE7mCPufoRQ6ahlDohO8So"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594429138889-edg4tve8gr29bdg1lhggeadfj7ood327.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

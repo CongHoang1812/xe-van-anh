@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_home"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ToolbarStyle4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <View
+        android:id="@+id/hambuger_menu_2"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/viewPager2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_home"
+        app:tabIndicatorColor="@color/teal_700"
+        app:tabSelectedTextColor="@color/teal_700"
+        app:tabTextColor="@color/black" />
+
+    <TextView
+        android:id="@+id/greetingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="8dp"
+        android:text="Nhà xe Vân Anh"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/questionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="App for shuttle driver"
+        android:textColor="#FF5722"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/greetingText"
+        app:layout_constraintTop_toBottomOf="@id/greetingText"
+        tools:ignore="HardcodedText,TextContrastCheck" />
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

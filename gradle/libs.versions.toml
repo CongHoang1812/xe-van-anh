@@ -1,0 +1,67 @@
+[versions]
+agp = "8.8.0"
+firebaseBom = "33.16.0"
+kotlin = "2.0.0"
+coreKtx = "1.16.0"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+appcompat = "1.7.1"
+material = "1.12.0"
+activity = "1.10.1"
+constraintlayout = "2.2.1"
+playServicesAuth = "21.3.0"
+
+glide = "4.16.0"
+room = "2.7.0"
+ksp = "2.0.0-1.0.22"
+swiperefreshlayout = "1.1.0"
+navigationFragment = "2.8.9"
+navigationUiKtx = "2.8.9"
+navigation = "2.8.9"
+lifecycleViewmodelKtx = "2.8.7"
+firebaseDatabase = "21.0.0"
+legacySupportV4 = "1.0.0"
+recyclerview = "1.3.0"
+annotation = "1.6.0"
+lifecycleLivedataKtx = "2.9.2"
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-auth = { module = "com.google.firebase:firebase-auth" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
+
+androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
+androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
+androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+androidx-navigation-runtime = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigation" }
+navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
+
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
+
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+androidx-legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4" }
+androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "room" }
+safe-args = { id = "androidx.navigation.safeargs.kotlin" }
+

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.findticket.FindTicketActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ToolbarStyle3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/toolbar_menu2" />
+
+        <TextView
+            android:id="@+id/toolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Tìm vé"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/white_bg_stroke_2"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+        <TextView
+            android:id="@+id/tv_origin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="BX Nước Ngầm"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@drawable/trip"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_destination"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="BX Nước Ngầm"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dateControl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        android:background="@drawable/white_bg_stroke_2"
+        android:padding="6dp">
+
+        <ImageButton
+            android:id="@+id/btn_prev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="#00000000"
+            android:padding="6dp"
+            app:srcCompat="@drawable/baseline_arrow_back_ios_24"
+            app:tint="#666666"
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        <TextView
+            android:id="@+id/txtSelectedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Thứ Năm, 10/07/2025"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            android:textColor="#666666"
+            tools:ignore="HardcodedText,InefficientWeight,TouchTargetSizeCheck" />
+
+        <ImageButton
+            android:id="@+id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="#00000000"
+            android:padding="6dp"
+            app:srcCompat="@drawable/ic_more"
+            app:tint="#666666"
+            tools:ignore="ContentDescription,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_temp_ticket"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/item_ticket"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/dateControl" />
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:visibility="visible"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rv_temp_ticket"
+        app:layout_constraintStart_toStartOf="@+id/rv_temp_ticket"
+        app:layout_constraintTop_toTopOf="@+id/rv_temp_ticket" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

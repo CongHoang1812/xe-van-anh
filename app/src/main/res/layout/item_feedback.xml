@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp">
+
+    <ImageView
+        android:id="@+id/imgAvatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/outline_account_circle_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvUserId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="User001"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/imgAvatar"
+        app:layout_constraintTop_toTopOf="@id/imgAvatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"/>
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:stepSize="1"
+        android:isIndicator="true"
+        app:layout_constraintStart_toStartOf="@id/tvUserId"
+        app:layout_constraintTop_toBottomOf="@id/tvUserId"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/tvComment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Nội dung feedback ở đây..."
+        app:layout_constraintStart_toStartOf="@id/ratingBar"
+        app:layout_constraintTop_toBottomOf="@id/ratingBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="6dp"/>
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2025-07-12 14:03"
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintStart_toStartOf="@id/tvComment"
+        app:layout_constraintTop_toBottomOf="@id/tvComment"
+        android:layout_marginTop="4dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

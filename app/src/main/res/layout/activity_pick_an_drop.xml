@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.pickdroplocation.PickAnDropActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ToolbarStyle3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/toolbar_menu3" />
+
+        <TextView
+            android:id="@+id/toolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Chọn điểm đón trả"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/white_bg_stroke_2"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+        <TextView
+            android:id="@+id/tv_origin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="BX Nước Ngầm"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@drawable/trip"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_destination"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="BX Nước Ngầm"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/white_bg_stroke_2"
+        android:gravity="center"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+
+        <TextView
+            android:id="@+id/tv_departure_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="4dp"
+            android:gravity="center"
+            android:text="11:00"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_trip_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="12/07/2024"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Điểm đón"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Điểm trả"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+    <LinearLayout
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+
+        android:id="@+id/ed_pick_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/etSearchPickUp"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/white_bg_stroke"
+            android:drawableStart="@android:drawable/ic_menu_search"
+            android:hint="Nhập địa điểm"
+            android:textColor="@color/darkGrey"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:padding="12dp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSuggestions"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/ed_pick_up"
+        app:layout_constraintTop_toBottomOf="@+id/ed_pick_up"
+        app:srcCompat="@drawable/ic_location"
+        app:tint="@color/black" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/edit_drop_off"
+        app:layout_constraintTop_toBottomOf="@+id/edit_drop_off"
+        app:srcCompat="@drawable/ic_location"
+        app:tint="@color/black" />
+
+    <TextView
+        android:id="@+id/tv_pick_up"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:gravity="start"
+
+        android:paddingVertical="6dp"
+        android:text="Sân bay nội bài"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:layout_constraintTop_toTopOf="@+id/imageView4"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/lightGrey2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_pick_up" />
+
+
+    <LinearLayout
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13"
+
+
+        android:id="@+id/edit_drop_off"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/etSearchDropOff"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/white_bg_stroke"
+            android:drawableStart="@android:drawable/ic_menu_search"
+            android:hint="Nhập địa điểm"
+            android:textColor="@color/darkGrey"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:padding="12dp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSuggestions_1"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+
+
+    <TextView
+        android:id="@+id/tv_drop_off"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Sân bay nội bài"
+        android:paddingVertical="6dp"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView5"
+        app:layout_constraintTop_toTopOf="@+id/imageView5" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_continue"
+        style="@android:style/Widget.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_btn_update"
+        android:drawableEnd="@drawable/baseline_arrow_forward_24"
+        android:padding="8dp"
+        android:text="Tiếp tục"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="HardcodedText,VisualLintButtonSize" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

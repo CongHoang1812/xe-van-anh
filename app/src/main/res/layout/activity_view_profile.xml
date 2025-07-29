@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.account.viewprofile.ViewProfileActivity">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ToolbarStyle3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/toolbar_menu1" />
+
+        <TextView
+            android:id="@+id/toolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Tài khoản của tôi"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:cardCornerRadius="100dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/image_avatar"
+                    android:layout_width="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:layout_height="wrap_content"
+                     />
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Họ và tên"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"/>
+
+        <EditText
+            android:id="@+id/edit_full_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/no_edit"
+            android:focusable="false"
+            android:hint="Hoàng Tiến Công"
+            android:padding="16dp"
+            android:layout_marginBottom="8dp"
+            android:textColorHint="#434343"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email: "
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"/>
+
+        <EditText
+            android:id="@+id/edit_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/no_edit"
+            android:focusable="false"
+            android:hint="tiencong1802@gmail.com"
+            android:padding="16dp"
+            android:layout_marginBottom="8dp"
+            android:textColorHint="#434343"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Số điện thoại"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"/>
+
+        <EditText
+            android:id="@+id/edit_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/no_edit"
+            android:focusable="false"
+            android:hint="0326699576"
+            android:padding="16dp"
+            android:layout_marginBottom="8dp"
+            android:textColorHint="#434343"
+            android:textSize="12sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginEnd="2dp"
+                android:layout_weight="0.5">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ngày sinh"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:layout_marginBottom="4dp"/>
+
+                <EditText
+                    android:id="@+id/edit_date_of_birth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:background="@drawable/no_edit"
+                    android:focusable="false"
+                    android:hint="28/02/2003"
+                    android:drawableEnd="@drawable/ic_calendar_month_24"
+                    android:padding="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:textColorHint="#434343"
+                    android:textSize="12sp"
+                    android:drawableTint="@android:color/black"
+                    />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="2dp"
+                android:layout_weight="0.5">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Giới tính"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:layout_marginBottom="4dp"/>
+
+                <Spinner
+                    android:id="@+id/spinner_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/no_edit"
+                    android:padding="13dp"
+
+                    android:layout_marginBottom="12dp"
+                    android:spinnerMode="dropdown" />
+
+                />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Địa chỉ"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"/>
+
+        <EditText
+            android:id="@+id/edit_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/no_edit"
+            android:focusable="false"
+            android:hint="Minh Tâm, Thiệu Hóa, Thanh Hóa"
+            android:padding="16dp"
+            android:layout_marginBottom="8dp"
+            android:textColorHint="#434343"
+            android:textSize="12sp" />
+
+
+
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

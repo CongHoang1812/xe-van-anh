@@ -1,0 +1,32 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.AuthenticateUserAndPass" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">@android:color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="Theme.AuthenticateUserAndPass" parent="Base.Theme.AuthenticateUserAndPass" />
+    <style name="ToolbarStyle" parent="Widget.Material3.Toolbar">
+        <item name="navigationIcon">@drawable/baseline_arrow_back_24</item>
+    </style>
+
+    <style name="ToolbarStyle2" parent="Widget.Material3.Toolbar">
+        <item name="navigationIcon">@drawable/ic_menu_draw</item>
+        <item name="colorPrimary">#FFF0EB</item>
+    </style>
+
+    <style name="ToolbarStyle3" parent="Widget.Material3.Toolbar">
+        <item name="navigationIcon">@drawable/baseline_arrow_back_24</item>
+        <item name="colorPrimary">#FFFFFF</item>
+    </style>
+
+
+    <style name="ToolbarStyle4" parent="Widget.Material3.Toolbar">
+        <item name="navigationIcon">@drawable/ic_menu_draw</item>
+        <item name="colorPrimary">#FFFFFF</item>
+    </style>
+
+
+</resources>

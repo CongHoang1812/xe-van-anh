@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_home_driver_journey"
+    app:startDestination="@id/mainDriverJourneyFragment">
+
+    <fragment
+        android:id="@+id/mainDriverJourneyFragment"
+        android:name="com.example.authenticateuserandpass.ui.a_main_driver_ui.journey.MainDriverJourneyFragment"
+        android:label="fragment_main_driver_journey"
+        tools:layout="@layout/fragment_main_driver_journey" />
+</navigation>

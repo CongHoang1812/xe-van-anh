@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.account.viewprofile.ViewProfileActivity">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ToolbarStyle3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/toolbar_menu1" />
+
+        <TextView
+            android:id="@+id/toolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Tài khoản của tôi"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Họ và tên"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            tools:ignore="HardcodedText" />
+
+        <EditText
+            android:id="@+id/edit_full_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/white_bg_stroke"
+            android:hint="Vui lòng nhập..."
+            android:padding="16dp"
+            android:layout_marginBottom="8dp"
+            android:textColorHint="#434343"
+            android:textSize="12sp"
+            tools:ignore="Autofill,HardcodedText,TextFields,VisualLintTextFieldSize" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email: "
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            tools:ignore="HardcodedText" />
+
+        <EditText
+            android:id="@+id/edit_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/white_bg_stroke"
+            android:hint="Vui lòng nhập......."
+            android:padding="16dp"
+            android:layout_marginBottom="8dp"
+            android:textColorHint="#434343"
+            android:textSize="12sp"
+            tools:ignore="Autofill,HardcodedText,TextFields,VisualLintTextFieldSize" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Số điện thoại"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            tools:ignore="HardcodedText" />
+
+        <EditText
+            android:id="@+id/edit_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/white_bg_stroke"
+            android:hint="Vui lòng nhập..."
+            android:padding="16dp"
+            android:layout_marginBottom="8dp"
+            android:textColorHint="#434343"
+            android:textSize="12sp"
+            tools:ignore="Autofill,HardcodedText,TextFields,VisualLintTextFieldSize" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:ignore="DisableBaselineAlignment">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginEnd="2dp"
+                android:layout_weight="0.5">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ngày sinh"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:layout_marginBottom="4dp"
+                    tools:ignore="HardcodedText" />
+
+                <EditText
+                    android:id="@+id/edit_date_of_birth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:background="@drawable/white_bg_stroke"
+                    android:focusable="false"
+                    android:hint="28/02/2003"
+                    android:drawableEnd="@drawable/ic_calendar_month_24"
+                    android:padding="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:textColorHint="#434343"
+                    android:textSize="12sp"
+                    android:drawableTint="@android:color/black"
+                    tools:ignore="Autofill,HardcodedText,TextFields,VisualLintTextFieldSize" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="2dp"
+                android:layout_weight="0.5">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Giới tính"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:layout_marginBottom="4dp"
+                    tools:ignore="HardcodedText" />
+
+                <Spinner
+                    android:id="@+id/spinner_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/white_bg_stroke"
+                    android:padding="13dp"
+
+                    android:layout_marginBottom="12dp"
+                    android:spinnerMode="dropdown" />
+
+                />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Địa chỉ"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            tools:ignore="HardcodedText" />
+
+        <EditText
+            android:id="@+id/edit_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/white_bg_stroke"
+            android:hint="Vui lòng nhập"
+            android:padding="16dp"
+            android:layout_marginBottom="8dp"
+            android:textColorHint="#434343"
+            android:textSize="12sp"
+            tools:ignore="Autofill,HardcodedText,TextFields,VisualLintTextFieldSize" />
+
+
+
+
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_update_account"
+        style="@android:style/Widget.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_btn_update"
+        android:text="Cập nhật"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="HardcodedText,VisualLintButtonSize" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="blue">#50B5E6</color>
+    <color name="blue2">#B2CDDF</color>
+    <color name="darkGrey">#616161</color>
+    <color name="lightGrey">#CFCFCF</color>
+    <color name="lightGrey2">#F1F1F1</color>
+    <color name="lightBlue">#DEF2FF</color>
+    <color name="lightBlue2">#BAE3FE</color>
+    <color name="bg">#e7e9f5</color>
+    <color name="orange">#FFA500</color>
+    <color name="orangeDrak">#FF8C00</color>
+    <color name="light_blue_3">#f4f7ff</color>
+    <color name="blue_text_price">#1d3f92</color>
+    <color name="bg_ticket">#dbf5f6</color>
+    <color name="teal_700">#00796B</color>
+    <color name="md_theme_light_primary">#6200EE</color>
+    <color name="text_main_driver">#042F40</color>
+    <color name="text_gray">#A9a9a9</color>
+
+
+
+</resources>

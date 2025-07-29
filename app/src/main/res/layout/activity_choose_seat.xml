@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightGrey2"
+    tools:context=".ui.chooseSeat.ChooseSeatActivity">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/icons_ticket"
+        app:layout_constraintBottom_toTopOf="@+id/btn_continue"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ToolbarStyle3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/toolbar_menu3" />
+
+        <TextView
+            android:id="@+id/toolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Chọn ghế"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/white_bg_stroke_2"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+        <TextView
+            android:id="@+id/tv_origin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="BX Nước Ngầm"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@drawable/trip"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_destination"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="BX Nước Ngầm"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/white_bg_stroke_2"
+        android:gravity="center"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+
+        <TextView
+            android:id="@+id/tv_departure_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="4dp"
+            android:gravity="center"
+            android:text="11:00"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_trip_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="12/07/2024"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_chair_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chỗ trống"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_chair_24"
+                app:tint="@color/darkGrey" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đã bán"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_chair_24"
+                app:tint="@color/orangeDrak" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đang chọn"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/seatRecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+        tools:listitem="@layout/item_seat" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="55dp"
+        android:background="@color/darkGrey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_continue"
+        style="@android:style/Widget.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_btn_update"
+        android:text="Tiếp tục"
+        android:padding="8dp"
+        android:drawableEnd="@drawable/baseline_arrow_forward_24"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/view2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="HardcodedText,VisualLintButtonSize" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2"
+        >
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="4dp"
+            android:background="@color/darkGrey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_feedback"
+            app:layout_constraintStart_toEndOf="@+id/tv_price_cancel"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_price_cancel"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="Phí hủy"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/view3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_feedback"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="Đánh giá"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_drop_off"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="X"
+        android:textColor="@color/blue_text_price"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+    <TextView
+        android:id="@+id/tv_seats_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="0"
+        android:textColor="@color/blue_text_price"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_drop_off"
+        app:layout_constraintStart_toEndOf="@+id/tv_drop_off"
+        app:layout_constraintTop_toTopOf="@+id/tv_drop_off" />
+
+
+    <TextView
+        android:id="@+id/tvCountdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5:00"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        android:textColor="@color/darkGrey"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_seats_selected"
+        app:layout_constraintEnd_toEndOf="@+id/btn_continue"
+        app:layout_constraintStart_toStartOf="@+id/btn_continue"
+        app:layout_constraintTop_toTopOf="@+id/tv_seats_selected" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="vnđ"
+        android:textColor="@color/darkGrey"
+        android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+        app:layout_constraintBottom_toBottomOf="@+id/tvCountdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvCountdown" />
+
+    <TextView
+        android:id="@+id/tv_total_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="230000"
+        android:textSize="14sp"
+        android:textColor="@color/blue_text_price"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        app:layout_constraintBottom_toBottomOf="@+id/tvCountdown"
+        app:layout_constraintEnd_toStartOf="@+id/textView14"
+        app:layout_constraintTop_toTopOf="@+id/tvCountdown" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Ghế đã đặt: "
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        android:textColor="@color/blue_text_price"
+        app:layout_constraintBottom_toTopOf="@+id/imageView3"
+        app:layout_constraintStart_toStartOf="@+id/imageView3" />
+
+    <TextView
+        android:id="@+id/tvSelectedSeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        android:textColor="@color/blue_text_price"
+        android:layout_marginStart="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView16"
+        app:layout_constraintStart_toEndOf="@+id/textView16"
+        app:layout_constraintTop_toTopOf="@+id/textView16" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

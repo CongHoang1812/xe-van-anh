@@ -1,0 +1,174 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/bg_login" />
+
+    <EditText
+        android:id="@+id/edtEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/edit_backgr"
+        android:drawableStart="@drawable/baseline_email_24"
+        android:drawablePadding="16dp"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp"
+        android:padding="8dp"
+        android:textColor="@color/black"
+        android:textColorHint="#756C6C"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edtPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/edit_backgr"
+        android:drawableStart="@drawable/baseline_password_24"
+        android:drawablePadding="16dp"
+        android:hint="Mật khẩu"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        android:padding="8dp"
+        android:textColor="@color/black"
+        android:textColorHint="#756C6C"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:height="45dp"
+        android:background="@drawable/btn_background"
+        android:text="Đăng ký"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtPassword" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:height="45dp"
+        android:background="@drawable/btn_background"
+        android:text="Đăng nhập"
+        android:textColor="@color/black"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
+
+
+    <!--    <com.google.android.material.button.MaterialButton-->
+    <!--        android:layout_marginTop="8dp"-->
+    <!--        android:id="@+id/custom_fb_button_1"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Đăng nhập bằng Facebook"-->
+    <!--        app:icon="@drawable/facebook"-->
+    <!--        app:iconPadding="8dp"-->
+    <!--        app:iconGravity="textStart"-->
+    <!--        android:background="@drawable/btn_background"-->
+    <!--        app:strokeWidth="1dp"-->
+    <!--        app:cornerRadius="10dp"-->
+    <!--        android:textColor="#3b608c" />-->
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:background="@drawable/white_bg_1"
+        android:drawableStart="@drawable/googleg_standard_color_18"
+        android:paddingHorizontal="12dp"
+        android:id="@+id/btnGoogleSignIn"
+        android:text="Đăng nhập bằng google"
+        android:textAllCaps="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="180dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/custom_fb_button"
+        style="@android:style/Widget.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/com_facebook_button_background"
+        android:drawableLeft="@drawable/com_facebook_button_icon"
+        android:paddingHorizontal="12dp"
+        android:text="Đăng nhập bằng Facebook"
+        android:textColor="#ffffff"
+        android:textSize="16dp"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnGoogleSignIn" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imageView8"
+        app:layout_constraintTop_toTopOf="@+id/imageView8" />
+
+    <TextView
+        android:id="@+id/tv_navigate_to_login_admin_driver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="2dp"
+        android:text="@string/b_n_l_t_i_x_admin"
+        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+        android:textColor="@color/lightGrey2"
+        app:layout_constraintEnd_toEndOf="@+id/custom_fb_button"
+        app:layout_constraintTop_toBottomOf="@+id/custom_fb_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

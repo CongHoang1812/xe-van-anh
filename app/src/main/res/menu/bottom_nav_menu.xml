@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/baseline_home_24"
+        android:title="Home"
+        app:showAsAction="ifRoom|withText"
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/nav_ticket"
+        android:icon="@drawable/baseline_airplane_ticket_24"
+        android:title="Ticket"
+        app:showAsAction="ifRoom|withText"
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/nav_account"
+        android:icon="@drawable/ic_person_24"
+        android:title="Account"
+        app:showAsAction="ifRoom|withText"
+        tools:ignore="HardcodedText" />
+</menu>

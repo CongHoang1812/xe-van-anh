@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvTitleFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đánh giá chuyến xe"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="16dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"/>
+
+    <Button
+        android:id="@+id/btnCloseFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đóng"
+        android:layout_margin="16dp"/>
+
+</LinearLayout>

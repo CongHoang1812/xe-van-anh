@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    android:background="@android:color/white"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    tools:ignore="TextSizeCheck">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <!-- Route and status badge -->
+        <TextView
+            android:id="@+id/tvRoute"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="BX Nước Ngầm - Thanh Hóa"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:textColor="@color/text_main_driver"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/tvMeta"
+            app:layout_constraintEnd_toStartOf="@id/tv_status"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#e8f4ff"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="4dp"
+            android:text="IN 12 HOURS"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="#3587e0"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvRoute"
+            tools:ignore="TextContrastCheck" />
+
+        <!-- Passengers and stops -->
+        <TextView
+            android:id="@+id/tvMeta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="48 Passengers · 28 Stops"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="@color/text_main_driver"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvRoute" />
+
+        <TextView
+            android:id="@+id/tv_journey_time_departure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:text="6:00AM"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="@color/text_main_driver"
+            app:layout_constraintStart_toStartOf="@+id/tvMeta"
+            app:layout_constraintTop_toBottomOf="@+id/tvMeta"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_journey_time_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:text="12:00PM"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="@color/text_main_driver"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_journey_time_departure"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_journey_time_departure" />
+
+        <TextView
+            android:id="@+id/tv_journey_origin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="BX Nước Ngầm"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="@color/text_gray"
+            app:layout_constraintStart_toStartOf="@+id/tv_journey_time_departure"
+            app:layout_constraintTop_toBottomOf="@+id/tv_journey_time_departure" />
+
+        <TextView
+            android:id="@+id/tv_main_driver_destination"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="VP Đông Minh"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="@color/text_gray"
+            app:layout_constraintEnd_toEndOf="@+id/tv_journey_time_end"
+            app:layout_constraintTop_toBottomOf="@+id/tv_journey_time_end" />
+
+        <View
+            android:id="@+id/view6"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="2dp"
+            android:background="@color/text_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_journey_origin"
+            app:layout_constraintEnd_toStartOf="@+id/tv_main_driver_destination"
+            app:layout_constraintStart_toEndOf="@+id/tv_journey_origin" />
+
+        <ImageView
+            android:id="@+id/imageView10"
+            android:layout_width="30dp"
+            android:layout_height="24dp"
+            android:layout_marginBottom="-2dp"
+            app:layout_constraintBottom_toTopOf="@+id/view6"
+            app:layout_constraintEnd_toEndOf="@+id/view6"
+            app:layout_constraintHorizontal_bias="0.488"
+            app:layout_constraintStart_toStartOf="@+id/view6"
+            app:srcCompat="@drawable/bus"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/textView55"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-5dp"
+            android:text="2.5 giờ"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="@color/text_gray"
+            android:textSize="9dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView10"
+            app:layout_constraintEnd_toEndOf="@+id/imageView10"
+            app:layout_constraintStart_toStartOf="@+id/imageView10"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/textView56"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="3dp"
+            android:text="●"
+            android:textColor="@color/text_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/view6"
+            app:layout_constraintEnd_toEndOf="@+id/view6"
+            app:layout_constraintEnd_toStartOf="@+id/view6"
+            app:layout_constraintTop_toTopOf="@+id/view6" />
+
+        <TextView
+            android:id="@+id/textView57"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginBottom="3dp"
+            android:text="●"
+            android:textColor="@color/text_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/view6"
+
+            app:layout_constraintStart_toEndOf="@+id/view6"
+            app:layout_constraintTop_toTopOf="@+id/view6" />
+
+
+        <View
+            android:id="@+id/view7"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/horizontal_dotted_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_journey_origin" />
+
+        <ImageView
+            android:id="@+id/imageView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view7"
+            app:srcCompat="@drawable/ic_person_outline_24"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_journey_booking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text="48"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            android:textColor="@color/text_main_driver"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView11"
+            app:layout_constraintStart_toEndOf="@+id/imageView11"
+            app:layout_constraintTop_toTopOf="@+id/imageView11" />
+
+        <LinearLayout
+            android:id="@+id/layout_see_detail_journey"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_journey_booking"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_journey_booking"
+            tools:ignore="TextSizeCheck">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Xem chi tiết"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textSize="14sp"
+                android:textColor="@color/text_main_driver"
+                tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:id="@+id/imageView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/outline_arrow_forward_ios_24"
+                tools:ignore="ContentDescription,InefficientWeight" />
+
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

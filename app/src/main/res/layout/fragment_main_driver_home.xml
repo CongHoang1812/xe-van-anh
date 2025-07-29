@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.a_main_driver_ui.home.MainDriverHomeFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:background="#042F40"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView32"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="Nhà xe Vân Anh"
+            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/textView33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Main Driver"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            android:textColor="#1FBF83"
+            app:layout_constraintStart_toStartOf="@+id/textView32"
+            app:layout_constraintTop_toBottomOf="@+id/textView32"
+            tools:ignore="HardcodedText" />
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="16dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_notifications_none_24"
+            app:layout_constraintBottom_toBottomOf="@+id/textView33"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView32" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView35"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="Xin chào name's driver"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        android:textColor="#042F40"
+        android:textSize="21dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+        tools:ignore="HardcodedText,SpUsage,TextSizeCheck" />
+
+    <TextView
+        android:id="@+id/textView36"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:elevation="3dp"
+        android:text="Chuyến xe tiếp theo của bạn"
+        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+        android:textColor="#797979"
+        app:layout_constraintStart_toStartOf="@+id/textView35"
+        app:layout_constraintTop_toBottomOf="@+id/textView35"
+        tools:ignore="HardcodedText,TextContrastCheck" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView36"
+        tools:ignore="TextSizeCheck">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/white_bg_stroke_3">
+
+
+            <TextView
+                android:id="@+id/tv_route"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="BX Nước Ngầm - Thanh Hóa1"
+                android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                android:textColor="@color/text_main_driver"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText,SpUsage,TextSizeCheck" />
+
+            <TextView
+                android:id="@+id/textView38"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="160kms, 2.3 hrs"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                android:textColor="@color/text_main_driver"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_route"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_route"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/textView39"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="16 khách • 1 trạm dừng nghỉ"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                android:textColor="@color/text_main_driver"
+                app:layout_constraintStart_toStartOf="@+id/tv_route"
+                app:layout_constraintTop_toBottomOf="@+id/tv_route"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/tv_count_down_time_hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="48dp"
+                android:layout_marginBottom="50dp"
+                android:text="4"
+                android:textColor="@color/text_main_driver"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/textView41"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="hours left"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                android:textColor="@color/text_main_driver"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/tv_count_down_time_hour"
+                app:layout_constraintStart_toStartOf="@+id/tv_count_down_time_hour"
+                app:layout_constraintTop_toBottomOf="@+id/tv_count_down_time_hour"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/textView42"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="●"
+                app:layout_constraintStart_toStartOf="@+id/textView39"
+                app:layout_constraintTop_toBottomOf="@+id/textView39"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/tv_main_driver_home_origin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="BX Nước Ngầm"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                android:textColor="@color/text_main_driver"
+                app:layout_constraintBottom_toBottomOf="@+id/textView42"
+                app:layout_constraintStart_toEndOf="@+id/textView42"
+                app:layout_constraintTop_toTopOf="@+id/textView42"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/textView44"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-1dp"
+                android:text="┊"
+                android:textColor="#A9a9a9"
+                app:layout_constraintStart_toStartOf="@+id/textView42"
+                app:layout_constraintTop_toBottomOf="@+id/textView42"
+                tools:ignore="HardcodedText,TextContrastCheck" />
+
+            <TextView
+                android:id="@+id/textView45"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-1dp"
+                android:text="●"
+                android:textColor="#A9a9a9"
+                app:layout_constraintStart_toStartOf="@+id/textView44"
+                app:layout_constraintTop_toBottomOf="@+id/textView44"
+                tools:ignore="HardcodedText,TextContrastCheck" />
+
+            <TextView
+                android:id="@+id/textView46"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="Trạm dừng CT Ninh Bình"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                android:textColor="#A9a9a9"
+                app:layout_constraintBottom_toBottomOf="@+id/textView45"
+                app:layout_constraintStart_toEndOf="@+id/textView45"
+                app:layout_constraintTop_toBottomOf="@+id/textView44"
+                tools:ignore="HardcodedText,TextContrastCheck" />
+
+            <TextView
+                android:id="@+id/textView47"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="┊"
+                android:textColor="#A9a9a9"
+                app:layout_constraintStart_toStartOf="@+id/textView45"
+                app:layout_constraintTop_toBottomOf="@+id/textView45"
+                tools:ignore="HardcodedText,TextContrastCheck" />
+
+            <TextView
+                android:id="@+id/textView48"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-1dp"
+                android:text="●"
+                android:textColor="#1FBF83"
+                app:layout_constraintStart_toStartOf="@+id/textView47"
+                app:layout_constraintTop_toBottomOf="@+id/textView47"
+                tools:ignore="HardcodedText,TextContrastCheck" />
+
+            <TextView
+                android:id="@+id/tv_main_driver_home_destination"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="Văn Phòng Đông Minh"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                android:textColor="@color/text_main_driver"
+                app:layout_constraintBottom_toBottomOf="@+id/textView48"
+                app:layout_constraintStart_toEndOf="@+id/textView48"
+                app:layout_constraintTop_toTopOf="@+id/textView48"
+                tools:ignore="HardcodedText" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textView50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Theo dõi chuyến đi"
+        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+        android:textColor="#042F40"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/cardView3"
+        app:layout_constraintTop_toBottomOf="@+id/cardView3"
+        tools:ignore="HardcodedText,TextSizeCheck" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView50"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:elevation="6dp"
+        android:layout_marginEnd="24dp"
+        app:cardCornerRadius="10dp"
+        android:layout_marginBottom="8dp">
+
+        <FrameLayout
+            android:id="@+id/map_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></FrameLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

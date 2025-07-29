@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp"
+    card_view:cardCornerRadius="16dp"
+    card_view:cardElevation="8dp"
+    android:backgroundTint="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Họ tên + Số điện thoại -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvCustomerName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Nguyễn Văn A"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#1A237E"
+                tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_phone_24"
+                android:layout_marginEnd="4dp"
+                card_view:tint="#1976D2" />
+
+            <TextView
+                android:id="@+id/tvPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0901234567"
+                android:textSize="16sp"
+                android:textColor="#1976D2"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+        <!-- Địa chỉ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_location"
+                android:layout_marginEnd="6dp"
+                card_view:tint="#555555"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="123 Lê Lợi, Thanh Xuân"
+                android:textSize="15sp"
+                android:textColor="#555555"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+        <!-- Button hành động -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:weightSum="3">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDirection"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_primary"
+                android:backgroundTint="#4CAF50"
+                android:drawableStart="@drawable/ic_location"
+                android:drawableTint="#FFFFFF"
+                android:paddingHorizontal="8dp"
+                android:text="@string/direction"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCall"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_secondary"
+                android:backgroundTint="#2196F3"
+                android:drawableStart="@drawable/ic_phone_24"
+                android:drawableTint="#FFFFFF"
+                android:paddingHorizontal="8dp"
+                android:text="Call"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                tools:ignore="HardcodedText,TouchTargetSizeCheck,TextContrastCheck,VisualLintButtonSize" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnPickedUp"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_yellow"
+                android:backgroundTint="#FFD54F"
+                android:drawableStart="@drawable/gs_check_vd_24"
+                android:drawableTint="#222222"
+                android:paddingHorizontal="8dp"
+                android:text="Picked Up"
+                android:textAllCaps="false"
+                android:textColor="#222222"
+                tools:ignore="HardcodedText,TouchTargetSizeCheck" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

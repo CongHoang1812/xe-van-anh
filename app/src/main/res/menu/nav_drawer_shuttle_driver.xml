@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_item_drawer_search"
+        android:checkable="true"
+        android:icon="@drawable/ic_search"
+        android:title="@string/action_search_user"
+        app:showAsAction="ifRoom" />
+    <group android:id="@+id/group_navigation">
+        <item
+            android:id="@+id/menu_item_drawer_home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/title_home"
+            app:showAsAction="ifRoom|withText" />
+        <item
+            android:id="@+id/menu_item_drawer_register"
+            android:icon="@drawable/ic_add_person"
+            android:title="@string/title_register"
+            app:showAsAction="ifRoom|withText" />
+        <item
+            android:id="@+id/menu_item_drawer_notification"
+            android:icon="@drawable/ic_notifications"
+            android:title="@string/item_text_notifications"
+            app:showAsAction="ifRoom|withText" />
+        <item
+            android:id="@+id/menu_item_drawer_update"
+            android:icon="@drawable/ic_edit"
+            android:title="@string/action_update"
+            app:showAsAction="ifRoom|withText" />
+    </group>
+    <item
+        android:id="@+id/menu_item_drawer_setting"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/title_settings"
+        app:showAsAction="ifRoom|withText|collapseActionView">
+        <menu>
+            <item
+                android:id="@+id/menu_item_drawer_dark_mode"
+                android:icon="@drawable/ic_dark_mode"
+                android:title="@string/action_dark_mode"
+                app:actionLayout="@layout/layout_switch"
+                app:showAsAction="ifRoom|withText" />
+            <item
+                android:id="@+id/menu_item_drawer_language"
+                android:icon="@drawable/ic_language"
+                android:title="@string/action_languages"
+                app:showAsAction="ifRoom|withText" />
+            <item
+                android:id="@+id/menu_item_drawer_font_size"
+                android:icon="@drawable/ic_format_size"
+                android:title="@string/font_size"
+                app:showAsAction="ifRoom|withText" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/item_other"
+        android:title="@string/title_others_menu">
+        <menu>
+            <item
+                android:id="@+id/menu_item_drawer_stat"
+                android:icon="@drawable/ic_chart"
+                android:title="@string/title_statistics" />
+            <item
+                android:id="@+id/menu_item_drawer_clean"
+                android:icon="@drawable/ic_clean"
+                android:title="@string/action_clear"
+                app:showAsAction="ifRoom|withText" />
+            <item
+                android:id="@+id/menu_item_drawer_about"
+                android:icon="@drawable/ic_info"
+                android:title="@string/title_about"
+                app:showAsAction="ifRoom|withText" />
+            <item
+                android:id="@+id/menu_item_drawer_import"
+                android:icon="@drawable/ic_import_export"
+                android:title="@string/title_import"
+                app:showAsAction="ifRoom|withText" />
+        </menu>
+    </item>
+    <group>
+
+        <item
+            android:id="@+id/menu_item_drawer_error_report"
+            android:icon="@drawable/baseline_report_problem_24"
+            android:title="@string/error_report"
+            app:showAsAction="ifRoom|withText" />
+        <item
+            android:id="@+id/menu_item_drawer_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/action_logout"
+            app:showAsAction="ifRoom|withText" />
+    </group>
+</menu>

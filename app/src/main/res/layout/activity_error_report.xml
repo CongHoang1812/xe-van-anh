@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#F5F5F5"
+    android:padding="16dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@android:color/white"
+        android:padding="8dp"
+        app:cardCornerRadius="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:text="🛠️ Báo Cáo Sự Cố"
+                android:textColor="#333333"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Loại sự cố"
+                android:textColor="#555555"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinnerLoaiSuCo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@android:drawable/btn_dropdown" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mô tả chi tiết"
+                android:textColor="#555555"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtMoTa"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginBottom="24dp"
+                android:background="@android:drawable/edit_text"
+                android:gravity="top"
+                android:hint="Nhập mô tả sự cố..."
+                android:inputType="textMultiLine"
+                android:padding="12dp" />
+
+            <Button
+                android:id="@+id/btnGuiBaoCao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:backgroundTint="#4CAF50"
+                android:text="🚀 Gửi báo cáo"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btnDong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#9E9E9E"
+                android:text="Đóng"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</ScrollView>
