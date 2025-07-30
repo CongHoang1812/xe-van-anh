@@ -21,5 +21,14 @@
     <color name="text_gray">#A9a9a9</color>
 
 
+        <color name="primary">#1976D2</color>
+        <color name="primary_dark">#0D47A1</color>
+        <color name="accent">#FF6D00</color>
+        <color name="gray">#99000000</color>
+        <color name="light_gray">#DDDDDD</color>
+        <color name="background_gray">#F5F5F5</color>
+
+
+
 
 </resources>

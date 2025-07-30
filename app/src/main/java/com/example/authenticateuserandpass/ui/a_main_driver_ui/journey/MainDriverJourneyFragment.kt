@@ -113,8 +113,8 @@ class MainDriverJourneyFragment : Fragment() {
 
     private fun navigateToTripDetails(trip: TripDetailsUI) {
         // Chuyển đến màn hình chi tiết chuyến đi
-        //val action = TripsFragmentDirections.actionTripsFragmentToTripDetailFragment(trip.id)
-        //findNavController().navigate(action)
+        val action = TripsFragmentDirections.actionTripsFragmentToPassengerListFragment(trip.id)
+        findNavController().navigate(action)
     }
 
 }
