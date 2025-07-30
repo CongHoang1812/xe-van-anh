@@ -61,6 +61,7 @@ class TripViewModel(
                 override fun onResult(result: Result<List<Trip>>) {
                     when (result) {
                         is Result.Success -> {
+                            Log.d("TripViewModel", "Số lượng trip trả về: ${result.data.size} cho ngày hôm nay")
                             fetchTripDetails(result.data, true)
                         }
 
@@ -94,6 +95,7 @@ class TripViewModel(
     }
 
     private fun fetchTripDetails(trips: List<Trip>, isToday: Boolean) {
+        Log.d("TripViewModel", "Bắt đầu fetchTripDetails với ${trips.size} chuyến")
         if (trips.isEmpty()) {
             if (isToday) {
                 _todayTrips.value = emptyList()
@@ -109,7 +111,9 @@ class TripViewModel(
 
         viewModelScope.launch {
             for (trip in trips) {
+                Log.d("TripViewModel", "Gọi getTripDetails với tripId=${trip.id}")
                 tripRepository.getTripDetails(trip.id, object : ResultCallback<Result<TripDetails>> {
+
                     override fun onResult(result: Result<TripDetails>) {
                         when (result) {
                             is Result.Success -> {
@@ -121,7 +125,7 @@ class TripViewModel(
                                         destination = details.route.destination,
                                         departureTime = details.trip.departure_time,
                                         arrivalTime = calculateArrivalTime(details.trip.departure_time, details.trip.duration),
-                                        availableSeats = details.trip.availableSeats,
+                                        availableSeats = 24 -  details.trip.availableSeats,
                                         totalSeats = details.bus.seat_count,
                                         stops = 28, // TODO: Lấy số điểm dừng thực tế từ dữ liệu
                                         price = details.trip.ticket_price,
@@ -132,6 +136,7 @@ class TripViewModel(
                                 )
 
                                 completedCount++
+                                Log.d("TripViewModel", "Đã xử lý $completedCount chuyến")
                                 if (completedCount == trips.size) {
                                     // Sắp xếp danh sách theo thời gian khởi hành
                                     val sortedList = tripDetailsUIList.sortedBy { it.departureTime }

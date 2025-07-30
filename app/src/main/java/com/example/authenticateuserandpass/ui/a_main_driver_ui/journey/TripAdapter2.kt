@@ -6,16 +6,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.authenticateuserandpass.R
 import com.example.authenticateuserandpass.databinding.ItemMainDriverJourney2Binding
+import com.example.authenticateuserandpass.databinding.ItemMainDriverJourney3Binding
 import com.example.authenticateuserandpass.databinding.ItemMainDriverJourneyBinding
 import com.example.authenticateuserandpass.ui.a_main_driver_ui.viewmodel.TripDetailsUI
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class TripAdapter(
+class TripAdapter2(
     private val trips: MutableList<TripDetailsUI> = mutableListOf(),
     private val onTripClick: (TripDetailsUI) -> Unit
-) : RecyclerView.Adapter<TripAdapter.TripViewHolder>()  {
+) : RecyclerView.Adapter<TripAdapter2.TripViewHolder>()  {
     fun updateTrips(newTrips: List<TripDetailsUI>) {
         trips.clear()
         trips.addAll(newTrips)
@@ -26,7 +27,7 @@ class TripAdapter(
         parent: ViewGroup,
         viewType: Int
     ): TripViewHolder {
-        val binding = ItemMainDriverJourneyBinding.inflate(
+        val binding = ItemMainDriverJourney3Binding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
         return TripViewHolder(binding, onTripClick)
@@ -46,7 +47,7 @@ class TripAdapter(
 
 
     class TripViewHolder(
-        private val binding: ItemMainDriverJourneyBinding,
+        private val binding: ItemMainDriverJourney3Binding,
         private val onTripClick: (TripDetailsUI) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -58,8 +59,8 @@ class TripAdapter(
             binding.tvJourneyTimeDeparture.text = trip.departureTime
             binding.tvJourneyOrigin.text = trip.origin
 
-
-                binding.tvJourneyTimeEnd.text = trip.arrivalTime
+            // Đặt giờ đến
+            binding.tvJourneyTimeEnd.text = trip.arrivalTime
             binding.tvMainDriverDestination.text = trip.destination
 
             // Đặt thông tin số hành khách và điểm dừng

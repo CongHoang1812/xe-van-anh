@@ -71,6 +71,15 @@ class RemoteTripDataSource : TripDataSource.Remote {
                                         trip.availableSeats = 24 - bookedSeats
                                         trips.add(trip)
 
+                                        db.collection("trip").document(tripId)
+                                            .update("availableSeats", trip.availableSeats)
+                                            .addOnSuccessListener {
+                                                Log.d("RemoteTripDataSource", "Đã cập nhật availableSeats cho trip $tripId = ${trip.availableSeats}")
+                                            }
+                                            .addOnFailureListener { e ->
+                                                Log.e("RemoteTripDataSource", "Lỗi khi cập nhật availableSeats: ${e.message}")
+                                            }
+
                                         loadedCount++
                                         if (loadedCount == tripSnapshots.size()) {
                                             // Đảm bảo đã xử lý hết các trip
@@ -220,6 +229,7 @@ class RemoteTripDataSource : TripDataSource.Remote {
     }
 
     override suspend fun getTripDetails(tripId: String, callback: ResultCallback<Result<TripDetails>>) {
+        Log.d("RemoteTripDataSource", "Bắt đầu getTripDetails với tripId=$tripId")
         tripsCollection.document(tripId).get()
             .addOnSuccessListener { tripDoc ->
                 val trip = tripDoc.toObject(Trip::class.java)

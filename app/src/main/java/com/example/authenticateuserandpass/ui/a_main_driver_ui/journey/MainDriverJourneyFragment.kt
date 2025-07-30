@@ -1,6 +1,7 @@
 package com.example.authenticateuserandpass.ui.a_main_driver_ui.journey
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +21,7 @@ class MainDriverJourneyFragment : Fragment() {
     private lateinit var binding: FragmentMainDriverJourneyBinding
     private lateinit var viewModel: TripViewModel
     private val todayAdapter = TripAdapter { trip -> navigateToTripDetails(trip) }
-    private val tomorrowAdapter = TripAdapter { trip -> navigateToTripDetails(trip) }
+    private val tomorrowAdapter = TripAdapter2 { trip -> navigateToTripDetails(trip) }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,6 +40,7 @@ class MainDriverJourneyFragment : Fragment() {
 
         setupRecyclerViews()
         observeViewModel()
+        viewModel.fetchTrips()
 
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.fetchTrips()
@@ -49,6 +51,7 @@ class MainDriverJourneyFragment : Fragment() {
         binding.rvTodayTrips.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = todayAdapter
+
         }
 
         binding.rvTomorrowTrips.apply {
@@ -61,6 +64,7 @@ class MainDriverJourneyFragment : Fragment() {
         viewModel.todayTrips.observe(viewLifecycleOwner) { trips ->
             todayAdapter.updateTrips(trips)
             updateTodayTripsVisibility(trips)
+            Log.d("MainDriverJourneyFragment", "Có ${trips.size} chuyến đi hôm nay")
         }
 
         viewModel.tomorrowTrips.observe(viewLifecycleOwner) { trips ->
