@@ -5,32 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_light"
-    tools:context=".ui.admin.AdminDashboardActivity">
+    >
 
-    <!-- Tiêu đề -->
-    <TextView
-        android:id="@+id/tvAdminTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Admin Dashboard"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@color/primary_text"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp" />
-
-    <!-- Grid hiển thị các chức năng -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvAdminOptions"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="16dp"
-        android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@id/tvAdminTitle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
