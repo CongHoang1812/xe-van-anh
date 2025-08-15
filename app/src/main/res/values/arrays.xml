@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="default_time_range">
+        <item>150</item> <!-- 02:30 in minutes -->
+        <item>1200</item> <!-- 20:00 in minutes -->
+    </array>
+
+    <array name="default_seats_range">
+        <item>2</item>
+        <item>24</item>
+    </array>
+
+    <array name="default_price_range">
+        <item>200000</item>
+        <item>200000</item>
+    </array>
+
+
+        <array name="slider_values">
+            <item>20.0</item>
+            <item>70.0</item>
+        </array>
+    <array name="time_values">
+        <item>150</item>
+        <item>1200</item>
+    </array>
+
+    <array name="seats_values">
+        <item>2</item>
+        <item>24</item>
+    </array>
+
+    <array name="price_values">
+        <item>100000</item>
+        <item>800000</item>
+    </array>
+</resources>

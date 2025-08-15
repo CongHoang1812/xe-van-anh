@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/authenticateuserandpass/data/model/ticket/MyTicket.kt">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/java/com/example/authenticateuserandpass/data/model/ticket/MyTicket.kt" />
+              <option name="updatedContent" value="package com.example.authenticateuserandpass.data.model.ticket&#10;&#10;import com.example.authenticateuserandpass.data.model.booking.Booking&#10;import com.example.authenticateuserandpass.data.model.payment.Payment&#10;import com.example.authenticateuserandpass.data.model.trip.Trip&#10;import java.io.Serializable&#10;&#10;data class MyTicket(&#10;    val booking: Booking = Booking(),&#10;    val trip: Trip = Trip(),&#10;    val payment: Payment = Payment(),&#10;    val routeName: String = &quot;&quot;, // Tên tuyến đường&#10;    val departureLocation: String = &quot;&quot;,&#10;    val arrivalLocation: String = &quot;&quot;&#10;) : Serializable {&#10;    &#10;    fun getStatusColor(): String {&#10;        return when (payment.status) {&#10;            &quot;Đã thanh toán&quot; -&gt; &quot;#4CAF50&quot;&#10;            &quot;Chưa thanh toán&quot; -&gt; &quot;#FF9800&quot;&#10;            &quot;Thất bại&quot; -&gt; &quot;#F44336&quot;&#10;            &quot;Đã hủy&quot; -&gt; &quot;#9E9E9E&quot;&#10;            else -&gt; &quot;#9E9E9E&quot;&#10;        }&#10;    }&#10;    &#10;    fun getStatusText(): String {&#10;        return when {&#10;            booking.status == &quot;cancelled&quot; -&gt; &quot;Đã hủy&quot;&#10;            payment.status == &quot;Đã thanh toán&quot; -&gt; &quot;Đã thanh toán&quot;&#10;            payment.status == &quot;Chưa thanh toán&quot; -&gt; &quot;Chưa thanh toán&quot;&#10;            payment.status == &quot;Thất bại&quot; -&gt; &quot;Thanh toán thất bại&quot;&#10;            else -&gt; &quot;Không xác định&quot;&#10;        }&#10;    }&#10;}" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/authenticateuserandpass/data/repository/ticket/MyTicketRepository.kt">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/java/com/example/authenticateuserandpass/data/repository/ticket/MyTicketRepository.kt" />
+              <option name="updatedContent" value="package com.example.authenticateuserandpass.data.repository.ticket&#10;&#10;import com.example.authenticateuserandpass.data.model.ticket.MyTicket&#10;import com.example.authenticateuserandpass.data.source.Result&#10;&#10;interface MyTicketRepository {&#10;    suspend fun getMyTickets(userId: String): Result&lt;List&lt;MyTicket&gt;&gt;&#10;    suspend fun cancelTicket(bookingId: String): Result&lt;Boolean&gt;&#10;}" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/authenticateuserandpass/data/repository/ticket/MyTicketRepositoryImpl.kt">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/java/com/example/authenticateuserandpass/data/repository/ticket/MyTicketRepositoryImpl.kt" />
+              <option name="updatedContent" value="package com.example.authenticateuserandpass.data.repository.ticket&#10;&#10;import com.example.authenticateuserandpass.data.model.booking.Booking&#10;import com.example.authenticateuserandpass.data.model.payment.Payment&#10;import com.example.authenticateuserandpass.data.model.ticket.MyTicket&#10;import com.example.authenticateuserandpass.data.model.trip.Trip&#10;import com.example.authenticateuserandpass.data.source.Result&#10;import com.google.firebase.firestore.FirebaseFirestore&#10;import kotlinx.coroutines.tasks.await&#10;&#10;class MyTicketRepositoryImpl(&#10;    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()&#10;) : MyTicketRepository {&#10;&#10;    override suspend fun getMyTickets(userId: String): Result&lt;List&lt;MyTicket&gt;&gt; {&#10;        return try {&#10;            // Lấy danh sách booking của user&#10;            val bookingsSnapshot = firestore.collection(&quot;bookings&quot;)&#10;                .whereEqualTo(&quot;user_id&quot;, userId)&#10;                .get()&#10;                .await()&#10;&#10;            val tickets = mutableListOf&lt;MyTicket&gt;()&#10;&#10;            for (bookingDoc in bookingsSnapshot.documents) {&#10;                val booking = bookingDoc.toObject(Booking::class.java)?.apply {&#10;                    id = bookingDoc.id&#10;                } ?: continue&#10;&#10;                // Lấy thông tin trip&#10;                val tripSnapshot = firestore.collection(&quot;trips&quot;)&#10;                    .document(booking.trip_id)&#10;                    .get()&#10;                    .await()&#10;&#10;                val trip = tripSnapshot.toObject(Trip::class.java)?.apply {&#10;                    id = tripSnapshot.id&#10;                } ?: Trip()&#10;&#10;                // Lấy thông tin payment&#10;                val paymentSnapshot = firestore.collection(&quot;payments&quot;)&#10;                    .whereEqualTo(&quot;bookingId&quot;, booking.id)&#10;                    .get()&#10;                    .await()&#10;&#10;                val payment = if (paymentSnapshot.documents.isNotEmpty()) {&#10;                    paymentSnapshot.documents[0].toObject(Payment::class.java)?.apply {&#10;                        id = paymentSnapshot.documents[0].id&#10;                    } ?: Payment()&#10;                } else {&#10;                    Payment()&#10;                }&#10;&#10;                // Lấy thông tin route để có tên tuyến đường&#10;                val routeSnapshot = firestore.collection(&quot;routes&quot;)&#10;                    .document(trip.route_id)&#10;                    .get()&#10;                    .await()&#10;&#10;                val routeData = routeSnapshot.data&#10;                val departureLocation = routeData?.get(&quot;origin&quot;)?.toString() ?: booking.pickup_location&#10;                val arrivalLocation = routeData?.get(&quot;destination&quot;)?.toString() ?: booking.dropoff_location&#10;                val routeName = &quot;$departureLocation - $arrivalLocation&quot;&#10;&#10;                // Tạo MyTicket object&#10;                val myTicket = MyTicket(&#10;                    booking = booking,&#10;                    trip = trip,&#10;                    payment = payment,&#10;                    routeName = routeName,&#10;                    departureLocation = departureLocation,&#10;                    arrivalLocation = arrivalLocation&#10;                )&#10;&#10;                tickets.add(myTicket)&#10;            }&#10;&#10;            // Sắp xếp theo ngày đặt vé (mới nhất trước)&#10;            tickets.sortByDescending { it.booking.book_at }&#10;&#10;            Result.Success(tickets)&#10;        } catch (e: Exception) {&#10;            Result.Error(e)&#10;        }&#10;    }&#10;&#10;    override suspend fun cancelTicket(bookingId: String): Result&lt;Boolean&gt; {&#10;        return try {&#10;            // Cập nhật trạng thái booking thành &quot;cancelled&quot;&#10;            firestore.collection(&quot;bookings&quot;)&#10;                .document(bookingId)&#10;                .update(&quot;status&quot;, &quot;cancelled&quot;)&#10;                .await()&#10;&#10;            // Cập nhật trạng thái payment thành &quot;Đã hủy&quot;&#10;            val paymentSnapshot = firestore.collection(&quot;payments&quot;)&#10;                .whereEqualTo(&quot;bookingId&quot;, bookingId)&#10;                .get()&#10;                .await()&#10;&#10;            if (paymentSnapshot.documents.isNotEmpty()) {&#10;                val paymentId = paymentSnapshot.documents[0].id&#10;                firestore.collection(&quot;payments&quot;)&#10;                    .document(paymentId)&#10;                    .update(&quot;status&quot;, &quot;Đã hủy&quot;)&#10;                    .await()&#10;            }&#10;&#10;            Result.Success(true)&#10;        } catch (e: Exception) {&#10;            Result.Error(e)&#10;        }&#10;    }&#10;}" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/authenticateuserandpass/ui/myticket/adapter/MyTicketAdapter.kt">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/java/com/example/authenticateuserandpass/ui/myticket/adapter/MyTicketAdapter.kt" />
+              <option name="updatedContent" value="package com.example.authenticateuserandpass.ui.myticket.adapter&#10;&#10;import android.graphics.Color&#10;import android.view.LayoutInflater&#10;import android.view.View&#10;import android.view.ViewGroup&#10;import androidx.recyclerview.widget.DiffUtil&#10;import androidx.recyclerview.widget.ListAdapter&#10;import androidx.recyclerview.widget.RecyclerView&#10;import com.example.authenticateuserandpass.data.model.ticket.MyTicket&#10;import com.example.authenticateuserandpass.databinding.ItemMyTicketBinding&#10;import java.text.NumberFormat&#10;import java.text.SimpleDateFormat&#10;import java.util.*&#10;&#10;class MyTicketAdapter(&#10;    private val onTicketClick: (MyTicket) -&gt; Unit,&#10;    private val onCancelClick: (MyTicket) -&gt; Unit&#10;) : ListAdapter&lt;MyTicket, MyTicketAdapter.MyTicketViewHolder&gt;(DiffCallback()) {&#10;&#10;    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyTicketViewHolder {&#10;        val binding = ItemMyTicketBinding.inflate(&#10;            LayoutInflater.from(parent.context),&#10;            parent,&#10;            false&#10;        )&#10;        return MyTicketViewHolder(binding)&#10;    }&#10;&#10;    override fun onBindViewHolder(holder: MyTicketViewHolder, position: Int) {&#10;        holder.bind(getItem(position))&#10;    }&#10;&#10;    inner class MyTicketViewHolder(&#10;        private val binding: ItemMyTicketBinding&#10;    ) : RecyclerView.ViewHolder(binding.root) {&#10;&#10;        fun bind(ticket: MyTicket) {&#10;            with(binding) {&#10;                // Hiển thị thông tin tuyến đường&#10;                tvDepartureLocation.text = ticket.departureLocation.ifEmpty { &quot;Điểm đi&quot; }&#10;                tvArrivalLocation.text = ticket.arrivalLocation.ifEmpty { &quot;Điểm đến&quot; }&#10;                &#10;                // Hiển thị thời gian và ngày&#10;                tvDepartureTime.text = ticket.trip.departure_time&#10;                tvTripDate.text = formatDate(ticket.trip.trip_date)&#10;                &#10;                // Hiển thị số ghế&#10;                tvSeatNumber.text = ticket.booking.seat_id&#10;                &#10;                // Hiển thị phương thức thanh toán&#10;                tvPaymentMethod.text = when (ticket.payment.paymentMethod) {&#10;                    &quot;ZaloPay&quot; -&gt; &quot;ZaloPay&quot;&#10;                    &quot;Cash&quot; -&gt; &quot;Tiền mặt&quot;&#10;                    else -&gt; &quot;Chưa xác định&quot;&#10;                }&#10;                &#10;                // Hiển thị giá vé&#10;                tvPrice.text = formatPrice(ticket.trip.ticket_price)&#10;                &#10;                // Hiển thị ngày đặt vé&#10;                tvBookingDate.text = &quot;Đặt: ${formatDate(ticket.booking.book_at)}&quot;&#10;                &#10;                // Hiển thị trạng thái&#10;                setupStatus(ticket)&#10;                &#10;                // Hiển thị nút hủy vé (chỉ hiển thị nếu chưa thanh toán và chưa hủy)&#10;                tvCancelTicket.visibility = if (canCancelTicket(ticket)) {&#10;                    View.VISIBLE&#10;                } else {&#10;                    View.GONE&#10;                }&#10;                &#10;                // Xử lý sự kiện click&#10;                tvViewDetails.setOnClickListener { onTicketClick(ticket) }&#10;                tvCancelTicket.setOnClickListener { onCancelClick(ticket) }&#10;                root.setOnClickListener { onTicketClick(ticket) }&#10;            }&#10;        }&#10;        &#10;        private fun setupStatus(ticket: MyTicket) {&#10;            val statusText = ticket.getStatusText()&#10;            val statusColor = try {&#10;                Color.parseColor(ticket.getStatusColor())&#10;            } catch (e: IllegalArgumentException) {&#10;                Color.GRAY&#10;            }&#10;            &#10;            with(binding.tvStatus) {&#10;                text = statusText&#10;                setBackgroundColor(statusColor)&#10;            }&#10;        }&#10;        &#10;        private fun canCancelTicket(ticket: MyTicket): Boolean {&#10;            return ticket.booking.status != &quot;cancelled&quot; &amp;&amp; &#10;                   ticket.payment.status != &quot;Đã thanh toán&quot; &amp;&amp;&#10;                   !isPastTrip(ticket.trip.trip_date, ticket.trip.departure_time)&#10;        }&#10;        &#10;        private fun isPastTrip(tripDate: String, departureTime: String): Boolean {&#10;            return try {&#10;                val dateFormat = SimpleDateFormat(&quot;dd/MM/yyyy HH:mm&quot;, Locale.getDefault())&#10;                val tripDateTime = dateFormat.parse(&quot;$tripDate $departureTime&quot;)&#10;                tripDateTime?.before(Date()) ?: false&#10;            } catch (e: Exception) {&#10;                false&#10;            }&#10;        }&#10;        &#10;        private fun formatDate(dateString: String): String {&#10;            return try {&#10;                val inputFormat = SimpleDateFormat(&quot;dd/MM/yyyy&quot;, Locale.getDefault())&#10;                val outputFormat = SimpleDateFormat(&quot;dd/MM/yyyy&quot;, Locale.getDefault())&#10;                val date = inputFormat.parse(dateString)&#10;                date?.let { outputFormat.format(it) } ?: dateString&#10;            } catch (e: Exception) {&#10;                dateString&#10;            }&#10;        }&#10;        &#10;        private fun formatPrice(price: String): String {&#10;            return try {&#10;                val priceValue = price.toLongOrNull()&#10;                if (priceValue != null) {&#10;                    val formatter = NumberFormat.getInstance(Locale(&quot;vi&quot;, &quot;VN&quot;))&#10;                    &quot;${formatter.format(priceValue)}đ&quot;&#10;                } else {&#10;                    &quot;${price}đ&quot;&#10;                }&#10;            } catch (e: Exception) {&#10;                &quot;${price}đ&quot;&#10;            }&#10;        }&#10;    }&#10;&#10;    class DiffCallback : DiffUtil.ItemCallback&lt;MyTicket&gt;() {&#10;        override fun areItemsTheSame(oldItem: MyTicket, newItem: MyTicket): Boolean {&#10;            return oldItem.booking.id == newItem.booking.id&#10;        }&#10;&#10;        override fun areContentsTheSame(oldItem: MyTicket, newItem: MyTicket): Boolean {&#10;            return oldItem == newItem&#10;        }&#10;    }&#10;}" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/color/rating_text_selector.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/color/rating_text_selector.xml" />
+              <option name="updatedContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;&#10;    &lt;item android:color=&quot;@color/rating_text_selected&quot; android:state_selected=&quot;true&quot; /&gt;&#10;    &lt;item android:color=&quot;@color/rating_text&quot; /&gt;&#10;&lt;/selector&gt;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/bg_status_background.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/drawable/bg_status_background.xml" />
+              <option name="updatedContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:shape=&quot;rectangle&quot;&gt;&#10;    &lt;solid android:color=&quot;@color/payment_paid&quot; /&gt;&#10;    &lt;corners android:radius=&quot;12dp&quot; /&gt;&#10;&lt;/shape&gt;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/bg_status_paid.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/drawable/bg_status_paid.xml" />
+              <option name="updatedContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:shape=&quot;rectangle&quot;&gt;&#10;    &lt;solid android:color=&quot;@color/payment_paid&quot; /&gt;&#10;    &lt;corners android:radius=&quot;12dp&quot; /&gt;&#10;&lt;/shape&gt;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/bg_status_pill.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/drawable/bg_status_pill.xml" />
+              <option name="updatedContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:shape=&quot;rectangle&quot;&gt;&#10;    &lt;solid android:color=&quot;@android:color/transparent&quot;/&gt;&#10;    &lt;corners android:radius=&quot;12dp&quot;/&gt;&#10;    &lt;stroke android:width=&quot;1dp&quot; android:color=&quot;@android:color/white&quot;&#10;        android:dashWidth=&quot;5dp&quot; android:dashGap=&quot;3dp&quot;/&gt;&#10;&lt;/shape&gt;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/circle_thumb.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/drawable/circle_thumb.xml" />
+              <option name="originalContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:shape=&quot;oval&quot;&gt;&#10;    &lt;solid android:color=&quot;@color/colorPrimary&quot; /&gt;&#10;    &lt;size&#10;        android:width=&quot;24dp&quot;&#10;        android:height=&quot;24dp&quot; /&gt;&#10;&lt;/shape&gt;&#10;&#10;" />
+              <option name="updatedContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:shape=&quot;oval&quot;&gt;&#10;    &lt;solid android:color=&quot;@color/colorPrimary&quot; /&gt;&#10;    &lt;stroke &#10;        android:width=&quot;2dp&quot;&#10;        android:color=&quot;@android:color/white&quot; /&gt;&#10;    &lt;size&#10;        android:width=&quot;20dp&quot;&#10;        android:height=&quot;20dp&quot; /&gt;&#10;&lt;/shape&gt;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/ic_arrow_back.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/drawable/ic_arrow_back.xml" />
+              <option name="updatedContent" value="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:width=&quot;24dp&quot;&#10;    android:height=&quot;24dp&quot;&#10;    android:viewportWidth=&quot;24&quot;&#10;    android:viewportHeight=&quot;24&quot;&#10;    android:tint=&quot;@android:color/white&quot;&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@android:color/white&quot;&#10;        android:pathData=&quot;M20,11H7.83l5.59,-5.59L12,4l-8,8 8,8 1.41,-1.41L7.83,13H20v-2z&quot;/&gt;&#10;&lt;/vector&gt;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/ic_arrow_right.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/drawable/ic_arrow_right.xml" />
+              <option name="updatedContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:width=&quot;24dp&quot;&#10;    android:height=&quot;24dp&quot;&#10;    android:viewportWidth=&quot;24&quot;&#10;    android:viewportHeight=&quot;24&quot;&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@color/text_secondary&quot;&#10;        android:pathData=&quot;M8.59,16.59L13.17,12L8.59,7.41L10,6l6,6l-6,6L8.59,16.59z&quot;/&gt;&#10;&lt;/vector&gt;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/ic_confirmation_number.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/drawable/ic_confirmation_number.xml" />
+              <option name="updatedContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:width=&quot;24dp&quot;&#10;    android:height=&quot;24dp&quot;&#10;    android:viewportWidth=&quot;24&quot;&#10;    android:viewportHeight=&quot;24&quot;&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@color/text_secondary&quot;&#10;        android:pathData=&quot;M22,10V6c0,-1.11 -0.89,-2 -2,-2H4C2.89,4 2,4.89 2,6v4c1.11,0 2,0.89 2,2s-0.89,2 -2,2v4c0,1.11 0.89,2 2,2h16c1.11,0 2,-0.89 2,-2v-4c-1.11,0 -2,-0.89 -2,-2S20.89,10 22,10zM13,17.5h-2v-2h2V17.5zM13,13h-2v-2h2V13zM13,8.5h-2v-2h2V8.5z&quot;/&gt;&#10;&lt;/vector&gt;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/ic_error_outline.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/drawable/ic_error_outline.xml" />
+              <option name="updatedContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:width=&quot;24dp&quot;&#10;    android:height=&quot;24dp&quot;&#10;    android:viewportWidth=&quot;24&quot;&#10;    android:viewportHeight=&quot;24&quot;&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@color/status_error&quot;&#10;        android:pathData=&quot;M11,15h2v2h-2v-2zM11,7h2v6h-2V7zM11.99,2C6.47,2 2,6.48 2,12s4.47,10 9.99,10C17.52,22 22,17.52 22,12S17.52,2 11.99,2zM12,20c-4.42,0 -8,-3.58 -8,-8s3.58,-8 8,-8 8,3.58 8,8 -3.58,8 -8,8z&quot;/&gt;&#10;&lt;/vector&gt;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/ic_refresh.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/drawable/ic_refresh.xml" />
+              <option name="updatedContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:width=&quot;24dp&quot;&#10;    android:height=&quot;24dp&quot;&#10;    android:viewportWidth=&quot;24&quot;&#10;    android:viewportHeight=&quot;24&quot;&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@color/text_secondary&quot;&#10;        android:pathData=&quot;M17.65,6.35C16.2,4.9 14.21,4 12,4c-4.42,0 -7.99,3.58 -7.99,8s3.57,8 7.99,8c3.73,0 6.84,-2.55 7.73,-6h-2.08c-0.82,2.33 -3.04,4 -5.65,4 -3.31,0 -6,-2.69 -6,-6s2.69,-6 6,-6c1.66,0 3.14,0.69 4.22,1.78L13,11h7V4l-2.35,2.35z&quot;/&gt;&#10;&lt;/vector&gt;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/ic_schedule.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/drawable/ic_schedule.xml" />
+              <option name="updatedContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:width=&quot;24dp&quot;&#10;    android:height=&quot;24dp&quot;&#10;    android:viewportWidth=&quot;24&quot;&#10;    android:viewportHeight=&quot;24&quot;&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@color/text_secondary&quot;&#10;        android:pathData=&quot;M11.99,2C6.47,2 2,6.48 2,12s4.47,10 9.99,10C17.52,22 22,17.52 22,12S17.52,2 11.99,2zM12,20c-4.42,0 -8,-3.58 -8,-8s3.58,-8 8,-8 8,3.58 8,8 -3.58,8 -8,8zM12.5,7H11v6l5.25,3.15 0.75,-1.23 -4.5,-2.67z&quot;/&gt;&#10;&lt;/vector&gt;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/ic_seat.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/drawable/ic_seat.xml" />
+              <option name="updatedContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:width=&quot;24dp&quot;&#10;    android:height=&quot;24dp&quot;&#10;    android:viewportWidth=&quot;24&quot;&#10;    android:viewportHeight=&quot;24&quot;&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@color/text_secondary&quot;&#10;        android:pathData=&quot;M7,13c1.66,0 3,-1.34 3,-3S8.66,7 7,7s-3,1.34 -3,3 1.34,3 3,3zM19,7h-8v7H9V7H7V5h12v2z&quot;/&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@color/text_secondary&quot;&#10;        android:pathData=&quot;M7,13c1.66,0 3,-1.34 3,-3S8.66,7 7,7s-3,1.34 -3,3 1.34,3 3,3zM19,7h-8v7H9V7H7V5h12v2z&quot;/&gt;&#10;&lt;/vector&gt;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/logo.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/drawable/logo.xml" />
+              <option name="originalContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:width=&quot;120dp&quot;&#10;    android:height=&quot;120dp&quot;&#10;    android:viewportWidth=&quot;120&quot;&#10;    android:viewportHeight=&quot;120&quot;&gt;&#10;&#10;    &lt;!-- Background circle --&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@color/primary_color&quot;&#10;        android:pathData=&quot;M60,60m-50,0a50,50 0,1 1,100 0a50,50 0,1 1,-100 0&quot;/&gt;&#10;&#10;    &lt;!-- Bus icon --&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@android:color/white&quot;&#10;        android:pathData=&quot;M30,40 L90,40 L90,75 L85,75 L85,80 L80,80 L80,75 L40,75 L40,80 L35,80 L35,75 L30,75 Z&quot;/&gt;&#10;&#10;    &lt;!-- Windows --&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@color/primary_color&quot;&#10;        android:pathData=&quot;M35,45 L50,45 L50,60 L35,60 Z&quot;/&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@color/primary_color&quot;&#10;        android:pathData=&quot;M55,45 L70,45 L70,60 L55,60 Z&quot;/&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@color/primary_color&quot;&#10;        android:pathData=&quot;M75,45 L85,45 L85,60 L75,60 Z&quot;/&gt;&#10;&#10;    &lt;!-- Wheels --&gt;&#10;    &lt;circle&#10;        android:fillColor=&quot;@android:color/white&quot;&#10;        android:cx=&quot;40&quot;&#10;        android:cy=&quot;75&quot;&#10;        android:r=&quot;3&quot;/&gt;&#10;    &lt;circle&#10;        android:fillColor=&quot;@android:color/white&quot;&#10;        android:cx=&quot;80&quot;&#10;        android:cy=&quot;75&quot;&#10;        android:r=&quot;3&quot;/&gt;&#10;&lt;/vector&gt;&#10;&#10;" />
+              <option name="updatedContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:width=&quot;120dp&quot;&#10;    android:height=&quot;120dp&quot;&#10;    android:viewportWidth=&quot;120&quot;&#10;    android:viewportHeight=&quot;120&quot;&gt;&#10;    &#10;    &lt;!-- Background circle --&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@color/primary_color&quot;&#10;        android:pathData=&quot;M60,60m-50,0a50,50 0,1 1,100 0a50,50 0,1 1,-100 0&quot;/&gt;&#10;    &#10;    &lt;!-- Bus body --&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@android:color/white&quot;&#10;        android:pathData=&quot;M30,40 L90,40 L90,75 L85,75 L85,80 L80,80 L80,75 L40,75 L40,80 L35,80 L35,75 L30,75 Z&quot;/&gt;&#10;    &#10;    &lt;!-- Windows --&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@color/primary_color&quot;&#10;        android:pathData=&quot;M35,45 L50,45 L50,60 L35,60 Z&quot;/&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@color/primary_color&quot;&#10;        android:pathData=&quot;M55,45 L70,45 L70,60 L55,60 Z&quot;/&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@color/primary_color&quot;&#10;        android:pathData=&quot;M75,45 L85,45 L85,60 L75,60 Z&quot;/&gt;&#10;    &#10;    &lt;!-- Wheels (using path instead of circle) --&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@android:color/white&quot;&#10;        android:pathData=&quot;M40,75m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0&quot;/&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;@android:color/white&quot;&#10;        android:pathData=&quot;M80,75m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0&quot;/&gt;&#10;&lt;/vector&gt;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/rating_tag_selected.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/drawable/rating_tag_selected.xml" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/rating_tag_selector.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/drawable/rating_tag_selector.xml" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

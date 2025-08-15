@@ -13,6 +13,7 @@ import com.example.authenticateuserandpass.MainActivity
 import com.example.authenticateuserandpass.data.model.user.User
 import com.example.authenticateuserandpass.databinding.FragmentAccountBinding
 import com.example.authenticateuserandpass.ui.account.viewprofile.ViewProfileActivity
+import com.example.authenticateuserandpass.ui.feedback.FeedbackActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.jvm.java
@@ -55,6 +56,10 @@ class AccountFragment : Fragment() {
         binding.Support.setOnClickListener {
             val url = "https://xevananh.com/vi/contact" // URL bạn muốn mở
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
+        }
+        binding.TripReview.setOnClickListener {
+            val intent = Intent(requireContext(), FeedbackActivity::class.java)
             startActivity(intent)
         }
         binding.DeleteAccount.setOnClickListener {

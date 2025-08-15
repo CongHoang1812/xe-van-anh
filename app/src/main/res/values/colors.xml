@@ -1,34 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Primary Colors -->
+    <color name="primary_color">#2196F3</color>
+    <color name="primary_dark">#1976D2</color>
+    <color name="accent_color">#FF5722</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <!-- Status Colors -->
+    <color name="success_color">#4CAF50</color>
+    <color name="warning_color">#FF9800</color>
+    <color name="error_color">#F44336</color>
+    <color name="info_color">#2196F3</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_hint">#BDBDBD</color>
+
+    <!-- Background Colors -->
+    <color name="background_light">#F5F5F5</color>
+    <color name="background_white">#FFFFFF</color>
+    <color name="background_dark">#303030</color>
+
+    <!-- Basic Colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Blue Colors -->
     <color name="blue">#50B5E6</color>
     <color name="blue2">#B2CDDF</color>
+    <color name="light_blue_3">#f4f7ff</color>
+    <color name="blue_text_price">#1d3f92</color>
+    <color name="lightBlue">#DEF2FF</color>
+    <color name="lightBlue2">#BAE3FE</color>
+
+    <!-- Grey Colors -->
     <color name="darkGrey">#616161</color>
     <color name="lightGrey">#CFCFCF</color>
     <color name="lightGrey2">#F1F1F1</color>
-    <color name="lightBlue">#DEF2FF</color>
-    <color name="lightBlue2">#BAE3FE</color>
-    <color name="bg">#e7e9f5</color>
+    <color name="text_gray">#A9a9a9</color>
+    <color name="divider_color">#E0E0E0</color>
+    <color name="shadow_color">#1F000000</color>
+
+    <!-- Orange Colors -->
     <color name="orange">#FFA500</color>
     <color name="orangeDrak">#FF8C00</color>
-    <color name="light_blue_3">#f4f7ff</color>
-    <color name="blue_text_price">#1d3f92</color>
+
+    <!-- Other Colors -->
+    <color name="bg">#e7e9f5</color>
     <color name="bg_ticket">#dbf5f6</color>
     <color name="teal_700">#00796B</color>
-    <color name="md_theme_light_primary">#6200EE</color>
     <color name="text_main_driver">#042F40</color>
-    <color name="text_gray">#A9a9a9</color>
+
+    <!-- Material Design Colors -->
+    <color name="md_theme_light_primary">#6200EE</color>
+
+    <!-- Alternative Primary Colors (if needed for legacy support) -->
+    <color name="primary">#1976D2</color>
+    <color name="accent">#FF6D00</color>
+    <color name="gray">#99000000</color>
+    <color name="light_gray">#DDDDDD</color>
+    <color name="background_gray">#F5F5F5</color>
+
+    <!-- Rating Dialog Colors -->
+    <color name="heart_red">#F44336</color>
+    <color name="star_yellow">#FFC107</color>
+    <color name="text_black">#000000</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="chip_background_unselected">#EEEEEE</color>
+    <color name="chip_background_selected">#0D47A1</color>
+    <color name="button_background">#0D47A1</color>
+    <color name="button_border_gray">#CCCCCC</color>
+    <color name="dialog_background">#FFFFFF</color>
+    <color name="overlay_background">#80000000</color>
+    <color name="light_purple">#F3E5F5</color>
+    <color name="purple_border">#E1BEE7</color>
+    <color name="rating_text">#6A1B9A</color>
 
 
-        <color name="primary">#1976D2</color>
-        <color name="primary_dark">#0D47A1</color>
-        <color name="accent">#FF6D00</color>
-        <color name="gray">#99000000</color>
-        <color name="light_gray">#DDDDDD</color>
-        <color name="background_gray">#F5F5F5</color>
 
-
-
-
+    <color name="chip_purple_bg_unchecked">#F3E8FF</color>  <!-- tím rất nhạt -->
+    <color name="chip_purple_bg_checked">#6E56CF</color>    <!-- tím đậm -->
+    <color name="chip_purple_text_unchecked">#3F2E67</color>
+    <color name="chip_purple_text_checked">#FFFFFF</color>
+    <color name="chip_purple_stroke">#D8C7FF</color>
+    <color name="chip_purple_ripple">#336E56CF</color>
 </resources>

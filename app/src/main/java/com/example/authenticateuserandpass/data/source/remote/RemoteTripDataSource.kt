@@ -2,6 +2,7 @@ package com.example.authenticateuserandpass.data.source.remote
 
 import android.util.Log
 import com.example.authenticateuserandpass.ResultCallback
+import com.example.authenticateuserandpass.data.model.UserTicket
 import com.example.authenticateuserandpass.data.model.bus.Bus
 import com.example.authenticateuserandpass.data.model.route.Route
 import com.example.authenticateuserandpass.data.model.trip.MainDriverTripInfo
@@ -15,6 +16,7 @@ import com.google.firebase.firestore.firestore
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
+import kotlin.text.get
 
 class RemoteTripDataSource : TripDataSource.Remote {
     private val db = FirebaseFirestore.getInstance()
@@ -262,6 +264,184 @@ class RemoteTripDataSource : TripDataSource.Remote {
             }
     }
 
+    override suspend fun getUserTickets(
+        userId: String,
+        callback: ResultCallback<Result<List<UserTicket>>>
+    ) {
+        Log.d("RemoteTripDataSource", "🎫 Lấy vé của user: $userId")
+
+        bookingsCollection.whereEqualTo("user_id", userId)
+            .get()
+            .addOnSuccessListener { bookingSnapshots ->
+                if (bookingSnapshots.isEmpty) {
+                    callback.onResult(Result.Success(emptyList()))
+                    return@addOnSuccessListener
+                }
+
+                val userTickets = mutableListOf<UserTicket>()
+                var processedCount = 0
+
+                for (bookingDoc in bookingSnapshots.documents) {
+                    val bookingData = bookingDoc.data
+                    val tripId = bookingData?.get("trip_id") as? String ?: ""
+                    val bookingStatus = bookingData?.get("status") as? String ?: "Chưa đi"
+                    val seatNumbers = bookingData?.get("seat_numbers") as? String ?: ""
+
+                    // Lấy thông tin trip
+                    tripsCollection.document(tripId)
+                        .get()
+                        .addOnSuccessListener { tripDoc ->
+                            val trip = tripDoc.toObject(Trip::class.java)
+                            trip?.let { tripInfo ->
+                                // Lấy thông tin route
+                                routesCollection.document(tripInfo.route_id)
+                                    .get()
+                                    .addOnSuccessListener { routeDoc ->
+                                        val route = routeDoc.toObject(Route::class.java)
+
+                                        // Lấy thông tin xe chính từ bảng buses
+                                        busesCollection.document(tripInfo.bus_id)
+                                            .get()
+                                            .addOnSuccessListener { mainBusDoc ->
+                                                val mainBus = mainBusDoc.toObject(Bus::class.java)
+
+                                                // Lấy thông tin tài xế chính từ bảng drivers (nếu có)
+                                                if (!tripInfo.main_driver_id.isNullOrEmpty()) {
+                                                    db.collection("drivers").document(tripInfo.main_driver_id)
+                                                        .get()
+                                                        .addOnSuccessListener { driverDoc ->
+                                                            val driverData = driverDoc.data
+                                                            val mainDriverName = driverData?.get("name") as? String ?: ""
+                                                            val mainDriverPhone = driverData?.get("phone") as? String ?: ""
+
+                                                            // Lấy thông tin thanh toán
+                                                            getPaymentStatusAndCreateTicket(
+                                                                bookingDoc.id, bookingData, tripInfo, route,
+                                                                mainBus, mainDriverName, mainDriverPhone,
+                                                                mainBus?.id, tripInfo.main_driver_id,
+                                                                userTickets, processedCount, bookingSnapshots.size(), callback
+                                                            )
+                                                        }
+                                                        .addOnFailureListener {
+                                                            // Tạo ticket mà không có thông tin tài xế
+                                                            getPaymentStatusAndCreateTicket(
+                                                                bookingDoc.id, bookingData, tripInfo, route,
+                                                                mainBus, "", "",
+                                                                mainBus?.id, tripInfo.main_driver_id,
+                                                                userTickets, processedCount, bookingSnapshots.size(), callback
+                                                            )
+                                                        }
+                                                } else {
+                                                    // Không có main_driver_id
+                                                    getPaymentStatusAndCreateTicket(
+                                                        bookingDoc.id, bookingData, tripInfo, route,
+                                                        mainBus, "", "",
+                                                        mainBus?.id, tripInfo.main_driver_id,
+                                                        userTickets, processedCount, bookingSnapshots.size(), callback
+                                                    )
+                                                }
+                                            }
+                                    }
+                            }
+                        }
+                }
+            }
+    }
+
+    private fun getPaymentStatusAndCreateTicket(
+        bookingId: String,
+        bookingData: Map<String, Any>?,
+        trip: Trip,
+        route: Route?,
+        mainBus: Bus?,
+        mainDriverName: String,
+        mainDriverPhone: String,
+        transferBusId: String?,
+        transferDriverId: String?,
+        userTickets: MutableList<UserTicket>,
+        processedCount: Int,
+        totalCount: Int,
+        callback: ResultCallback<Result<List<UserTicket>>>
+    ) {
+        // Lấy thông tin thanh toán
+        db.collection("payments")
+            .whereEqualTo("bookingId", bookingId)
+            .get()
+            .addOnSuccessListener { paymentSnapshots ->
+                val paymentStatus = if (paymentSnapshots.isEmpty) {
+                    "Chưa thanh toán"
+                } else {
+                    val paymentDoc = paymentSnapshots.documents.first()
+                    paymentDoc.data?.get("status") as? String ?: "Chưa thanh toán"
+                }
+
+                // Tạo UserTicket với thông tin đầy đủ
+                val userTicket = UserTicket(
+                    ticketCode = bookingId,
+
+                    routeName = "${route?.origin} - ${route?.destination}",
+                    origin = "${route?.origin}",
+                    destination = "${route?.destination}",
+                    departureDate = trip.trip_date,
+                    departureTime = trip.departure_time,
+                    price = trip.ticket_price,
+                    paymentStatus = paymentStatus,
+                    tripStatus = bookingData?.get("status") as? String ?: "Chưa đi",
+                    seatNumbers = bookingData?.get("seat_id") as? String ?: "",
+                    bookingId = bookingId,
+                    tripId = trip.id ?: "",
+                    pickupPoint = bookingData?.get("pickup_location") as? String?: "",
+                    dropoffPoint = bookingData?.get("dropoff_location") as? String?: "",
+                    mainDriverName = mainDriverName,
+                    mainDriverPhone = mainDriverPhone,
+                    mainBusLicensePlate = mainBus?.license_plate ?: "",
+                    hasTransfer = !transferBusId.isNullOrEmpty()
+                )
+                Log.d("RemoteTripDataSource", "Đã tạo ticket: ${userTicket.paymentStatus}")
+
+                userTickets.add(userTicket)
+
+                if (userTickets.size == totalCount) {
+                    val sortedTickets = userTickets.sortedByDescending {
+                        combineDateTime(it.departureDate, it.departureTime)
+                    }
+                    callback.onResult(Result.Success(sortedTickets))
+                }
+            }
+            .addOnFailureListener {
+                // Tạo ticket với payment status mặc định
+                val userTicket = UserTicket(
+                    ticketCode = bookingId,
+                    routeName = "${route?.origin} - ${route?.destination}",
+                    departureDate = trip.trip_date,
+                    departureTime = trip.departure_time,
+                    price = trip.ticket_price,
+                    paymentStatus = "Chưa thanh toán",
+                    tripStatus = bookingData?.get("status") as? String ?: "Chưa đi",
+                    seatNumbers = bookingData?.get("seat_numbers") as? String ?: "",
+
+                    bookingId = bookingId,
+                    tripId = trip.id ?: "",
+                    pickupPoint = bookingData?.get("pickup_location") as? String?: "",
+                    dropoffPoint = bookingData?.get("dropoff_location") as? String?: "",
+                    mainDriverName = mainDriverName,
+                    mainDriverPhone = mainDriverPhone,
+                    mainBusLicensePlate = mainBus?.license_plate ?: "",
+                    hasTransfer = !transferBusId.isNullOrEmpty()
+                )
+
+                userTickets.add(userTicket)
+
+                if (userTickets.size == totalCount) {
+                    val sortedTickets = userTickets.sortedByDescending {
+                        combineDateTime(it.departureDate, it.departureTime)
+                    }
+                    callback.onResult(Result.Success(sortedTickets))
+                }
+            }
+    }
+
+
 
     private fun combineDateTime(dateStr: String, timeStr: String): Long {
         return try {
@@ -272,6 +452,7 @@ class RemoteTripDataSource : TripDataSource.Remote {
             0
         }
     }
+
 }
 
 data class TripDetails(

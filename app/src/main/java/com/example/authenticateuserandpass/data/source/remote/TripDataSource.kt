@@ -1,6 +1,7 @@
 package com.example.authenticateuserandpass.data.source.remote
 
 import com.example.authenticateuserandpass.ResultCallback
+import com.example.authenticateuserandpass.data.model.UserTicket
 import com.example.authenticateuserandpass.data.model.bus.Bus
 import com.example.authenticateuserandpass.data.model.route.Route
 import com.example.authenticateuserandpass.data.model.trip.MainDriverTripInfo
@@ -33,6 +34,10 @@ interface TripDataSource {
 
         suspend fun getTripByDate(date: String, callback: ResultCallback<Result<List<Trip>>>)
         suspend fun getTripDetails(tripId: String, callback: ResultCallback<Result<TripDetails>>)
+        suspend fun getUserTickets(
+            userId: String,
+            callback: ResultCallback<Result<List<UserTicket>>>
+        )
     }
 
 }

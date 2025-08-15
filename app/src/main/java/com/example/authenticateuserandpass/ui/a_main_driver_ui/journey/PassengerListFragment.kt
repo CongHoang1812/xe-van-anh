@@ -1,12 +1,19 @@
 package com.example.authenticateuserandpass.ui.a_main_driver_ui.journey
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.authenticateuserandpass.R
+import com.example.authenticateuserandpass.data.firebaseModel.Passenger
 import com.example.authenticateuserandpass.databinding.FragmentPassengerListBinding
 
 

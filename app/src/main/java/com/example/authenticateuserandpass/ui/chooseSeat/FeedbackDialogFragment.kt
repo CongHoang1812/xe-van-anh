@@ -26,7 +26,7 @@ class FeedbackDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         // 1) Load dữ liệu mẫu hoặc thực fetch từ Firestore/API
         feedbackList.clear()
-        feedbackList += loadFakeFeedback()
+        //feedbackList += loadFakeFeedback()
 
         // 2) Setup RecyclerView
         binding.rvFeedback.layoutManager = LinearLayoutManager(context)
@@ -36,19 +36,19 @@ class FeedbackDialogFragment : BottomSheetDialogFragment() {
         binding.btnCloseFeedback.setOnClickListener { dismiss() }
     }
 
-    private fun loadFakeFeedback(): List<Feedback> {
-        val tripId = arguments?.getString("trip_id") ?: "T001"
-        return listOf(
-            Feedback("F001", "User001", tripId, 5,
-                "Xe sạch sẽ, lái xe thân thiện", "2025-07-12 14:03"),
-            Feedback("F002", "User002", tripId, 4,
-                "Trung chuyển hơi lâu nhưng vẫn ổn", "2025-07-11 20:27"),
-            Feedback("F003", "User003", tripId, 5,
-                "Nhân viên hỗ trợ rất nhiệt tình!", "2025-07-11 09:12"),
-            Feedback("F004", "User004", tripId, 2,
-                "Xe chật và trễ giờ", "2025-07-10 22:45")
-        )
-    }
+//    private fun loadFakeFeedback(): List<Feedback> {
+//        val tripId = arguments?.getString("trip_id") ?: "T001"
+//        return listOf(
+//            Feedback("F001", "User001", tripId, 5,
+//                "Xe sạch sẽ, lái xe thân thiện", "2025-07-12 14:03"),
+//            Feedback("F002", "User002", tripId, 4,
+//                "Trung chuyển hơi lâu nhưng vẫn ổn", "2025-07-11 20:27"),
+//            Feedback("F003", "User003", tripId, 5,
+//                "Nhân viên hỗ trợ rất nhiệt tình!", "2025-07-11 09:12"),
+//            Feedback("F004", "User004", tripId, 2,
+//                "Xe chật và trễ giờ", "2025-07-10 22:45")
+//        )
+//    }
 
     companion object {
         fun newInstance(tripId: String) = FeedbackDialogFragment().apply {

@@ -19,5 +19,17 @@
         android:id="@+id/nav_2"
         android:name="com.example.authenticateuserandpass.ui.a_main_driver_ui.journey.MainDriverJourneyFragment"
         android:label="fragment_main_driver_journey"
-        tools:layout="@layout/fragment_main_driver_journey" />
+        tools:layout="@layout/fragment_main_driver_journey" >
+        <action
+            android:id="@+id/action_nav_2_to_passengerListFragment2"
+            app:destination="@id/passengerListFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/passengerListFragment2"
+        android:name="com.example.authenticateuserandpass.ui.a_main_driver_ui.journey.PassengerListFragment"
+        android:label="PassengerListFragment">
+        <argument
+            android:name="tripId"
+            app:argType="string" />
+    </fragment>
 </navigation>

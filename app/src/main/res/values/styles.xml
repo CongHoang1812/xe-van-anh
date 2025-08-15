@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.Material3.DayNight">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <!-- Rating Bar Style -->
+    <style name="RatingBarStyle" parent="Widget.AppCompat.RatingBar">
+        <item name="colorControlNormal">@color/chip_background_unselected</item>
+        <item name="colorControlActivated">@color/star_yellow</item>
+    </style>
+
+    <!-- Chip Style for Rating -->
+    <style name="Widget.App.Chip.RatingReason" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@drawable/chip_reason_bg</item>
+        <item name="android:textColor">@drawable/chip_reason_text</item>
+
+        <item name="chipCornerRadius">@dimen/chip_reason_corner</item>
+        <item name="chipMinHeight">@dimen/chip_reason_min_height</item>
+        <item name="chipStartPadding">@dimen/chip_reason_padding_h</item>
+        <item name="chipEndPadding">@dimen/chip_reason_padding_h</item>
+
+        <item name="chipStrokeColor">@color/chip_purple_stroke</item>
+        <item name="chipStrokeWidth">@dimen/chip_reason_stroke</item>
+
+        <item name="rippleColor">@color/chip_purple_ripple</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="chipIconVisible">false</item>
+        <item name="closeIconVisible">false</item>
+
+        <!-- Giữ kích thước mảnh mai, không bị đẩy lên 48dp -->
+        <item name="ensureMinTouchTargetSize">false</item>
+        <!-- Không dùng màu động của theme để khỏi bị xám -->
+        <item name="useMaterialThemeColors">false</item>
+
+        <!-- Typo gọn gàng hơn -->
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Overlay để áp style này khi tạo Chip bằng code -->
+<!--    <style name="ThemeOverlay.Material3.Chip.RatingReason">-->
+<!--        <item name="chipStyle">@style/Widget.App.Chip.RatingReason</item>-->
+<!--    </style>-->
+
+
+
+</resources>

@@ -186,10 +186,6 @@ class TripViewModel(
         }
     }
 
-
-
-
-
     fun getUpComingTripInfoMainDriver(mainDriverId: String){
         viewModelScope.launch(Dispatchers.IO) {
             val callback = object  : ResultCallback<Result<MainDriverTripInfo>>{

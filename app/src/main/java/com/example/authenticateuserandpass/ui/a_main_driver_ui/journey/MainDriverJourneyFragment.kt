@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.authenticateuserandpass.data.repository.trip.TripRepositoryImpl
 import com.example.authenticateuserandpass.databinding.FragmentMainDriverJourneyBinding
@@ -113,7 +114,7 @@ class MainDriverJourneyFragment : Fragment() {
 
     private fun navigateToTripDetails(trip: TripDetailsUI) {
         // Chuyển đến màn hình chi tiết chuyến đi
-        val action = TripsFragmentDirections.actionTripsFragmentToPassengerListFragment(trip.id)
+        val action =  MainDriverJourneyFragmentDirections.actionNav2ToPassengerListFragment2(trip.id)
         findNavController().navigate(action)
     }
 

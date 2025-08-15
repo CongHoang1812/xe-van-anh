@@ -10,32 +10,47 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import com.example.authenticateuserandpass.HomeActivity
 import com.example.authenticateuserandpass.R
+import com.example.authenticateuserandpass.data.model.TicketFilter
 import com.example.authenticateuserandpass.data.model.trip.Trip
 import com.example.authenticateuserandpass.data.repository.trip.TripRepositoryImpl
 import com.example.authenticateuserandpass.databinding.ActivityFindTicketBinding
 import com.example.authenticateuserandpass.ui.chooseSeat.ChooseSeatActivity
+import com.example.authenticateuserandpass.ui.findticket.filterTicket.FilterTicketActivity
 import com.example.authenticateuserandpass.ui.home.HomeFragment
 import com.example.authenticateuserandpass.ui.home.HomeFragment.Companion.EDIT_DEPARTURE
 import com.example.authenticateuserandpass.ui.home.HomeFragment.Companion.EDIT_DEPARTURE_DATE
 import com.example.authenticateuserandpass.ui.home.HomeFragment.Companion.EDIT_DESTINATION
 import com.example.authenticateuserandpass.ui.home.HomeFragment.Companion.EDIT_RETURN_DATE
+import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import kotlin.div
+import kotlin.ranges.rangeTo
+import kotlin.text.get
 
-class FindTicketActivity : AppCompatActivity(){
+class FindTicketActivity : AppCompatActivity(), MenuProvider{
     private lateinit var binding: ActivityFindTicketBinding
     private lateinit var viewModel: FindTicketViewModel
     private lateinit var ticketAdapter: TicketAdapter
     private val calendar = Calendar.getInstance()
+    private var currentFilter: TicketFilter? = null
+    private val db = FirebaseFirestore.getInstance()
 
     private var origin: String? = null
     private var destination: String? = null
+
+    companion object {
+        private const val FILTER_REQUEST_CODE = 100
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,10 +63,14 @@ class FindTicketActivity : AppCompatActivity(){
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        val menuHost: MenuHost = this
+        menuHost.addMenuProvider(this, this, Lifecycle.State.RESUMED)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         setupViewModel()
         setupView()
         setupListener()
+        handleFilterData()
     }
 
     private fun setupViewModel() {
@@ -64,7 +83,9 @@ class FindTicketActivity : AppCompatActivity(){
             ticketAdapter.updateTickets(tickets)
             Log.d("FindTicketActivity", "Số lượng vé: ${tickets.size}")
             binding.progressBar3.visibility = View.GONE
+            Log.d("FindTicketActivity", viewModel.tickets.toString())
         }
+
     }
 
     private fun setupView() {
@@ -170,4 +191,194 @@ class FindTicketActivity : AppCompatActivity(){
             )
         }
     }
+
+
+
+
+    private fun handleFilterData() {
+        val applyFilter = intent.getBooleanExtra("APPLY_FILTER", false)
+
+        if (applyFilter) {
+            currentFilter = TicketFilter(
+                timeStart = intent.getIntExtra("TIME_START", 150),
+                timeEnd = intent.getIntExtra("TIME_END", 1200),
+                seatsMin = intent.getIntExtra("SEATS_MIN", 2),
+                seatsMax = intent.getIntExtra("SEATS_MAX", 24),
+                priceMin = intent.getLongExtra("PRICE_MIN", 100000),
+                priceMax = intent.getLongExtra("PRICE_MAX", 800000),
+                vehicleLimousine = intent.getBooleanExtra("VEHICLE_LIMOUSINE", false),
+                vehicleLimousine2 = intent.getBooleanExtra("VEHICLE_LIMOUSINE2", false)
+            )
+
+            // Áp dụng filter và tìm kiếm
+            applyFilterAndSearch()
+        }
+    }
+
+    private fun applyFilterAndSearch() {
+        currentFilter?.let { filter ->
+            // Hiển thị thông tin filter đang áp dụng
+            showFilterInfo(filter)
+
+            // Thực hiện tìm kiếm với filter
+            searchTripsWithFilter(filter)
+        }
+    }
+
+    private fun showFilterInfo(filter: TicketFilter) {
+        // Tạo một TextView hoặc Chip để hiển thị filter info
+        val filterInfo = "Lọc: ${filter.getTimeStartFormatted()}-${filter.getTimeEndFormatted()}, " +
+                "${filter.seatsMin}-${filter.seatsMax} ghế, ${filter.getPriceRange()}"
+
+        // Hiển thị trong UI (có thể dùng Snackbar hoặc TextView)
+        // Snackbar.make(binding.root, filterInfo, Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun searchTripsWithFilter(filter: TicketFilter) {
+        binding.progressBar3.visibility = View.VISIBLE
+
+        // Lấy data từ viewModel thay vì query lại DB
+        val allTrips = viewModel.tickets.value ?: emptyList()
+        val filteredTrips = mutableListOf<Trip>()
+        var processedCount = 0
+        val totalCount = allTrips.size
+
+        if (totalCount == 0) {
+            updateTripsDisplay(emptyList())
+            return
+        }
+
+        for (trip in allTrips) {
+            // Lọc theo giá vé
+            if (trip.ticket_price.toInt() in (filter.priceMin / 1000)..(filter.priceMax / 1000)) {
+
+                // Lọc theo thời gian
+                val departureMinutes = timeToMinutes(trip.departure_time)
+                if (departureMinutes in filter.timeStart..filter.timeEnd) {
+
+                    // Lọc theo số ghế trống
+                    checkAvailableSeats(trip) { availableSeats ->
+                        processedCount++
+
+                        if (availableSeats in filter.seatsMin..filter.seatsMax) {
+                            filteredTrips.add(trip)
+                        }
+
+                        // Cập nhật UI khi đã xử lý xong tất cả
+                        if (processedCount == totalCount) {
+                            updateTripsDisplay(filteredTrips)
+                        }
+                    }
+                } else {
+                    processedCount++
+                    if (processedCount == totalCount) {
+                        updateTripsDisplay(filteredTrips)
+                    }
+                }
+            } else {
+                processedCount++
+                if (processedCount == totalCount) {
+                    updateTripsDisplay(filteredTrips)
+                }
+            }
+        }
+    }
+
+    private fun timeToMinutes(time: String): Int {
+        val parts = time.split(":")
+        return if (parts.size == 2) {
+            parts[0].toInt() * 60 + parts[1].toInt()
+        } else 0
+    }
+
+    private fun checkAvailableSeats(trip: Trip, callback: (Int) -> Unit) {
+        // Logic để đếm số ghế trống
+        // Giả sử có 24 ghế total, cần trừ đi số ghế đã đặt
+        val totalSeats = 24
+
+        db.collection("bookings")
+            .whereEqualTo("trip_id", trip.id)
+            //.whereEqualTo("status", "Chưa đi")
+            .get()
+            .addOnSuccessListener { bookings ->
+                var bookedSeats = 0
+                for (booking in bookings) {
+                    val seatNumbers = booking.getString("seat_id") ?: ""
+                    if (seatNumbers.isNotEmpty()) {
+                        bookedSeats += seatNumbers.split(",").size
+                    }
+                }
+                val availableSeats = totalSeats - bookedSeats
+                callback(availableSeats)
+            }
+    }
+
+
+    private fun updateTripsDisplay(trips: List<Trip>) {
+        runOnUiThread {
+            ticketAdapter.updateTickets(trips)
+            binding.progressBar3.visibility = View.GONE
+
+            // Hiển thị thông báo nếu không có kết quả
+            if (trips.isEmpty()) {
+                // Có thể thêm TextView để hiển thị "Không tìm thấy vé phù hợp"
+                Log.d("FindTicketActivity", "Không tìm thấy vé phù hợp với bộ lọc")
+            } else {
+                Log.d("FindTicketActivity", "Tìm thấy ${trips.size} vé phù hợp")
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == FILTER_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            currentFilter = TicketFilter(
+                timeStart = data.getIntExtra("TIME_START", 150),
+                timeEnd = data.getIntExtra("TIME_END", 1200),
+                seatsMin = data.getIntExtra("SEATS_MIN", 2),
+                seatsMax = data.getIntExtra("SEATS_MAX", 24),
+                priceMin = data.getLongExtra("PRICE_MIN", 100000),
+                priceMax = data.getLongExtra("PRICE_MAX", 800000),
+                vehicleLimousine = data.getBooleanExtra("VEHICLE_LIMOUSINE", false),
+                vehicleLimousine2 = data.getBooleanExtra("VEHICLE_LIMOUSINE2", false)
+            )
+
+            // Áp dụng filter và tìm kiếm
+            searchTripsWithFilter(currentFilter!!)
+        }
+    }
+
+
+
+
+
+
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.toolbar_menu2, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.ic_fillter -> {
+                val intent = Intent(this, FilterTicketActivity::class.java)
+                startActivityForResult(intent, FILTER_REQUEST_CODE)
+                true
+            }
+            else -> false
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }

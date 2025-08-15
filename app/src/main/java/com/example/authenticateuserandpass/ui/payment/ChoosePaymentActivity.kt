@@ -8,6 +8,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
 import android.util.Log
@@ -24,6 +26,7 @@ import com.example.authenticateuserandpass.HomeActivity
 import com.example.authenticateuserandpass.MainActivity
 import com.example.authenticateuserandpass.R
 import com.example.authenticateuserandpass.data.model.booking.Booking
+import com.example.authenticateuserandpass.data.model.payment.Payment
 import com.example.authenticateuserandpass.data.model.trip.Trip
 import com.example.authenticateuserandpass.data.repository.trip.TripRepositoryImpl
 import com.example.authenticateuserandpass.databinding.ActivityChosePaymentBinding
@@ -31,6 +34,8 @@ import com.example.authenticateuserandpass.ui.findticket.FindTicketViewModel
 import com.example.authenticateuserandpass.utils.zalopay.Api.CreateOrder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import vn.zalopay.sdk.Environment
 import vn.zalopay.sdk.ZaloPayError
@@ -52,6 +57,13 @@ class ChoosePaymentActivity : AppCompatActivity() {
     private val viewModel: FindTicketViewModel by viewModels {
         FindTicketViewModel.Factory(TripRepositoryImpl())
     }
+
+    // Thêm biến để quản lý timeout và tracking booking
+    private var paymentTimeoutHandler: Handler? = null
+    private var paymentTimeoutRunnable: Runnable? = null
+    private var tempBookingIds = mutableListOf<String>()
+    private var tempPaymentIds = mutableListOf<String>()
+    private var isPaymentCompleted = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +97,8 @@ class ChoosePaymentActivity : AppCompatActivity() {
                     payWithZaloPay()
                 }
                 rbCash.isChecked -> {
-                    Toast.makeText(this, "Bạn chọn thanh toán tiền mặt", Toast.LENGTH_SHORT).show()
+                    Log.d("Payment", "Chọn thanh toán tiền mặt")
+                    payWithCash()
                 }
                 else -> {
                     Toast.makeText(this, "Vui lòng chọn phương thức thanh toán", Toast.LENGTH_SHORT)
@@ -95,7 +108,6 @@ class ChoosePaymentActivity : AppCompatActivity() {
         }
     }
     private fun payWithZaloPay() {
-
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         var totalPrice = intent.getStringExtra("total_price")
         var pickUpLocation = intent.getStringExtra("location_pickup")
@@ -107,6 +119,26 @@ class ChoosePaymentActivity : AppCompatActivity() {
         var selectedTrip = intent.getSerializableExtra("trip")
         var selectedSeats = intent.getStringExtra("seats_selected")
         var total_price_1 = totalPrice?.toString()?.replace(".", "")
+
+        // Reset trạng thái thanh toán
+        isPaymentCompleted = false
+        tempBookingIds.clear()
+        tempPaymentIds.clear()
+
+        // Tạo booking và payment tạm thời trước khi thanh toán
+        createTempBookingAndPayment(
+            userId.toString(),
+            selectedTrip as Trip,
+            selectedSeats.toString(),
+            pickUpLocation.toString(),
+            dropOffLocation.toString(),
+            "",
+            totalPrice.toString()
+        )
+
+        // Bắt đầu timer 5 phút để tự động hủy booking nếu thanh toán không thành công
+        startPaymentTimeout()
+
         val orderApi = CreateOrder()
         try {
             val data: JSONObject = orderApi.createOrder(total_price_1)
@@ -128,6 +160,12 @@ class ChoosePaymentActivity : AppCompatActivity() {
                             p2: String?
                         ) {
                             Log.d("ZALO_PAY", "✅ Thanh toán thành công")
+                            isPaymentCompleted = true
+                            cancelPaymentTimeout()
+
+                            // Cập nhật trạng thái payment thành "Đã thanh toán"
+                            updatePaymentStatus("Đã thanh toán", p1 ?: "")
+
                             sendSuccessNotification(
                                 totalPrice.toString(),
                                 departureTime.toString(),
@@ -136,23 +174,27 @@ class ChoosePaymentActivity : AppCompatActivity() {
                                 destination.toString(),
                                 selectedSeats.toString()
                             )
-                            var intent =
-                                Intent(this@ChoosePaymentActivity, PaymentNotification::class.java)
-                            createBookingAfterPayment(
-                                userId.toString(),
-                                selectedTrip as Trip,
-                                selectedSeats.toString(),
-                                pickUpLocation.toString(), dropOffLocation.toString(), ""
-                            )
-                            intent.putExtra("result", "Thanh toán thành công")
-                            startActivity(intent)
 
+                            val intent = Intent(this@ChoosePaymentActivity, PaymentNotification::class.java)
+                            intent.putExtra("payment_status", "success")
+                            intent.putExtra("payment_method", "ZaloPay")
+                            intent.putExtra("amount", totalPrice)
+                            intent.putExtra("transaction_id", p1)
+                            startActivity(intent)
                         }
 
                         override fun onPaymentCanceled(p0: String?, p1: String?) {
-                            var intent =
-                                Intent(this@ChoosePaymentActivity, PaymentNotification::class.java)
-                            intent.putExtra("result", "Thanh toán thất bại")
+                            Log.d("ZALO_PAY", "❌ Thanh toán bị hủy")
+                            isPaymentCompleted = true
+                            cancelPaymentTimeout()
+
+                            // Xóa booking và payment tạm thời
+                            deleteTempBookingAndPayment()
+
+                            val intent = Intent(this@ChoosePaymentActivity, PaymentNotification::class.java)
+                            intent.putExtra("payment_status", "canceled")
+                            intent.putExtra("payment_method", "ZaloPay")
+                            intent.putExtra("amount", totalPrice)
                             startActivity(intent)
                         }
 
@@ -161,18 +203,59 @@ class ChoosePaymentActivity : AppCompatActivity() {
                             p1: String?,
                             p2: String?
                         ) {
-                            var intent =
-                                Intent(this@ChoosePaymentActivity, PaymentNotification::class.java)
-                            intent.putExtra("result", " Lỗi Thanh toán")
+                            Log.e("ZALO_PAY", "❌ Lỗi thanh toán: ${p0?.toString()}")
+                            isPaymentCompleted = true
+                            cancelPaymentTimeout()
+
+                            // Xóa booking và payment tạm thời
+                            deleteTempBookingAndPayment()
+
+                            val intent = Intent(this@ChoosePaymentActivity, PaymentNotification::class.java)
+                            intent.putExtra("payment_status", "error")
+                            intent.putExtra("payment_method", "ZaloPay")
+                            intent.putExtra("amount", totalPrice)
+                            intent.putExtra("error_message", p0?.toString())
                             startActivity(intent)
                         }
-
                     }
                 )
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            // Nếu có lỗi tạo order, cũng xóa booking tạm thời
+            deleteTempBookingAndPayment()
         }
+    }
+
+    private fun payWithCash() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        val totalPrice = intent.getStringExtra("total_price")
+        val pickUpLocation = intent.getStringExtra("location_pickup")
+        val dropOffLocation = intent.getStringExtra("location_dropoff")
+        val selectedTrip = intent.getSerializableExtra("trip")
+        val selectedSeats = intent.getStringExtra("seats_selected")
+
+        Toast.makeText(this, "Đã chọn thanh toán tiền mặt khi lên xe", Toast.LENGTH_SHORT).show()
+
+        // Tạo booking và payment với trạng thái chưa thanh toán
+        createBookingAndPayment(
+            userId.toString(),
+            selectedTrip as Trip,
+            selectedSeats.toString(),
+            pickUpLocation.toString(),
+            dropOffLocation.toString(),
+            "",
+            "Cash",
+            "Chưa thanh toán",
+            "", // không có transaction ID
+            totalPrice.toString()
+        )
+
+        val intent = Intent(this@ChoosePaymentActivity, PaymentNotification::class.java)
+        intent.putExtra("payment_status", "pending")
+        intent.putExtra("payment_method", "Cash")
+        intent.putExtra("amount", totalPrice)
+        startActivity(intent)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -282,11 +365,260 @@ class ChoosePaymentActivity : AppCompatActivity() {
         }
 
 
+    private fun createBookingAndPayment(
+        userId: String,
+        trip: Trip,
+        selectedSeats: String,
+        pickupLocation: String,
+        dropoffLocation: String,
+        note: String,
+        paymentMethod: String,
+        paymentStatus: String,
+        transactionId: String,
+        totalAmount: String
+    ) {
+        val origin = intent.getStringExtra("origin")
+        val destination = intent.getStringExtra("destination")
+        val tripDate = intent.getStringExtra("tripDate")
+
+        val db = FirebaseFirestore.getInstance()
+        val bookingsRef = db.collection("bookings")
+        val paymentsRef = db.collection("payments")
+        val timestamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+
+        val seatList = selectedSeats.split(",").map { it.trim() }
+
+        // Tạo 1 payment duy nhất cho toàn bộ booking
+        val paymentId = paymentsRef.document().id
+        val payment = Payment(
+            id = paymentId,
+            bookingId = "", // Sẽ cập nhật với danh sách booking IDs
+            amount = totalAmount,
+            paymentMethod = paymentMethod,
+            status = paymentStatus,
+            transactionId = transactionId,
+            paidAt = if (paymentStatus == "Đã thanh toán") timestamp else "",
+            createdAt = timestamp
+        )
+
+        val bookingIds = mutableListOf<String>()
+
+        // Tạo booking cho từng ghế
+        for (seat in seatList) {
+            val bookingId = bookingsRef.document().id
+            bookingIds.add(bookingId)
+
+            val booking = Booking(
+                id = bookingId,
+                user_id = userId,
+                trip_id = trip.id,
+                seat_id = seat,
+                status = "Chưa đi",
+                pickup_location = pickupLocation,
+                dropoff_location = dropoffLocation,
+                note = note,
+                book_at = timestamp
+            )
+
+            // Lưu booking
+            bookingsRef.document(bookingId).set(booking)
+                .addOnSuccessListener {
+                    Log.d("Booking", "✔ Đặt ghế $seat thành công")
+                }
+                .addOnFailureListener {
+                    Log.e("Booking", "❌ Lỗi khi đặt ghế $seat: ${it.message}")
+                }
+        }
+
+        // Cập nhật payment với danh sách booking IDs
+        val updatedPayment = payment.copy(bookingId = bookingIds.joinToString(","))
+
+        // Lưu payment (chỉ 1 payment cho toàn bộ booking)
+        paymentsRef.document(paymentId).set(updatedPayment)
+            .addOnSuccessListener {
+                Log.d("Payment", "✔ Tạo payment thành công cho ${seatList.size} ghế")
+            }
+            .addOnFailureListener {
+                Log.e("Payment", "❌ Lỗi khi tạo payment: ${it.message}")
+            }
+
+        // Load lại trips để cập nhật UI
+        viewModel.loadTrips(origin.toString(), destination.toString(), tripDate.toString())
     }
 
+    // Thêm các phương thức xử lý timeout và quản lý booking tạm thời
+    private fun createTempBookingAndPayment(
+        userId: String,
+        trip: Trip,
+        selectedSeats: String,
+        pickupLocation: String,
+        dropoffLocation: String,
+        note: String,
+        totalAmount: String
+    ) {
+        val db = FirebaseFirestore.getInstance()
+        val bookingsRef = db.collection("bookings")
+        val paymentsRef = db.collection("payments")
+        val timestamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
 
+        val seatList = selectedSeats.split(",").map { it.trim() }
 
+        // Tạo 1 payment duy nhất cho toàn bộ booking tạm thời
+        val paymentId = paymentsRef.document().id
+        val bookingIds = mutableListOf<String>()
 
+        // Tạo booking cho từng ghế
+        for (seat in seatList) {
+            val bookingId = bookingsRef.document().id
+            bookingIds.add(bookingId)
+            tempBookingIds.add(bookingId)
 
+            val booking = Booking(
+                id = bookingId,
+                user_id = userId,
+                trip_id = trip.id,
+                seat_id = seat,
+                status = "Chờ thanh toán", // Trạng thái tạm thời
+                pickup_location = pickupLocation,
+                dropoff_location = dropoffLocation,
+                note = note,
+                book_at = timestamp
+            )
 
+            // Lưu booking tạm thời
+            bookingsRef.document(bookingId).set(booking)
+                .addOnSuccessListener {
+                    Log.d("TempBooking", "✔ Tạo booking tạm thời cho ghế $seat")
+                }
+                .addOnFailureListener {
+                    Log.e("TempBooking", "❌ Lỗi tạo booking tạm thời cho ghế $seat: ${it.message}")
+                }
+        }
 
+        // Tạo 1 payment duy nhất với danh sách booking IDs
+        val payment = Payment(
+            id = paymentId,
+            bookingId = bookingIds.joinToString(","), // Nối tất cả booking IDs
+            amount = totalAmount,
+            paymentMethod = "ZaloPay",
+            status = "Đang xử lý", // Trạng thái tạm thời
+            transactionId = "",
+            paidAt = "",
+            createdAt = timestamp
+        )
+
+        // Lưu ID payment để có thể xóa/cập nhật sau
+        tempPaymentIds.add(paymentId)
+
+        // Lưu payment tạm thời
+        paymentsRef.document(paymentId).set(payment)
+            .addOnSuccessListener {
+                Log.d("TempPayment", "✔ Tạo payment tạm thời cho ${seatList.size} ghế")
+            }
+            .addOnFailureListener {
+                Log.e("TempPayment", "❌ Lỗi tạo payment tạm thời: ${it.message}")
+            }
+    }
+
+    private fun startPaymentTimeout() {
+        paymentTimeoutHandler = Handler(Looper.getMainLooper())
+        paymentTimeoutRunnable = Runnable {
+            if (!isPaymentCompleted) {
+                Log.w("PaymentTimeout", "⏰ Thanh toán ZaloPay timeout sau 5 phút - Xóa booking tạm thời")
+                deleteTempBookingAndPayment()
+
+                // Hiển thị thông báo timeout
+                Toast.makeText(this, "Thanh toán đã hết thời gian. Booking đã bị hủy.", Toast.LENGTH_LONG).show()
+
+                // Chuyển về màn hình thông báo lỗi
+                val intent = Intent(this@ChoosePaymentActivity, PaymentNotification::class.java)
+                intent.putExtra("payment_status", "timeout")
+                intent.putExtra("payment_method", "ZaloPay")
+                intent.putExtra("error_message", "Thanh toán đã hết thời gian 5 phút")
+                startActivity(intent)
+            }
+        }
+
+        // 5 phút = 5 * 60 * 1000 milliseconds
+        paymentTimeoutHandler?.postDelayed(paymentTimeoutRunnable!!, 5 * 60 * 1000L)
+        Log.d("PaymentTimeout", "🕐 Bắt đầu timer 5 phút cho thanh toán ZaloPay")
+    }
+
+    private fun cancelPaymentTimeout() {
+        paymentTimeoutRunnable?.let { runnable ->
+            paymentTimeoutHandler?.removeCallbacks(runnable)
+            Log.d("PaymentTimeout", "✅ Hủy timer thanh toán")
+        }
+        paymentTimeoutHandler = null
+        paymentTimeoutRunnable = null
+    }
+
+    private fun deleteTempBookingAndPayment() {
+        val db = FirebaseFirestore.getInstance()
+
+        // Xóa tất cả booking tạm thời
+        tempBookingIds.forEach { bookingId ->
+            db.collection("bookings").document(bookingId).delete()
+                .addOnSuccessListener {
+                    Log.d("DeleteTemp", "✔ Xóa booking tạm thời: $bookingId")
+                }
+                .addOnFailureListener {
+                    Log.e("DeleteTemp", "❌ Lỗi xóa booking tạm thời $bookingId: ${it.message}")
+                }
+        }
+
+        // Xóa tất cả payment tạm thời
+        tempPaymentIds.forEach { paymentId ->
+            db.collection("payments").document(paymentId).delete()
+                .addOnSuccessListener {
+                    Log.d("DeleteTemp", "✔ Xóa payment tạm thời: $paymentId")
+                }
+                .addOnFailureListener {
+                    Log.e("DeleteTemp", "❌ Lỗi xóa payment tạm thời $paymentId: ${it.message}")
+                }
+        }
+
+        // Clear danh sách
+        tempBookingIds.clear()
+        tempPaymentIds.clear()
+    }
+
+    private fun updatePaymentStatus(status: String, transactionId: String) {
+        val db = FirebaseFirestore.getInstance()
+        val timestamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+
+        // Cập nhật trạng thái tất cả payment
+        tempPaymentIds.forEach { paymentId ->
+            val updates = mapOf(
+                "status" to status,
+                "transactionId" to transactionId,
+                "paidAt" to timestamp
+            )
+
+            db.collection("payments").document(paymentId).update(updates)
+                .addOnSuccessListener {
+                    Log.d("UpdatePayment", "✔ Cập nhật payment thành công: $paymentId")
+                }
+                .addOnFailureListener {
+                    Log.e("UpdatePayment", "❌ Lỗi cập nhật payment $paymentId: ${it.message}")
+                }
+        }
+
+        // Cập nhật trạng thái booking từ "Chờ thanh toán" thành "Chưa đi"
+        tempBookingIds.forEach { bookingId ->
+            db.collection("bookings").document(bookingId).update("status", "Chưa đi")
+                .addOnSuccessListener {
+                    Log.d("UpdateBooking", "✔ Cập nhật booking thành công: $bookingId")
+                }
+                .addOnFailureListener {
+                    Log.e("UpdateBooking", "❌ Lỗi cập nhật booking $bookingId: ${it.message}")
+                }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Hủy timer khi activity bị destroy
+        cancelPaymentTimeout()
+    }
+}

@@ -2,6 +2,7 @@ package com.example.authenticateuserandpass.data.repository.trip
 
 import android.util.Log
 import com.example.authenticateuserandpass.ResultCallback
+import com.example.authenticateuserandpass.data.model.UserTicket
 import com.example.authenticateuserandpass.data.model.trip.MainDriverTripInfo
 import com.example.authenticateuserandpass.data.model.trip.Trip
 import com.example.authenticateuserandpass.data.model.trip.TripList
@@ -40,6 +41,12 @@ class TripRepositoryImpl : TripRepository.Remote {
         callback: ResultCallback<Result<TripDetails>>
     ) {
         remoteTripDataSource.getTripDetails(tripId, callback)
+    }
+    override suspend fun getUserTickets(
+        userId: String,
+        callback: ResultCallback<Result<List<UserTicket>>>
+    ) {
+        remoteTripDataSource.getUserTickets(userId, callback)
     }
 
 

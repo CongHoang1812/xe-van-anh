@@ -13,8 +13,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -27,14 +27,23 @@
         android:theme="@style/Theme.AuthenticateUserAndPass"
         tools:ignore="ObsoleteSdkInt"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.feedback.FeedbackActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.findticket.filterTicket.FilterTicketActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.myticket.MyTicketDetailActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAyqExml_1CLWxc4g3pFIVMWxFYf3qBP3o" />
+
         <activity
             android:name=".ui.a_main_driver_ui.home.HomeMainDriverActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.a_shuttle_driver_ui.home.errorReport.ErrorReportActivity"
             android:exported="false" />
@@ -47,7 +56,6 @@
         <activity
             android:name=".ui.a_shuttle_driver_ui.login.LoginActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.payment.PaymentNotification"
             android:exported="true" />

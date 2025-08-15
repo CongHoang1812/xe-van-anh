@@ -18,9 +18,8 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class PassengerListViewModel(
-    private val tripRepository: TripRepositoryImpl
-) : ViewModel() {
+class PassengerListViewModel: ViewModel() {
+    private val tripRepository =  TripRepositoryImpl()
     private val repository: PassengerRepository = PassengerRepositoryImpl()
 
 

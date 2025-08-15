@@ -15,8 +15,8 @@ class FeedbackAdapter(
         fun bind(f: Feedback) {
             b.tvUserId.text    = f.user_id
             b.ratingBar.rating = f.rating.toFloat()
-            b.tvComment.text   = f.comment
-            b.tvTime.text      = f.cteate_at
+            b.tvComment.text   = f.selectedReasons.toString()
+            b.tvTime.text      = f.create_at.toString()
         }
     }
 
