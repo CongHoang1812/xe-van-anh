@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_view_detail"
+        android:icon="@drawable/outline_account_balance_wallet_24"
+        android:title="Xem chi tiết" />
+
+    <item
+        android:id="@+id/menu_update"
+        android:title="Cập nhật"
+        android:icon="@drawable/ic_edit" />
+
+    <item
+        android:id="@+id/menu_delete"
+        android:icon="@drawable/baseline_delete_24"
+        android:title="Xóa" />
+</menu>

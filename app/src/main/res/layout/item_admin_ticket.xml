@@ -1,0 +1,143 @@
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:padding="12dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:clipToPadding="false"
+    android:clipToOutline="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvBookingId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Mã vé: BK12345"
+                android:maxLength="16"
+                android:textSize="16sp"
+                android:textColor="@color/darkGrey"
+                android:textStyle="bold" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipStatus"
+                style="@style/Widget.Material3.Chip.Assist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipStrokeWidth="0dp"
+                android:text="Đã thanh toán" />
+        </LinearLayout>
+
+        <!-- Thông tin hành trình -->
+        <TextView
+            android:id="@+id/tvCustomer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:text="Khách: Nguyễn Văn A - 0901234567"
+            android:textColor="@color/darkGrey"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Khởi hành: 12/09/2025 08:00"
+            android:textColor="@color/darkGrey"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
+        <TextView
+            android:id="@+id/tvBusType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xe: Limousine giường nằm"
+            android:textColor="@color/darkGrey"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
+        <TextView
+            android:id="@+id/tvSeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ghế: A12"
+            android:textColor="@color/darkGrey"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
+        <!-- Khách hàng -->
+        <TextView
+            android:id="@+id/tvRoute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:text="Hà Nội - Thanh Hoá"
+            android:textColor="@color/darkGrey"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
+        <!-- Footer -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="6dp">
+
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Giá: 250.000đ"
+                android:textColor="@color/darkGrey"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnEdit"
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:checkable="true"
+                    android:contentDescription="Edit ticket"
+                    app:icon="@drawable/ic_edit"
+                    android:backgroundTint="@color/deep_purple_50"
+                    app:iconSize="24dp" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDelete"
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:checkable="true"
+                    android:contentDescription="Delete ticket"
+                    app:icon="@drawable/baseline_delete_24"
+                    app:iconSize="24dp"
+                    android:backgroundTint="@color/deep_purple_50"
+                     />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

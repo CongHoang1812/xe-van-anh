@@ -88,6 +88,11 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.3.0")
     implementation("com.google.zxing:core:3.5.3")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation("com.mikhaellopez:circularprogressbar:3.1.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.10.0-alpha02")
+    implementation ("androidx.fragment:fragment-ktx:1.8.9")
+    implementation ("com.google.android.material:material:1.14.0-alpha03")
+
     implementation(libs.play.services.auth)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)

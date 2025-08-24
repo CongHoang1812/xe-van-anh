@@ -3,11 +3,14 @@ package com.example.authenticateuserandpass.data.source.remote
 import android.util.Log
 import com.example.authenticateuserandpass.ResultCallback
 import com.example.authenticateuserandpass.data.model.UserTicket
+import com.example.authenticateuserandpass.data.model.booking.Booking
 import com.example.authenticateuserandpass.data.model.bus.Bus
+import com.example.authenticateuserandpass.data.model.payment.Payment
 import com.example.authenticateuserandpass.data.model.route.Route
 import com.example.authenticateuserandpass.data.model.trip.MainDriverTripInfo
 import com.example.authenticateuserandpass.data.model.trip.Trip
 import com.example.authenticateuserandpass.data.model.trip.TripList
+import com.example.authenticateuserandpass.data.model.user.User
 import com.example.authenticateuserandpass.data.source.Result
 import com.example.authenticateuserandpass.data.source.remote.TripDataSource
 import com.google.firebase.Firebase
@@ -456,9 +459,12 @@ class RemoteTripDataSource : TripDataSource.Remote {
 }
 
 data class TripDetails(
+    val booking: Booking = Booking(),
+    val user: User = User(),
     val trip: Trip = Trip(),
     val route: Route = Route(),
-    val bus: Bus = Bus()
+    val bus: Bus = Bus(),
+    val payment: Payment? = null
 )
 
 //    override suspend fun loadTrip(

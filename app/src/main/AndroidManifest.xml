@@ -28,6 +28,24 @@
         tools:ignore="ObsoleteSdkInt"
         tools:targetApi="31">
         <activity
+            android:name=".ui.a_admin_ui.route.add_update.AddEditRouteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.a_admin_ui.route.RouteManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.a_admin_ui.ticket.TicketManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.a_admin_ui.user.updateUser.UpdateUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.a_admin_ui.user.createNew.CreateNewUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.a_admin_ui.user.UserManagementActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.feedback.FeedbackActivity"
             android:exported="false" />
         <activity

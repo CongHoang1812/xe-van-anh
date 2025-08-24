@@ -86,4 +86,35 @@
     <color name="chip_purple_text_checked">#FFFFFF</color>
     <color name="chip_purple_stroke">#D8C7FF</color>
     <color name="chip_purple_ripple">#336E56CF</color>
+    <color name="primary_light">#E3F2FD</color>
+
+
+
+    <color name="red">#FFFF0000</color>
+    <color name="deep_purple_900">#FF311B92</color>
+    <color name="deep_purple_800">#FF4527A0</color>
+    <color name="deep_purple_700">#FF512DA8</color>
+    <color name="deep_purple_600">#FF5E35B1</color>
+    <color name="deep_purple_500">#FF673AB7</color>
+    <color name="deep_purple_400">#FF7E57C2</color>
+    <color name="deep_purple_300">#FF9575CD</color>
+    <color name="deep_purple_200">#FFB39DDB</color>
+    <color name="deep_purple_100">#FFD1C4E9</color>
+    <color name="deep_purple_50">#FFEDE7F6</color>
+
+    <color name="blue_700">#2962FF</color>
+    <color name="blue_400">#2979FF</color>
+    <color name="blue_200">#448AFF</color>
+    <color name="blue_100">#82B1FF</color>
+
+
+    <!-- Status colors -->
+    <color name="green_light">#E8F5E8</color>
+    <color name="green_dark">#2E7D32</color>
+    <color name="orange_light">#FFF3E0</color>
+    <color name="orange_dark">#EF6C00</color>
+    <color name="red_light">#FFEBEE</color>
+    <color name="red_dark">#C62828</color>
+    <color name="gray_light">#F5F5F5</color>
+    <color name="gray_dark">#757575</color>
 </resources>
