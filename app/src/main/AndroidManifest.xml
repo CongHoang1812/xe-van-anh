@@ -28,6 +28,27 @@
         tools:ignore="ObsoleteSdkInt"
         tools:targetApi="31">
         <activity
+            android:name=".ui.loginWithPhoneNumber.VerifyOtpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.loginWithPhoneNumber.EnterPhoneNumberActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.a_admin_ui.settings.SettingsAdminsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.a_admin_ui.statistics.StatisticsAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.a_admin_ui.trip.addTrip.AddTripActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.a_admin_ui.trip.TripManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.a_admin_ui.trip.SearchTripActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.a_admin_ui.route.add_update.AddEditRouteActivity"
             android:exported="false" />
         <activity

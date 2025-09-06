@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.authenticateuserandpass.ResultCallback
+import com.example.authenticateuserandpass.data.ResultCallback
 import com.example.authenticateuserandpass.data.model.user.User
 import com.example.authenticateuserandpass.data.repository.user.UserRepositoryImpl
 import kotlinx.coroutines.launch

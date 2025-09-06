@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.authenticateuserandpass.ResultCallback
+import com.example.authenticateuserandpass.data.ResultCallback
 import com.example.authenticateuserandpass.data.firebaseModel.Passenger
 import com.example.authenticateuserandpass.data.repository.trip.TripRepository
 import com.example.authenticateuserandpass.data.repository.trip.TripRepositoryImpl

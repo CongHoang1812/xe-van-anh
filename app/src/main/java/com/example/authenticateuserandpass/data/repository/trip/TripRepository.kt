@@ -1,6 +1,6 @@
 package com.example.authenticateuserandpass.data.repository.trip
 
-import com.example.authenticateuserandpass.ResultCallback
+import com.example.authenticateuserandpass.data.ResultCallback
 import com.example.authenticateuserandpass.data.model.UserTicket
 import com.example.authenticateuserandpass.data.model.trip.MainDriverTripInfo
 import com.example.authenticateuserandpass.data.model.trip.Trip
@@ -18,5 +18,6 @@ interface TripRepository {
         suspend fun getTripsByDate(date: String, callback: ResultCallback<Result<List<Trip>>>)
         suspend fun getTripDetails(tripId: String, callback: ResultCallback<Result<TripDetails>>)
         suspend fun getUserTickets(userId: String, callback: ResultCallback<Result<List<UserTicket>>>)
+        suspend fun addTrip(trip: Trip, callback: ResultCallback<Result<String>>)
     }
 }

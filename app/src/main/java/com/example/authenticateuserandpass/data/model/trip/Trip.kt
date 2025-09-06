@@ -15,5 +15,9 @@ data class Trip(
     var main_driver_id : String = "",
     var duration  :String = "",
     var distance : String = "",
-    var availableSeats: Int = 0
+    var availableSeats: Int = 0,
+
+    @Exclude var main_driver_name: String = "",
+    @Exclude var main_driver_phone: String = ""
+
 ): Serializable

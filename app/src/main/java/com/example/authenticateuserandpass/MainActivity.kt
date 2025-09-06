@@ -22,6 +22,7 @@ import com.example.authenticateuserandpass.ui.a_admin_ui.HomeAdminActivity
 import com.example.authenticateuserandpass.ui.a_main_driver_ui.home.HomeMainDriverActivity
 import com.example.authenticateuserandpass.ui.a_shuttle_driver_ui.home.HomeShuttleDriverActivity
 import com.example.authenticateuserandpass.ui.a_shuttle_driver_ui.login.LoginActivity
+import com.example.authenticateuserandpass.ui.loginWithPhoneNumber.EnterPhoneNumberActivity
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.login.LoginManager
@@ -158,6 +159,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
 
 
+        }
+        binding.btnAuthWithPhoneNumber.setOnClickListener {
+            var intent = Intent(this, EnterPhoneNumberActivity::class.java)
+            startActivity(intent)
         }
     }
 

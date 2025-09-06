@@ -1,22 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.AuthenticateUserAndPass" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
+    <style name="Base.Theme.AuthenticateUserAndPass" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
 <!--        <item name="android:statusBarColor">@android:color/white</item>-->
 <!--        <item name="android:windowLightStatusBar">true</item>-->
-        <item name="colorPrimary">@color/deep_purple_700</item>
         <item name="colorPrimaryDark">@color/black</item>
-        <item name="colorPrimaryVariant">@color/deep_purple_700</item>
-        <item name="actionBarStyle">@style/MyActionBar</item>
+<!--        <item name="actionBarStyle">@style/MyActionBar</item>-->
         <!--        <item name="android:windowTranslucentStatus">true</item>-->
-        <item name="android:statusBarColor">@color/deep_purple_400</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="toolbarStyle">@style/MyToolBarStyle</item>
-        <item name="android:navigationBarColor">@color/deep_purple_200</item>
-        <item name="colorAccent">@color/white</item>
-        <item name="colorPrimaryContainer">@color/deep_purple_500</item>
-        <item name="colorSecondaryContainer">@color/deep_purple_300</item>
+<!--        <item name="colorAccent">@color/white</item>-->
+<!--        <item name="colorSecondaryContainer">@color/deep_purple_300</item>-->
     </style>
 
     <style name="Theme.AuthenticateUserAndPass" parent="Base.Theme.AuthenticateUserAndPass" />
@@ -41,10 +35,10 @@
     </style>
 
 
-    <style name="Theme.Chapter14" parent="Base.Theme.AuthenticateUserAndPass" />
-    <style name="MyActionBar" parent="Widget.AppCompat.ActionBar">
-        <item name="background">@color/deep_purple_100</item>
-    </style>
+<!--    <style name="Theme.Chapter14" parent="Base.Theme.AuthenticateUserAndPass" />-->
+<!--    <style name="MyActionBar" parent="Widget.AppCompat.ActionBar">-->
+<!--        <item name="background">@color/deep_purple_100</item>-->
+<!--    </style>-->
 
     <style name="MyToolBarStyle" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">@color/deep_purple_100</item>

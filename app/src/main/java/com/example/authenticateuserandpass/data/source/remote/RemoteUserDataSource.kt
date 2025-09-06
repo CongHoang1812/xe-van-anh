@@ -1,9 +1,10 @@
 package com.example.authenticateuserandpass.data.source.remote
 
-import com.example.authenticateuserandpass.ResultCallback
+import com.example.authenticateuserandpass.data.ResultCallback
 import com.example.authenticateuserandpass.data.model.user.User
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.authenticateuserandpass.data.source.Result
+import kotlin.text.get
 
 class RemoteUserDataSource() : UserDataSource{
     private val firestore = FirebaseFirestore.getInstance()
@@ -41,6 +42,19 @@ class RemoteUserDataSource() : UserDataSource{
                 }else{
                     callback.onResult(Result.Error(Exception("User not found")))
                 }
+            }
+            .addOnFailureListener { exception ->
+                callback.onResult(Result.Error(exception))
+            }
+    }
+
+    override suspend fun getAllMainDriver(callback: ResultCallback<Result<List<User>>>) {
+        firestore.collection("users")
+            .whereEqualTo("role", "main_driver")
+            .get()
+            .addOnSuccessListener { documents ->
+                val mainDrivers = documents.mapNotNull { it.toObject(User::class.java) }
+                callback.onResult(Result.Success(mainDrivers))
             }
             .addOnFailureListener { exception ->
                 callback.onResult(Result.Error(exception))

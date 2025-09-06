@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.authenticateuserandpass.ResultCallback
+import com.example.authenticateuserandpass.data.ResultCallback
 import com.example.authenticateuserandpass.data.model.trip.MainDriverTripInfo
 import com.example.authenticateuserandpass.data.model.trip.Trip
 import com.example.authenticateuserandpass.data.repository.trip.TripRepositoryImpl

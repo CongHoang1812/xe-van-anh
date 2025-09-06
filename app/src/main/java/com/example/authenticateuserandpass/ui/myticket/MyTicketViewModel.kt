@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.authenticateuserandpass.ResultCallback
+import com.example.authenticateuserandpass.data.ResultCallback
 import com.example.authenticateuserandpass.data.model.UserTicket
 import com.example.authenticateuserandpass.data.repository.trip.TripRepository
 import com.example.authenticateuserandpass.data.repository.trip.TripRepositoryImpl
@@ -30,7 +30,7 @@ class MyTicketViewModel(
 
         viewModelScope.launch {
             try {
-                tripRepository.getUserTickets(userId, object : ResultCallback<com.example.authenticateuserandpass.data.source.Result<List<UserTicket>>> {
+                tripRepository.getUserTickets(userId, object : ResultCallback<Result<List<UserTicket>>> {
                     override fun onResult(result: com.example.authenticateuserandpass.data.source.Result<List<UserTicket>>) {
                         _loading.value = false
                         when (result) {

@@ -1,6 +1,6 @@
 package com.example.authenticateuserandpass.data.repository.user
 
-import com.example.authenticateuserandpass.ResultCallback
+import com.example.authenticateuserandpass.data.ResultCallback
 import com.example.authenticateuserandpass.data.model.user.User
 import com.example.authenticateuserandpass.data.source.Result
 import com.example.authenticateuserandpass.data.source.remote.RemoteUserDataSource
@@ -21,6 +21,10 @@ class UserRepositoryImpl : UserRepository  {
         callback: ResultCallback<Result<User>>
     ) {
         remoteUserDataSource.getUserRole(userId, callback)
+    }
+
+    override suspend fun getAllMainDriver(callback: ResultCallback<Result<List<User>>>) {
+        remoteUserDataSource.getAllMainDriver(callback)
     }
 
     suspend fun checkEmailExists(email: String): Boolean {

@@ -13,7 +13,10 @@ import com.example.authenticateuserandpass.R
 import com.example.authenticateuserandpass.data.model.AdminOption
 import com.example.authenticateuserandpass.databinding.ActivityHomeAdminBinding
 import com.example.authenticateuserandpass.ui.a_admin_ui.route.RouteManagementActivity
+import com.example.authenticateuserandpass.ui.a_admin_ui.settings.SettingsAdminsActivity
+import com.example.authenticateuserandpass.ui.a_admin_ui.statistics.StatisticsAdminActivity
 import com.example.authenticateuserandpass.ui.a_admin_ui.ticket.TicketManagementActivity
+import com.example.authenticateuserandpass.ui.a_admin_ui.trip.SearchTripActivity
 import com.example.authenticateuserandpass.ui.a_admin_ui.user.UserManagementActivity
 
 class HomeAdminActivity : AppCompatActivity() {
@@ -94,7 +97,8 @@ class HomeAdminActivity : AppCompatActivity() {
         when (adminOption.id) {
             1 -> {
                 // Intent to Trip Management Activity
-                Log.d("AdminDashboard", "Navigating to Trip Management")
+                var intent = Intent(this, SearchTripActivity::class.java)
+                startActivity(intent)
             }
             2 -> {
                 // Intent to Ticket Management Activity
@@ -122,11 +126,13 @@ class HomeAdminActivity : AppCompatActivity() {
             }
             7 -> {
                 // Intent to Reports Activity
-                Log.d("AdminDashboard", "Navigating to Reports")
+                val intent = Intent(this, StatisticsAdminActivity::class.java)
+                startActivity(intent)
             }
             8 -> {
                 // Intent to Settings Activity
-                Log.d("AdminDashboard", "Navigating to Settings")
+                val intent = Intent(this, SettingsAdminsActivity::class.java)
+                startActivity(intent)
             }
         }
     }

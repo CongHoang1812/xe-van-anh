@@ -1,7 +1,7 @@
 package com.example.authenticateuserandpass.data.source.remote
 
 import android.util.Log
-import com.example.authenticateuserandpass.ResultCallback
+import com.example.authenticateuserandpass.data.ResultCallback
 import com.example.authenticateuserandpass.data.model.UserTicket
 import com.example.authenticateuserandpass.data.model.booking.Booking
 import com.example.authenticateuserandpass.data.model.bus.Bus
@@ -29,13 +29,95 @@ class RemoteTripDataSource : TripDataSource.Remote {
     private val busesCollection = db.collection("buses")
 
 
+//    override suspend fun loadTrip(
+//        origin: String,
+//        destination: String,
+//        date: String,
+//        callback: ResultCallback<Result<TripList>>
+//    ) {
+////        val db = Firebase.firestore
+//        Log.d("RemoteTripDataSource", "🔍 Tìm trip với: origin=$origin, destination=$destination, date=$date")
+//
+//        db.collection("routes")
+//            .whereEqualTo("origin", origin)
+//            .whereEqualTo("destination", destination)
+//            .get()
+//            .addOnSuccessListener { routeSnapshots ->
+//                val routeIds = routeSnapshots.map { it.id }
+//                if (routeIds.isEmpty()) {
+//                    callback.onResult(Result.Success(TripList(emptyList())))
+//                    return@addOnSuccessListener
+//                }
+//
+//                db.collection("trip")
+//                    //.whereIn("route_id", routeIds) // Tùy bạn bật nếu cần
+//                    .whereEqualTo("trip_date", date)
+//                    .get()
+//                    .addOnSuccessListener { tripSnapshots ->
+//                        val trips = mutableListOf<Trip>()
+//
+//                        if (tripSnapshots.isEmpty) {
+//                            callback.onResult(Result.Success(TripList(emptyList())))
+//                            return@addOnSuccessListener
+//                        }
+//
+//                        var loadedCount = 0
+//                        for (tripDoc in tripSnapshots.documents) {
+//                            val trip = tripDoc.toObject(Trip::class.java)
+//                            val tripId = tripDoc.id
+//                            trip?.id = tripId
+//
+//                            if (trip != null) {
+//                                db.collection("bookings")
+//                                    .whereEqualTo("trip_id", tripId)
+//                                    .get()
+//                                    .addOnSuccessListener { bookingSnapshots ->
+//                                        val bookedSeats = bookingSnapshots.size()
+//                                        trip.availableSeats = 24 - bookedSeats
+//                                        trips.add(trip)
+//
+//                                        db.collection("trip").document(tripId)
+//                                            .update("availableSeats", trip.availableSeats)
+//                                            .addOnSuccessListener {
+//                                                Log.d("RemoteTripDataSource", "Đã cập nhật availableSeats cho trip $tripId = ${trip.availableSeats}")
+//                                            }
+//                                            .addOnFailureListener { e ->
+//                                                Log.e("RemoteTripDataSource", "Lỗi khi cập nhật availableSeats: ${e.message}")
+//                                            }
+//
+//                                        loadedCount++
+//                                        if (loadedCount == tripSnapshots.size()) {
+//                                            // Đảm bảo đã xử lý hết các trip
+//                                            Log.d("RemoteTripDataSource", "✅ Đã xử lý ${trips.size} trip kèm số ghế")
+//                                            callback.onResult(Result.Success(TripList(trips)))
+//                                        }
+//                                    }
+//                                    .addOnFailureListener { ex ->
+//                                        callback.onResult(Result.Error(ex))
+//                                    }
+//                            } else {
+//                                loadedCount++
+//                                if (loadedCount == tripSnapshots.size()) {
+//                                    callback.onResult(Result.Success(TripList(trips)))
+//                                }
+//                            }
+//                        }
+//                    }
+//                    .addOnFailureListener { ex ->
+//                        callback.onResult(Result.Error(ex))
+//                    }
+//            }
+//            .addOnFailureListener { ex ->
+//                callback.onResult(Result.Error(ex))
+//            }
+//    }
+
     override suspend fun loadTrip(
         origin: String,
         destination: String,
         date: String,
         callback: ResultCallback<Result<TripList>>
     ) {
-//        val db = Firebase.firestore
         Log.d("RemoteTripDataSource", "🔍 Tìm trip với: origin=$origin, destination=$destination, date=$date")
 
         db.collection("routes")
@@ -50,7 +132,6 @@ class RemoteTripDataSource : TripDataSource.Remote {
                 }
 
                 db.collection("trip")
-                    //.whereIn("route_id", routeIds) // Tùy bạn bật nếu cần
                     .whereEqualTo("trip_date", date)
                     .get()
                     .addOnSuccessListener { tripSnapshots ->
@@ -68,33 +149,37 @@ class RemoteTripDataSource : TripDataSource.Remote {
                             trip?.id = tripId
 
                             if (trip != null) {
-                                db.collection("bookings")
-                                    .whereEqualTo("trip_id", tripId)
-                                    .get()
-                                    .addOnSuccessListener { bookingSnapshots ->
-                                        val bookedSeats = bookingSnapshots.size()
-                                        trip.availableSeats = 24 - bookedSeats
-                                        trips.add(trip)
+                                // Lấy thông tin driver trước
+                                loadDriverInfo(trip) {
+                                    // Sau khi có thông tin driver, tính số ghế còn trống
+                                    db.collection("bookings")
+                                        .whereEqualTo("trip_id", tripId)
+                                        .get()
+                                        .addOnSuccessListener { bookingSnapshots ->
+                                            val bookedSeats = bookingSnapshots.size()
+                                            trip.availableSeats = 24 - bookedSeats
+                                            trips.add(trip)
 
-                                        db.collection("trip").document(tripId)
-                                            .update("availableSeats", trip.availableSeats)
-                                            .addOnSuccessListener {
-                                                Log.d("RemoteTripDataSource", "Đã cập nhật availableSeats cho trip $tripId = ${trip.availableSeats}")
-                                            }
-                                            .addOnFailureListener { e ->
-                                                Log.e("RemoteTripDataSource", "Lỗi khi cập nhật availableSeats: ${e.message}")
-                                            }
+                                            // Cập nhật availableSeats vào Firestore
+                                            db.collection("trip").document(tripId)
+                                                .update("availableSeats", trip.availableSeats)
+                                                .addOnSuccessListener {
+                                                    Log.d("RemoteTripDataSource", "Đã cập nhật availableSeats cho trip $tripId = ${trip.availableSeats}")
+                                                }
+                                                .addOnFailureListener { e ->
+                                                    Log.e("RemoteTripDataSource", "Lỗi khi cập nhật availableSeats: ${e.message}")
+                                                }
 
-                                        loadedCount++
-                                        if (loadedCount == tripSnapshots.size()) {
-                                            // Đảm bảo đã xử lý hết các trip
-                                            Log.d("RemoteTripDataSource", "✅ Đã xử lý ${trips.size} trip kèm số ghế")
-                                            callback.onResult(Result.Success(TripList(trips)))
+                                            loadedCount++
+                                            if (loadedCount == tripSnapshots.size()) {
+                                                Log.d("RemoteTripDataSource", "✅ Đã xử lý ${trips.size} trip kèm thông tin driver và số ghế")
+                                                callback.onResult(Result.Success(TripList(trips)))
+                                            }
                                         }
-                                    }
-                                    .addOnFailureListener { ex ->
-                                        callback.onResult(Result.Error(ex))
-                                    }
+                                        .addOnFailureListener { ex ->
+                                            callback.onResult(Result.Error(ex))
+                                        }
+                                }
                             } else {
                                 loadedCount++
                                 if (loadedCount == tripSnapshots.size()) {
@@ -109,6 +194,30 @@ class RemoteTripDataSource : TripDataSource.Remote {
             }
             .addOnFailureListener { ex ->
                 callback.onResult(Result.Error(ex))
+            }
+    }
+
+    private fun loadDriverInfo(trip: Trip, onComplete: () -> Unit) {
+        if (trip.main_driver_id.isNullOrEmpty()) {
+            onComplete()
+            return
+        }
+
+        db.collection("users").document(trip.main_driver_id)
+            .get()
+            .addOnSuccessListener { driverDoc ->
+                val driverData = driverDoc.data
+                if (driverData != null) {
+                    // Gán thông tin driver vào trip object
+                    trip.main_driver_name = driverData["name"] as? String ?: ""
+                    trip.main_driver_phone = driverData["phone"] as? String ?: ""
+                    Log.d("RemoteTripDataSource", "✅ Đã load thông tin driver: ${trip.main_driver_name}")
+                }
+                onComplete()
+            }
+            .addOnFailureListener { e ->
+                Log.e("RemoteTripDataSource", "Lỗi khi load thông tin driver: ${e.message}")
+                onComplete()
             }
     }
 
@@ -351,6 +460,36 @@ class RemoteTripDataSource : TripDataSource.Remote {
             }
     }
 
+    override suspend fun addTrip(
+        trip: Trip,
+        callback: ResultCallback<Result<String>>
+    ) {
+        try {
+            val tripData = hashMapOf(
+                "route_id" to trip.route_id,
+                "bus_id" to trip.bus_id,
+                "main_driver_id" to trip.main_driver_id,
+                "trip_date" to trip.trip_date,
+                "departure_time" to trip.departure_time,
+                "ticket_price" to trip.ticket_price,
+                "availableSeats" to trip.availableSeats,
+                "distance" to trip.distance,
+                "duration" to trip.duration,
+                "status" to trip.status
+            )
+
+            tripsCollection.add(tripData)
+                .addOnSuccessListener { documentReference ->
+                    callback.onResult(Result.Success(documentReference.id))
+                }
+                .addOnFailureListener { exception ->
+                    callback.onResult(Result.Error(exception))
+                }
+        } catch (e: Exception) {
+            callback.onResult(Result.Error(e))
+        }
+    }
+
     private fun getPaymentStatusAndCreateTicket(
         bookingId: String,
         bookingData: Map<String, Any>?,
@@ -455,6 +594,8 @@ class RemoteTripDataSource : TripDataSource.Remote {
             0
         }
     }
+
+
 
 }
 

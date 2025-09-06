@@ -3,6 +3,7 @@ package com.example.authenticateuserandpass.data.repository.route
 import com.example.authenticateuserandpass.data.model.route.Route
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+import kotlin.text.get
 
 class RouteRepository {
     private val firestore = FirebaseFirestore.getInstance()
@@ -43,6 +44,21 @@ class RouteRepository {
             true
         } catch (e: Exception) {
             false
+        }
+    }
+    suspend fun getRouteByDepartureAndDestination(departure: String, destination: String): Route? {
+        return try {
+            val snapshot = routesCollection
+                .whereEqualTo("origin", departure)
+                .whereEqualTo("destination", destination)
+                .get()
+                .await()
+
+            snapshot.documents.firstOrNull()?.let { doc ->
+                doc.toObject(Route::class.java)?.copy(id = doc.id)
+            }
+        } catch (e: Exception) {
+            null
         }
     }
 }

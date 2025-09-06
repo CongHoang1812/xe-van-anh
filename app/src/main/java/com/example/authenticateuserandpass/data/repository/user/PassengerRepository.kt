@@ -1,7 +1,7 @@
 package com.example.authenticateuserandpass.data.repository.user
 
 
-import com.example.authenticateuserandpass.ResultCallback
+import com.example.authenticateuserandpass.data.ResultCallback
 import com.example.authenticateuserandpass.data.firebaseModel.Passenger
 import com.example.authenticateuserandpass.data.model.booking.Booking
 import com.example.authenticateuserandpass.data.model.user.User

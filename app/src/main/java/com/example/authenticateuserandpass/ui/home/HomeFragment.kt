@@ -13,7 +13,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -28,6 +27,7 @@ import com.example.authenticateuserandpass.data.firebaseModel.SliderModel2
 import com.example.authenticateuserandpass.data.firebaseModel.UpdateNews
 import com.example.authenticateuserandpass.data.model.user.User
 import com.example.authenticateuserandpass.databinding.FragmentHomeBinding
+import com.example.authenticateuserandpass.ui.chatbot.ChatbotBottomSheetFragment
 import com.example.authenticateuserandpass.ui.dialog.BottomSheetLocationFragment
 import com.example.authenticateuserandpass.ui.dialog.OnLocationSelectedListener
 import com.example.authenticateuserandpass.ui.findticket.FindTicketActivity
@@ -221,6 +221,11 @@ class HomeFragment : Fragment() {
         binding.hambugerMenu2.setOnClickListener {
             (activity as? HomeActivity)?.openDrawer()
         }
+        binding.imageView13.setOnClickListener {
+            val chatbotFragment = ChatbotBottomSheetFragment.newInstance()
+            chatbotFragment.show(parentFragmentManager, ChatbotBottomSheetFragment.TAG)
+        }
+
         binding.btnSearch.setOnClickListener {
             val departure = binding.etDeparture.text.toString()
             val destination = binding.etDestination.text.toString()

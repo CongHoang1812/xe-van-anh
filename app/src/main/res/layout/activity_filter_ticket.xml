@@ -15,7 +15,7 @@
         android:layout_height="?attr/actionBarSize"
         app:navigationIcon="@drawable/baseline_arrow_back_24"
         app:title="Lọc theo"
-        android:theme="@style/ToolbarStyle"
+        android:theme="?attr/actionBarStyle"
         />
 
     <ScrollView
@@ -102,19 +102,19 @@
 
             </LinearLayout>
 
+            <!-- Available Seats Section -->
             <com.google.android.material.slider.RangeSlider
                 android:id="@+id/rangeSliderTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
+                android:stepSize="1"
                 android:valueFrom="150"
                 android:valueTo="1200"
-                android:stepSize="1"
                 app:thumbRadius="100dp"
 
                 app:values="@array/time_values" />
 
-            <!-- Available Seats Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
