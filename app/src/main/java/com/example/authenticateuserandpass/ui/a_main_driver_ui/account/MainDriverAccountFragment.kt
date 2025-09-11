@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.example.authenticateuserandpass.MainActivity
+import com.example.authenticateuserandpass.ui.MainActivity
 import com.example.authenticateuserandpass.R
 import com.example.authenticateuserandpass.databinding.FragmentMainDriverAccountBinding
 import com.example.authenticateuserandpass.ui.a_shuttle_driver_ui.home.HomeShuttleDriverActivity

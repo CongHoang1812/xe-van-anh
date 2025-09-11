@@ -230,11 +230,16 @@ class RemoteTripDataSource : TripDataSource.Remote {
             .whereEqualTo("status", "chưa đi")
             .get()
             .addOnSuccessListener { tripSnapshots ->
-
+                val now = System.currentTimeMillis()
                 val trips = tripSnapshots.toObjects(Trip::class.java)
-                val sortedTrips = trips.sortedBy {
+                val upcomingTrips = trips.filter { trip ->
+                    val departureTime = combineDateTime(trip.trip_date, trip.departure_time)
+                    departureTime > now
+                }
+                val sortedTrips = upcomingTrips.sortedBy {
                     combineDateTime(it.trip_date, it.departure_time)
                 }
+
                 val nextTrip = sortedTrips.firstOrNull()
 
                 if (nextTrip == null) {

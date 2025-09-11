@@ -152,15 +152,19 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@+id/dateControl" />
 
-    <ProgressBar
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/progressBar3"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
         android:visibility="visible"
-        android:layout_height="wrap_content"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/loading"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/rv_temp_ticket"
         app:layout_constraintStart_toStartOf="@+id/rv_temp_ticket"
         app:layout_constraintTop_toTopOf="@+id/rv_temp_ticket" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

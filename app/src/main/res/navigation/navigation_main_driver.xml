@@ -9,7 +9,11 @@
         android:id="@+id/nav_1"
         android:name="com.example.authenticateuserandpass.ui.a_main_driver_ui.home.MainDriverHomeFragment"
         android:label="fragment_main_driver_home"
-        tools:layout="@layout/fragment_main_driver_home" />
+        tools:layout="@layout/fragment_main_driver_home" >
+        <action
+            android:id="@+id/action_nav_1_to_myMapFragment2"
+            app:destination="@id/myMapFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/nav_3"
         android:name="com.example.authenticateuserandpass.ui.a_main_driver_ui.account.MainDriverAccountFragment"
@@ -32,4 +36,9 @@
             android:name="tripId"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/myMapFragment2"
+        android:name="com.example.authenticateuserandpass.ui.a_main_driver_ui.home.map.MyMapFragment"
+        android:label="fragment_my_map"
+        tools:layout="@layout/fragment_my_map" />
 </navigation>

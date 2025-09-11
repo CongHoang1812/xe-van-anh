@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.example.authenticateuserandpass.MainActivity
+import com.example.authenticateuserandpass.ui.MainActivity
 import com.example.authenticateuserandpass.data.model.user.User
 import com.example.authenticateuserandpass.databinding.FragmentAccountBinding
 import com.example.authenticateuserandpass.ui.account.viewprofile.ViewProfileActivity

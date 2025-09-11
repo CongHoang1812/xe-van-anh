@@ -9,7 +9,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
-import com.example.authenticateuserandpass.MainActivity
+import com.example.authenticateuserandpass.ui.MainActivity
 import com.example.authenticateuserandpass.R
 import com.example.authenticateuserandpass.databinding.ActivitySettingsAdminsBinding
 import com.google.firebase.auth.FirebaseAuth

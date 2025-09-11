@@ -1,23 +1,19 @@
-@file:Suppress("DEPRECATION")
+package com.example.authenticateuserandpass.ui
 
-package com.example.authenticateuserandpass
-
-
-
-import com.facebook.FacebookCallback
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.View
-import android.widget.*
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.example.authenticateuserandpass.ui.HomeActivity
+import com.example.authenticateuserandpass.R
 import com.example.authenticateuserandpass.databinding.ActivityMainBinding
-import com.example.authenticateuserandpass.data.model.user.User
-import com.example.authenticateuserandpass.ui.InputInfoActivity
 import com.example.authenticateuserandpass.ui.a_admin_ui.HomeAdminActivity
 import com.example.authenticateuserandpass.ui.a_main_driver_ui.home.HomeMainDriverActivity
 import com.example.authenticateuserandpass.ui.a_shuttle_driver_ui.home.HomeShuttleDriverActivity
@@ -25,6 +21,8 @@ import com.example.authenticateuserandpass.ui.a_shuttle_driver_ui.login.LoginAct
 import com.example.authenticateuserandpass.ui.loginWithPhoneNumber.EnterPhoneNumberActivity
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -33,12 +31,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.Firebase
 import com.google.firebase.auth.AuthCredential
-import com.facebook.FacebookException
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.firestore
-import kotlin.jvm.java
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -67,7 +63,8 @@ class MainActivity : AppCompatActivity() {
 
         // This callback is registered with LoginManager and invoked by CallbackManager
         // after it processes the result from onActivityResult.
-        LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+        LoginManager.Companion.getInstance().registerCallback(callbackManager, object :
+            FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 Log.d("FacebookLogin", "Facebook SDK onSuccess: ${loginResult.accessToken.token}")
                 handleFacebookAccessTokenWithFirebase(loginResult.accessToken)
@@ -126,7 +123,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Vui lòng nhập email và mật khẩu", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 binding.edtEmail.error = "Địa chỉ email không hợp lệ" // Set error directly on EditText
                 return@setOnClickListener
             }
@@ -148,10 +145,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.customFbButton.setOnClickListener {
-            if (AccessToken.getCurrentAccessToken() != null) {
-                LoginManager.getInstance().logOut()
+            if (AccessToken.Companion.getCurrentAccessToken() != null) {
+                LoginManager.Companion.getInstance().logOut()
             }
-            LoginManager.getInstance().logInWithReadPermissions(this,
+            LoginManager.Companion.getInstance().logInWithReadPermissions(this,
                 callbackManager,
                 listOf("email", "public_profile"))
         }
@@ -284,9 +281,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun handleFacebookAccessTokenWithFirebase(token: com.facebook.AccessToken) {
-        if (AccessToken.getCurrentAccessToken() != null) {
-            LoginManager.getInstance().logOut()
+    private fun handleFacebookAccessTokenWithFirebase(token: AccessToken) {
+        if (AccessToken.Companion.getCurrentAccessToken() != null) {
+            LoginManager.Companion.getInstance().logOut()
         }
         Log.d("FacebookLogin", "Firebase Auth: Handling Facebook Access Token")
         binding.progressBar.visibility = View.VISIBLE

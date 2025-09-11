@@ -16,7 +16,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
-import com.example.authenticateuserandpass.HomeActivity
+import com.example.authenticateuserandpass.ui.HomeActivity
 import com.example.authenticateuserandpass.R
 import com.example.authenticateuserandpass.data.model.TicketFilter
 import com.example.authenticateuserandpass.data.model.trip.Trip

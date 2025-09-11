@@ -21,7 +21,7 @@ class PassengerRepositoryImpl : PassengerRepository {
     override suspend fun getPassengersByTripId(tripId: String, callback: ResultCallback<Result<List<Passenger>>>) {
         bookingsCollection
             .whereEqualTo("trip_id", tripId)
-            .whereIn("status", listOf("confirmed", "pending", "Chưa đi", "Đã đón"))
+            .whereIn("status", listOf("confirmed", "pending", "Chưa đi", "Đã đón", "Đã đi"))
             .get()
             .addOnSuccessListener { bookingDocuments ->
                 if (bookingDocuments.isEmpty) {

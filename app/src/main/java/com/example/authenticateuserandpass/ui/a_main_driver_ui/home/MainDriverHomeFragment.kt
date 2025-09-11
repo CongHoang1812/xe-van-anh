@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.authenticateuserandpass.R
 import com.example.authenticateuserandpass.data.repository.trip.TripRepositoryImpl
 import com.example.authenticateuserandpass.databinding.FragmentMainDriverHomeBinding
@@ -24,12 +25,20 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
+import kotlin.random.Random
 
 class MainDriverHomeFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var mapFragment: SupportMapFragment
     private lateinit var binding: FragmentMainDriverHomeBinding
     private lateinit var viewModel: TripViewModel
+
+    companion object {
+        @JvmStatic
+        var currentTripId: String? = null
+            private set
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +67,7 @@ class MainDriverHomeFragment : Fragment() {
         viewModel.nextTrip.observe(viewLifecycleOwner) { tripInfo ->
             tripInfo.let {
                 Log.d("MainDriverHomeFragment", "tripInfo: $it")
+                currentTripId = it.tripId
                 binding.tvRoute.text = it.routeName
                 binding.tvCountDownTimeHour.text = it.hoursLeft.toString()
                 binding.tvMainDriverHomeOrigin.text = it.origin
@@ -65,8 +75,18 @@ class MainDriverHomeFragment : Fragment() {
 
             }
         }
+        setupTripInfoClick()
         showMap()
 
+    }
+    private fun setupTripInfoClick() {
+        binding.tripInfo.setOnClickListener {
+            try {
+                findNavController().navigate(R.id.action_nav_1_to_myMapFragment2)
+            } catch (e: Exception) {
+                Log.e("MainDriverHomeFragment", "Navigation error: ${e.message}")
+            }
+        }
     }
 
     private fun showMap() {

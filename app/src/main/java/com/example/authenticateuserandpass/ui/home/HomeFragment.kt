@@ -18,7 +18,7 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.example.authenticateuserandpass.HomeActivity
+import com.example.authenticateuserandpass.ui.HomeActivity
 import com.example.authenticateuserandpass.R
 import com.example.authenticateuserandpass.data.firebaseModel.HotService
 import com.example.authenticateuserandpass.data.firebaseModel.RouteCardData

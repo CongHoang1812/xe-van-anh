@@ -22,8 +22,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.example.authenticateuserandpass.HomeActivity
-import com.example.authenticateuserandpass.MainActivity
+import com.example.authenticateuserandpass.ui.HomeActivity
+import com.example.authenticateuserandpass.ui.MainActivity
 import com.example.authenticateuserandpass.R
 import com.example.authenticateuserandpass.data.model.booking.Booking
 import com.example.authenticateuserandpass.data.model.payment.Payment
@@ -189,7 +189,7 @@ class ChoosePaymentActivity : AppCompatActivity() {
                             cancelPaymentTimeout()
 
                             // Xóa booking và payment tạm thời
-                            deleteTempBookingAndPayment()
+                            //deleteTempBookingAndPayment()
 
                             val intent = Intent(this@ChoosePaymentActivity, PaymentNotification::class.java)
                             intent.putExtra("payment_status", "canceled")
@@ -208,7 +208,7 @@ class ChoosePaymentActivity : AppCompatActivity() {
                             cancelPaymentTimeout()
 
                             // Xóa booking và payment tạm thời
-                            deleteTempBookingAndPayment()
+                            //deleteTempBookingAndPayment()
 
                             val intent = Intent(this@ChoosePaymentActivity, PaymentNotification::class.java)
                             intent.putExtra("payment_status", "error")
@@ -223,7 +223,7 @@ class ChoosePaymentActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
             // Nếu có lỗi tạo order, cũng xóa booking tạm thời
-            deleteTempBookingAndPayment()
+            //deleteTempBookingAndPayment()
         }
     }
 
@@ -478,7 +478,7 @@ class ChoosePaymentActivity : AppCompatActivity() {
                 user_id = userId,
                 trip_id = trip.id,
                 seat_id = seat,
-                status = "Chờ thanh toán", // Trạng thái tạm thời
+                status = "Chưa đi", // Trạng thái tạm thời
                 pickup_location = pickupLocation,
                 dropoff_location = dropoffLocation,
                 note = note,

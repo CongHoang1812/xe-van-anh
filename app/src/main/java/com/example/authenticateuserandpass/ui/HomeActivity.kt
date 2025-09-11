@@ -1,9 +1,8 @@
-package com.example.authenticateuserandpass
+package com.example.authenticateuserandpass.ui
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -11,9 +10,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.example.authenticateuserandpass.R
 import com.example.authenticateuserandpass.databinding.ActivityHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
 
 class HomeActivity : AppCompatActivity()
 {

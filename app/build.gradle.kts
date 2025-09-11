@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.room)
     alias(libs.plugins.safe.args)
     id ("kotlin-parcelize")
+    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 
 }
 
@@ -93,10 +94,12 @@ dependencies {
     implementation ("androidx.fragment:fragment-ktx:1.8.9")
     implementation ("com.google.android.material:material:1.14.0-alpha03")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-
+    implementation("com.airbnb.android:lottie:6.6.7")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation("com.google.maps.android:android-maps-utils:2.3.0")
+    implementation("com.github.vipulasri:timelineview:1.1.5")
 
     implementation(libs.play.services.auth)
     implementation(platform(libs.firebase.bom))

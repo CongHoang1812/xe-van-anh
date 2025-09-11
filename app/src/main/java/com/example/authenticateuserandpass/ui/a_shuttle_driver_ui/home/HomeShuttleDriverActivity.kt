@@ -10,7 +10,7 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager2.widget.ViewPager2
-import com.example.authenticateuserandpass.MainActivity
+import com.example.authenticateuserandpass.ui.MainActivity
 import com.example.authenticateuserandpass.R
 import com.example.authenticateuserandpass.databinding.ActivityHomeShuttleDriverBinding
 import com.example.authenticateuserandpass.ui.a_shuttle_driver_ui.home.adapter.ViewPagerAdapter

@@ -61,13 +61,6 @@
             android:textColor="@color/darkGrey"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
-        <TextView
-            android:id="@+id/tvBusType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Xe: Limousine giường nằm"
-            android:textColor="@color/darkGrey"
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
         <TextView
             android:id="@+id/tvSeat"
@@ -84,6 +77,23 @@
             android:layout_height="wrap_content"
             android:paddingTop="4dp"
             android:text="Hà Nội - Thanh Hoá"
+            android:textColor="@color/darkGrey"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
+        <TextView
+            android:id="@+id/tv_driver_pickup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:text="Trung chuyển đón: Chưa gán"
+            android:textColor="@color/darkGrey"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+        <TextView
+            android:id="@+id/tv_driver_dropoff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:text="Trung chuyển trả: Chưa gán"
             android:textColor="@color/darkGrey"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 

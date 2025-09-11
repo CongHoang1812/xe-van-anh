@@ -49,13 +49,18 @@ class TicketAdapter(
 
                 tvDateTime.text = "Khởi hành: ${tripDetails.trip.departure_time} ${tripDetails.trip.trip_date}"
 
-                tvBusType.text = "Xe: ${tripDetails.bus.license_plate} (${tripDetails.bus.seat_count} ghế)"
+                //tvBusType.text = "Xe: ${tripDetails.bus.license_plate} (${tripDetails.bus.seat_count} ghế)"
 
                 tvSeat.text = "Ghế: ${tripDetails.booking.seat_id}"
 
                 tvRoute.text = "${tripDetails.route.origin} - ${tripDetails.route.destination}"
 
-                tvPrice.text = "Giá: ${tripDetails.trip.ticket_price}đ"
+                tvPrice.text = "Giá: ${tripDetails.trip.ticket_price}.000 vnđ"
+                if(tripDetails.booking.shuttle_driver_id  != ""){
+                    tvDriverPickup.text = "Trung chuyển đón: ${tripDetails.user.name} - ${tripDetails.user.phone}"
+                }else{
+                    tvDriverPickup.text = "Trung chuyển đón: Chưa gán"
+                }
 
                 setChipColors(chipStatus, tripDetails.payment?.status)
 

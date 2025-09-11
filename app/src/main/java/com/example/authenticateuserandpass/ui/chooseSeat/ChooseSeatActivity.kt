@@ -22,7 +22,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.authenticateuserandpass.HomeActivity
+import com.example.authenticateuserandpass.ui.HomeActivity
 import com.example.authenticateuserandpass.R
 import com.example.authenticateuserandpass.data.model.booking.Booking
 import com.example.authenticateuserandpass.data.model.trip.Trip

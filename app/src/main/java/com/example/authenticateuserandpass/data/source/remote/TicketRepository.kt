@@ -8,6 +8,9 @@ import com.example.authenticateuserandpass.data.model.route.Route
 import com.example.authenticateuserandpass.data.model.trip.Trip
 import com.example.authenticateuserandpass.data.model.user.User
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
 import kotlin.text.get
 
@@ -20,35 +23,96 @@ class TicketRepository {
     private val busesCollection = firestore.collection("buses")
     private val paymentsCollection = firestore.collection("payments")
 
-    suspend fun getAllBookingsWithDetails(): List<TripDetails> {
-        return try {
+    suspend fun getAllBookingsWithDetails(): List<TripDetails> = coroutineScope {
+        try {
+            // 1. Lấy tất cả Booking
             val bookings = bookingsCollection.get().await().toObjects(Booking::class.java)
             Log.d("TicketRepository", "Found ${bookings.size} bookings")
+
+            // 2. Map từng booking sang TripDetails
             bookings.mapNotNull { booking ->
-                val trip = getTrip(booking.trip_id)
-                val route = trip?.let { getRoute(it.route_id) }
-                val user = getUser(booking.user_id)
-                val bus = trip?.let { getBus(it.bus_id) }
-                val payment = getPayment(booking.id)
-                if (trip != null) {
-                    TripDetails(
-                        booking = booking,
-                        user = user ?: User(),
-                        trip = trip,
-                        route = route ?: Route(),
-                        bus = bus ?: Bus(),
-                        payment = payment
-                    )
-                } else null
-            }
+                async {
+                    // 3. Fetch Trip, User, Payment song song
+                    val tripDeferred = async { getTrip(booking.trip_id) }
+                    val userDeferred = async { getUser(booking.user_id) }
+                    val paymentDeferred = async { getPayment(booking.id) }
+
+                    val trip = tripDeferred.await()
+                    val user = userDeferred.await()
+                    val payment = paymentDeferred.await()
+
+                    // 4. Fetch Route và Bus nếu Trip tồn tại
+                    val routeDeferred = trip?.let { async { getRoute(it.route_id) } }
+                    val busDeferred = trip?.let { async { getBus(it.bus_id) } }
+
+                    val route = routeDeferred?.await()
+                    val bus = busDeferred?.await()
+
+                    // 5. Tạo TripDetails nếu Trip tồn tại
+                    if (trip != null) {
+                        TripDetails(
+                            booking = booking,
+                            user = user ?: User(),
+                            trip = trip,
+                            route = route ?: Route(),
+                            bus = bus ?: Bus(),
+                            payment = payment
+                        )
+                    } else null
+                }
+            }.awaitAll() // Chờ tất cả async hoàn thành
         } catch (e: Exception) {
             Log.e("TicketRepository", "Error loading all bookings: ${e.message}")
             emptyList()
-        }
+        } as List<TripDetails>
     }
 
-    suspend fun getBookingsByDate(date: String): List<TripDetails> {
-        return try {
+//    suspend fun getBookingsByDate(date: String): List<TripDetails> {
+//        return try {
+//            Log.d("TicketRepository", "Searching bookings for date: $date")
+//
+//            // Chuyển date thành range để query
+//            val searchDate = convertDateFormat(date) // "09/08/2025" -> "2025-08-09"
+//            val startOfDay = "$searchDate 00:00:00"
+//            val endOfDay = "$searchDate 23:59:59"
+//
+//            Log.d("TicketRepository", "Searching from $startOfDay to $endOfDay")
+//
+//            val bookings = bookingsCollection
+//                .whereGreaterThanOrEqualTo("book_at", startOfDay)
+//                .whereLessThanOrEqualTo("book_at", endOfDay)
+//                .get()
+//                .await()
+//                .toObjects(Booking::class.java)
+//
+//            Log.d("TicketRepository", "Found ${bookings.size} bookings for date $date")
+//
+//            bookings.mapNotNull { booking ->
+//                val trip = getTrip(booking.trip_id)
+//                val route = trip?.let { getRoute(it.route_id) }
+//                val user = getUser(booking.user_id)
+//                val bus = trip?.let { getBus(it.bus_id) }
+//                val payment = getPayment(booking.id)
+//
+//                if (trip != null) {
+//                    TripDetails(
+//                        booking = booking,
+//                        user = user ?: User(),
+//                        trip = trip,
+//                        route = route ?: Route(),
+//                        bus = bus ?: Bus(),
+//                        payment = payment
+//                    )
+//                } else null
+//            }
+//        } catch (e: Exception) {
+//            Log.e("TicketRepository", "Error loading bookings by date: ${e.message}")
+//            emptyList()
+//        }
+//    }
+
+    suspend fun getBookingsByDate(date: String): List<TripDetails> = coroutineScope {
+        try {
             Log.d("TicketRepository", "Searching bookings for date: $date")
 
             // Chuyển date thành range để query
@@ -67,28 +131,41 @@ class TicketRepository {
 
             Log.d("TicketRepository", "Found ${bookings.size} bookings for date $date")
 
+            // Map từng booking sang TripDetails song song
             bookings.mapNotNull { booking ->
-                val trip = getTrip(booking.trip_id)
-                val route = trip?.let { getRoute(it.route_id) }
-                val user = getUser(booking.user_id)
-                val bus = trip?.let { getBus(it.bus_id) }
-                val payment = getPayment(booking.id)
+                async {
+                    // Song song fetch Trip, User, Payment
+                    val tripDeferred = async { getTrip(booking.trip_id) }
+                    val userDeferred = async { getUser(booking.user_id) }
+                    val paymentDeferred = async { getPayment(booking.id) }
 
-                if (trip != null) {
-                    TripDetails(
-                        booking = booking,
-                        user = user ?: User(),
-                        trip = trip,
-                        route = route ?: Route(),
-                        bus = bus ?: Bus(),
-                        payment = payment
-                    )
-                } else null
-            }
+                    val trip = tripDeferred.await()
+                    val user = userDeferred.await()
+                    val payment = paymentDeferred.await()
+
+                    // Song song fetch Route và Bus nếu Trip tồn tại
+                    val routeDeferred = trip?.let { async { getRoute(it.route_id) } }
+                    val busDeferred = trip?.let { async { getBus(it.bus_id) } }
+
+                    val route = routeDeferred?.await()
+                    val bus = busDeferred?.await()
+
+                    if (trip != null) {
+                        TripDetails(
+                            booking = booking,
+                            user = user ?: User(),
+                            trip = trip,
+                            route = route ?: Route(),
+                            bus = bus ?: Bus(),
+                            payment = payment
+                        )
+                    } else null
+                }
+            }.awaitAll() // Chờ tất cả async hoàn thành trước khi trả về
         } catch (e: Exception) {
             Log.e("TicketRepository", "Error loading bookings by date: ${e.message}")
             emptyList()
-        }
+        } as List<TripDetails>
     }
 
     private fun convertDateFormat(date: String): String {
@@ -152,36 +229,49 @@ class TicketRepository {
             false
         }
     }
-    private suspend fun getPayment(bookingId: String): Payment? {
-        return try {
-            Log.d("TicketRepository", "Getting payment for booking: $bookingId")
+//    private suspend fun getPayment(bookingId: String): Payment? {
+//        return try {
+//            Log.d("TicketRepository", "Getting payment for booking: $bookingId")
+//
+//            // Lấy tất cả payments và tìm payment chứa bookingId
+//            val allPayments = paymentsCollection
+//                .get()
+//                .await()
+//                .toObjects(Payment::class.java)
+//
+//            Log.d("TicketRepository", "Total payments found: ${allPayments.size}")
+//
+//            // Tìm payment có chứa bookingId trong chuỗi bookingId
+//            val payment = allPayments.find { payment ->
+//                val bookingIds = payment.bookingId.split(",").map { it.trim() }
+//                bookingIds.contains(bookingId)
+//            }
+//
+//            if (payment != null) {
+//                Log.d("TicketRepository", "Payment found - Status: ${payment.status}, BookingIds: ${payment.bookingId}")
+//            } else {
+//                Log.d("TicketRepository", "No payment found for booking $bookingId")
+//            }
+//
+//            payment
+//        } catch (e: Exception) {
+//            Log.e("TicketRepository", "Error getting payment for booking $bookingId: ${e.message}")
+//            null
+//        }
+//    }
+private suspend fun getPayment(bookingId: String): Payment? {
+    return try {
+        val snapshot = paymentsCollection
+            .whereEqualTo("bookingId", bookingId)
+            .get()
+            .await()
 
-            // Lấy tất cả payments và tìm payment chứa bookingId
-            val allPayments = paymentsCollection
-                .get()
-                .await()
-                .toObjects(Payment::class.java)
-
-            Log.d("TicketRepository", "Total payments found: ${allPayments.size}")
-
-            // Tìm payment có chứa bookingId trong chuỗi bookingId
-            val payment = allPayments.find { payment ->
-                val bookingIds = payment.bookingId.split(",").map { it.trim() }
-                bookingIds.contains(bookingId)
-            }
-
-            if (payment != null) {
-                Log.d("TicketRepository", "Payment found - Status: ${payment.status}, BookingIds: ${payment.bookingId}")
-            } else {
-                Log.d("TicketRepository", "No payment found for booking $bookingId")
-            }
-
-            payment
-        } catch (e: Exception) {
-            Log.e("TicketRepository", "Error getting payment for booking $bookingId: ${e.message}")
-            null
-        }
+        snapshot.documents.firstOrNull()?.toObject(Payment::class.java)
+    } catch (e: Exception) {
+        Log.e("TicketRepository", "Error getting payment for $bookingId: ${e.message}")
+        null
     }
+}
     suspend fun updatePaymentStatus(bookingId: String, newStatus: String): Boolean {
         return try {
             Log.d("TicketRepository", "Updating payment status for booking: $bookingId to: $newStatus")

@@ -20,7 +20,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.authenticateuserandpass.HomeActivity
+import com.example.authenticateuserandpass.ui.HomeActivity
 import com.example.authenticateuserandpass.R
 import com.example.authenticateuserandpass.data.model.placeSuggestion.PlaceSuggestion
 import com.example.authenticateuserandpass.data.model.trip.Trip
