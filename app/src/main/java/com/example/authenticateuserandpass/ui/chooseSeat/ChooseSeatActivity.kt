@@ -138,7 +138,7 @@ class ChooseSeatActivity : AppCompatActivity(), MenuProvider {
                 for (document in querySnapshot.documents) {
                     val seatId = document.getString("seat_id")
                     val status = document.getString("status")
-                    if (seatId != null && status == "Chưa đi") {
+                    if (seatId != null ) {
                         bookedSeats.add(seatId)
                     }
                 }

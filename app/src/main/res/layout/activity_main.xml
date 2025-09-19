@@ -4,20 +4,18 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="#FFFFFF">
 
     <ImageView
         android:id="@+id/imageView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="100dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/bg_login" />
+        app:srcCompat="@drawable/vananh" />
 
     <EditText
         android:id="@+id/edtEmail"
@@ -184,8 +182,20 @@
         android:layout_marginEnd="2dp"
         android:text="@string/b_n_l_t_i_x_admin"
         android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-        android:textColor="@color/lightGrey2"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="@+id/custom_fb_button"
         app:layout_constraintTop_toBottomOf="@+id/custom_fb_button" />
+
+    <TextView
+        android:id="@+id/textView93"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Đăng nhập để sử dụng đầy đủ các tính năng"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:textColor="@color/darkGrey"
+        app:layout_constraintBottom_toTopOf="@+id/btnAuthWithPhoneNumber"
+        app:layout_constraintEnd_toEndOf="@+id/btnAuthWithPhoneNumber"
+        app:layout_constraintStart_toStartOf="@+id/btnAuthWithPhoneNumber" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

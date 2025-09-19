@@ -43,7 +43,7 @@ class DaHoanThanhFragment : Fragment() {
     }
     private fun loadComplete() {
         firestore.collection("bookings")
-            .whereEqualTo("shuttle_driver_id", shuttleDriverId)
+            .whereEqualTo("pickup_driver_id", shuttleDriverId)
             .whereIn("status", listOf("Đã đón", "Đã trả"))
             .addSnapshotListener { bookingSnap, error ->
                 if (error != null) {

@@ -12,6 +12,8 @@ import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import com.example.authenticateuserandpass.data.source.Result
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlin.text.set
 
 class TripManagementViewModel : ViewModel() {
 
@@ -47,6 +49,24 @@ class TripManagementViewModel : ViewModel() {
                 }
             })
         }
+
+    }
+
+    fun deleteTrip(trip: Trip, origin: String, destination: String, date: String) {
+        _isLoading.value = true
+        val tripId = trip.id
+        val db = FirebaseFirestore.getInstance()
+        db.collection("trip").document(tripId)
+            .delete()
+            .addOnSuccessListener {
+                _isLoading.value = false
+                // Reload trips after deletion
+                loadTrips(origin, destination, date)
+            }
+            .addOnFailureListener { e ->
+                _isLoading.value = false
+                _error.value = "Failed to delete trip: ${e.message}"
+            }
     }
 
     fun loadAllTrips(date: String) {
@@ -71,6 +91,26 @@ class TripManagementViewModel : ViewModel() {
             })
         }
     }
+
+
+    fun updateTrip(trip: Trip, origin: String, destination: String, date: String) {
+        _isLoading.value = true
+        val tripId = trip.id
+        val db = FirebaseFirestore.getInstance()
+        db.collection("trip").document(tripId)
+            .set(trip)
+            .addOnSuccessListener {
+                _isLoading.value = false
+                // Reload trips with provided params
+                loadTrips(origin, destination, date)
+            }
+            .addOnFailureListener { e ->
+                _isLoading.value = false
+                _error.value = "Failed to update trip: ${e.message}"
+            }
+    }
+
+
 
     fun clearError() {
         _error.value = ""

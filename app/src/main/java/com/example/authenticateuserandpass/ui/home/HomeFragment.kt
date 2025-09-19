@@ -5,12 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ScrollView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -18,21 +19,23 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.example.authenticateuserandpass.ui.HomeActivity
 import com.example.authenticateuserandpass.R
 import com.example.authenticateuserandpass.data.firebaseModel.HotService
 import com.example.authenticateuserandpass.data.firebaseModel.RouteCardData
 import com.example.authenticateuserandpass.data.firebaseModel.SliderModel
 import com.example.authenticateuserandpass.data.firebaseModel.SliderModel2
 import com.example.authenticateuserandpass.data.firebaseModel.UpdateNews
+import com.example.authenticateuserandpass.data.model.RecentRoute
 import com.example.authenticateuserandpass.data.model.user.User
 import com.example.authenticateuserandpass.databinding.FragmentHomeBinding
+import com.example.authenticateuserandpass.ui.HomeActivity
 import com.example.authenticateuserandpass.ui.chatbot.ChatbotBottomSheetFragment
 import com.example.authenticateuserandpass.ui.dialog.BottomSheetLocationFragment
 import com.example.authenticateuserandpass.ui.dialog.OnLocationSelectedListener
 import com.example.authenticateuserandpass.ui.findticket.FindTicketActivity
 import com.example.authenticateuserandpass.ui.home.adapter.HotServiceAdapter
 import com.example.authenticateuserandpass.ui.home.adapter.IntroduceAdapter
+import com.example.authenticateuserandpass.ui.home.adapter.RecentRouteAdapter
 import com.example.authenticateuserandpass.ui.home.adapter.RouteCardAdapter
 import com.example.authenticateuserandpass.ui.home.adapter.SliderAdapter
 import com.example.authenticateuserandpass.ui.home.adapter.UpdateNewAdapter
@@ -53,15 +56,21 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: MainViewModel by viewModels()
     val routeList = listOf(
-        RouteCardData("TP Thanh Hóa", "Hà Nội", R.drawable.ht_hn),
-        RouteCardData("Triệu Sơn", "Hà Nội", R.drawable.ts_hn),
-        RouteCardData("TP Thanh Hóa", "Hà Nội", R.drawable.ht_hn),
-        RouteCardData("Triệu Sơn", "Hà Nội", R.drawable.ts_hn),
-        RouteCardData("TP Thanh Hóa", "Hà Nội", R.drawable.ht_hn),
-        RouteCardData("Triệu Sơn", "Hà Nội", R.drawable.ts_hn),
-        RouteCardData("TP Thanh Hóa", "Hà Nội", R.drawable.ht_hn),
-        RouteCardData("Triệu Sơn", "Hà Nội", R.drawable.ts_hn),
-        RouteCardData("BX Nước Ngầm", "Thiệu Hóa", R.drawable.ts_hn)
+        RouteCardData("TP Thanh Hóa", "Hà Nội", R.drawable.xe),
+        RouteCardData("Triệu Sơn", "Hà Nội", R.drawable.xe2),
+        RouteCardData("TP Thanh Hóa", "Hà Nội", R.drawable.xe),
+        RouteCardData("Triệu Sơn", "Hà Nội", R.drawable.xe2),
+        RouteCardData("TP Thanh Hóa", "Hà Nội", R.drawable.xe),
+        RouteCardData("Triệu Sơn", "Hà Nội", R.drawable.xe2),
+        RouteCardData("TP Thanh Hóa", "Hà Nội", R.drawable.xe),
+        RouteCardData("Triệu Sơn", "Hà Nội", R.drawable.xe2),
+        RouteCardData("BX Nước Ngầm", "Thiệu Hóa", R.drawable.xe)
+    )
+    val routeList2 = listOf(
+        RecentRoute("15/09/2025", "Bến xe Giáp Bát", "TP Thanh Hóa"),
+        RecentRoute("16/09/2025", "BX Nước Ngầm", "TP Hồ Chí Minh"),
+        RecentRoute("17/09/2025", "Bến xe Phía Bắc", "BX Miền Tây"),
+        RecentRoute("18/09/2025", "Nha Trang", "Phan Thiết")
     )
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -163,7 +172,7 @@ class HomeFragment : Fragment() {
 
 
         // Bắt đầu slide ban đầu
-        sliderHandler.postDelayed(sliderRunnable, 5000)
+        sliderHandler.postDelayed(sliderRunnable, 10000)
         val compositePageTransformer=CompositePageTransformer().apply {
             addTransformer(MarginPageTransformer(40))
         }
@@ -237,6 +246,10 @@ class HomeFragment : Fragment() {
             intent.putExtra(EDIT_DEPARTURE_DATE,departureDate)
             intent.putExtra(EDIT_RETURN_DATE,returnDate)
             startActivity(intent)
+        }
+        binding.rvRecentSearch.adapter = RecentRouteAdapter(routeList2)
+        binding.includeToolbar.imageButton4.setOnClickListener {
+            binding.scrollView.post { binding.scrollView.fullScroll(ScrollView.FOCUS_UP) }
         }
     }
 

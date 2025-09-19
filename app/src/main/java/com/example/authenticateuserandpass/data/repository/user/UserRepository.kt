@@ -8,4 +8,5 @@ interface UserRepository {
     suspend fun getAllUsers(callback: ResultCallback<Result<List<User>>>)
     suspend fun getUserRole(userId: String, callback: ResultCallback<Result<User>>)
     suspend fun getAllMainDriver(callback: ResultCallback<Result<List<User>>>)
+    suspend fun getAllShuttleDriver(callback: ResultCallback<Result<List<User>>>)
 }

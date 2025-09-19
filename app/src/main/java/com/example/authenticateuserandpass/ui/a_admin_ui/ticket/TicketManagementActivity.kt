@@ -1,5 +1,6 @@
 package com.example.authenticateuserandpass.ui.a_admin_ui.ticket
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -21,6 +22,8 @@ import com.example.authenticateuserandpass.data.source.remote.TripDetails
 import com.example.authenticateuserandpass.databinding.ActivityTicketManagementBinding
 import com.example.authenticateuserandpass.ui.a_admin_ui.user.UserManagementActivity
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -67,6 +70,15 @@ class TicketManagementActivity : AppCompatActivity(), MenuProvider{
     }
     private fun setupRecyclerView() {
         ticketAdapter = TicketAdapter(
+            onItemClick = { tripDetails ->
+                // Mở activity gán tài xế
+                val intent = Intent(this, AssignDriverActivity::class.java)
+                intent.putExtra("pickup", tripDetails.booking.pickup_driver_id)
+                intent.putExtra("dropoff", tripDetails.booking.pickup_driver_id)
+                intent.putExtra("bookingId", tripDetails.booking.id)
+                // TripDetails phải Serializable hoặc Parcelable
+                startActivity(intent)
+            },
             onEditClick = { tripDetails ->
                 showUpdatePaymentStatusDialog(tripDetails)
             },
@@ -163,7 +175,7 @@ class TicketManagementActivity : AppCompatActivity(), MenuProvider{
 
     private fun setupDatePicker() {
         binding.btnSelectDate.setOnClickListener {
-            showDatePicker()
+            showTimePicker()
         }
 
         binding.etSelectedDate.setOnClickListener {
@@ -186,6 +198,28 @@ class TicketManagementActivity : AppCompatActivity(), MenuProvider{
             binding.etSelectedDate.setText(selectedDate)
             viewModel.loadTicketsByDate(selectedDate)
             Toast.makeText(this, "Ngày đã chọn: $selectedDate", Toast.LENGTH_SHORT).show()
+        }
+    }
+    private fun showTimePicker() {
+        val picker = MaterialTimePicker.Builder()
+            .setTitleText("Chọn thời gian")
+            .setHour(23)
+            .setMinute(0)
+            .setTimeFormat(TimeFormat.CLOCK_12H)
+            .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
+            .build()
+
+        picker.show(supportFragmentManager, "TIME_PICKER")
+
+        picker.addOnPositiveButtonClickListener {
+            val hour = picker.hour
+            val minute = picker.minute
+            val formattedTime = String.format("%02d:%02d", hour, minute)
+
+            Toast.makeText(this, "Thời gian đã chọn: $formattedTime", Toast.LENGTH_SHORT).show()
+
+            // Có thể set vào EditText hoặc xử lý theo nhu cầu
+            // binding.etSelectedTime.setText(formattedTime)
         }
     }
 

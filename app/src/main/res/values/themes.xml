@@ -18,20 +18,24 @@
         <item name="navigationIcon">@drawable/baseline_arrow_back_24</item>
     </style>
 
+<!--    <style name="ToolbarStyle2" parent="Widget.Material3.Toolbar">-->
+<!--        <item name="navigationIcon">@drawable/ic_menu_draw</item>-->
+<!--        <item name="colorPrimary">#FFF0EB</item>-->
+<!--    </style>-->
     <style name="ToolbarStyle2" parent="Widget.Material3.Toolbar">
         <item name="navigationIcon">@drawable/ic_menu_draw</item>
-        <item name="colorPrimary">#FFF0EB</item>
+        <item name="colorPrimary">@color/deep_purple_50</item>
     </style>
 
     <style name="ToolbarStyle3" parent="Widget.Material3.Toolbar">
         <item name="navigationIcon">@drawable/baseline_arrow_back_24</item>
-        <item name="colorPrimary">#FFFFFF</item>
+        <item name="colorPrimary">@color/deep_purple_50</item>
     </style>
 
 
     <style name="ToolbarStyle4" parent="Widget.Material3.Toolbar">
         <item name="navigationIcon">@drawable/ic_menu_draw</item>
-        <item name="colorPrimary">#FFFFFF</item>
+        <item name="colorPrimary">@color/deep_purple_50</item>
     </style>
 
 

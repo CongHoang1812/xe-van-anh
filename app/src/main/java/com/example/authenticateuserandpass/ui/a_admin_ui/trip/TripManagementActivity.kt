@@ -19,6 +19,7 @@ import com.example.authenticateuserandpass.R
 import com.example.authenticateuserandpass.data.model.trip.Trip
 import com.example.authenticateuserandpass.databinding.ActivityTripManagementBinding
 import com.example.authenticateuserandpass.ui.a_admin_ui.trip.addTrip.AddTripActivity
+import com.example.authenticateuserandpass.ui.dialog.DriverSelectionBottomSheet
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -129,8 +130,9 @@ class TripManagementActivity : AppCompatActivity() {
 
     private fun setupObservers() {
         viewModel.trips.observe(this) { trips ->
-            tripAdapter.updateTrips(trips)
-            updateTripInfo(trips)
+            val sortedTrips = trips.sortedBy { it.departure_time }
+            tripAdapter.updateTrips(sortedTrips)
+            updateTripInfo(sortedTrips)
         }
 
         viewModel.isLoading.observe(this) { isLoading ->
@@ -210,12 +212,31 @@ class TripManagementActivity : AppCompatActivity() {
     }
 
     private fun editTrip(trip: Trip) {
-        // TODO: Navigate to AddEditTripActivity with trip data
-        Toast.makeText(this, "Chỉnh sửa chuyến ${trip.departure_time}", Toast.LENGTH_SHORT).show()
+        val driverSelectionBottomSheet = DriverSelectionBottomSheet(
+            driverType = DriverSelectionBottomSheet.DriverType.MAIN,
+            onDriverSelected = { selectedDriver ->
+                // Update trip's main_driver_id
+                trip.main_driver_id = selectedDriver.uid
+
+                // Update the trip via ViewModel
+                viewModel.updateTrip(trip, currentOrigin, currentDestination, currentDate)
+
+
+                // Show success message
+                Toast.makeText(
+                    this,
+                    "Đã cập nhật tài xế: ${selectedDriver.name}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        )
+
+        driverSelectionBottomSheet.show(supportFragmentManager, "DriverSelectionBottomSheet")
     }
 
+
+
     private fun viewTripDetails(trip: Trip) {
-        // TODO: Navigate to TripDetailActivity
         Toast.makeText(this, "Xem chi tiết chuyến ${trip.departure_time}", Toast.LENGTH_SHORT).show()
     }
 
@@ -225,7 +246,8 @@ class TripManagementActivity : AppCompatActivity() {
             .setMessage("Bạn có chắc chắn muốn xóa chuyến đi lúc ${trip.departure_time}?")
             .setPositiveButton("Xóa") { _, _ ->
                 // TODO: Implement delete trip API call
-                Toast.makeText(this, "Chức năng xóa chuyến đi đang được phát triển", Toast.LENGTH_SHORT).show()
+                viewModel.deleteTrip(trip, currentOrigin, currentDestination, currentDate)
+                Toast.makeText(this, "Đã xoá chuyến đi", Toast.LENGTH_SHORT).show()
             }
             .setNegativeButton("Hủy", null)
             .show()

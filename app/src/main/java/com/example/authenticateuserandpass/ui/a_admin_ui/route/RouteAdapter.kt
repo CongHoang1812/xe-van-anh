@@ -19,8 +19,8 @@ class RouteAdapter(
             binding.apply {
                 tvStartPoint.text = route.origin
                 tvEndPoint.text = route.destination
-                tvDistance.text = route.distance
-                tvDuration.text = route.duration
+                tvDistance.text = "${route.distance} km"
+                tvDuration.text = "${route.duration} phút"
                 tvTripsPerDay.text = route.tripsPerDay.toString()
 
                 btnEdit.setOnClickListener { onEditClick(route) }

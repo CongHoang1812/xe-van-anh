@@ -33,7 +33,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import kotlin.compareTo
 import kotlin.div
+import kotlin.plus
 import kotlin.ranges.rangeTo
 import kotlin.text.get
 
@@ -180,15 +182,105 @@ class FindTicketActivity : AppCompatActivity(), MenuProvider{
         return sdf.format(calendar.time)
     }
 
+//    private fun searchTrips() {
+//        val tripDate = getTripDateForQuery()
+//
+//        if (!origin.isNullOrEmpty() && !destination.isNullOrEmpty()) {
+//            viewModel.loadTrips(
+//                origin = origin!!,
+//                destination = destination!!,
+//                tripDate = tripDate
+//            )
+//        }
+//    }
+
     private fun searchTrips() {
         val tripDate = getTripDateForQuery()
-
         if (!origin.isNullOrEmpty() && !destination.isNullOrEmpty()) {
             viewModel.loadTrips(
                 origin = origin!!,
                 destination = destination!!,
                 tripDate = tripDate
             )
+
+            viewModel.tickets.observe(this) { tickets ->
+                val today = Calendar.getInstance()
+                val selected = Calendar.getInstance()
+                selected.time = calendar.time
+
+                val isToday = today.get(Calendar.YEAR) == selected.get(Calendar.YEAR) &&
+                        today.get(Calendar.DAY_OF_YEAR) == selected.get(Calendar.DAY_OF_YEAR)
+
+                val filteredTickets = if (isToday) {
+                    val currentMinutes = today.get(Calendar.HOUR_OF_DAY) * 60 + today.get(Calendar.MINUTE)
+                    tickets.filter { trip ->
+                        val departureMinutes = timeToMinutes(trip.departure_time)
+                        departureMinutes - currentMinutes >= 120
+                    }.sortedBy { timeToMinutes(it.departure_time) }
+                } else {
+                    tickets.sortedBy { timeToMinutes(it.departure_time) }
+                }
+
+                ticketAdapter.updateTickets(filteredTickets)
+                binding.progressBar3.visibility = View.GONE
+            }
+        }
+    }
+
+
+
+    private fun searchTripsWithFilter(filter: TicketFilter) {
+        binding.progressBar3.visibility = View.VISIBLE
+
+        val allTrips = viewModel.tickets.value ?: emptyList()
+        val now = Calendar.getInstance()
+        val currentMinutes = now.get(Calendar.HOUR_OF_DAY) * 60 + now.get(Calendar.MINUTE)
+
+        val filteredTrips = mutableListOf<Trip>()
+        var processedCount = 0
+        val totalCount = allTrips.size
+
+        if (totalCount == 0) {
+            updateTripsDisplay(emptyList())
+            return
+        }
+
+        for (trip in allTrips) {
+            val departureMinutes = timeToMinutes(trip.departure_time)
+
+            // Skip trips departing less than 2 hours from now
+            if (departureMinutes - currentMinutes < 120) {
+                processedCount++
+                if (processedCount == totalCount) {
+                    updateTripsDisplay(filteredTrips.sortedBy { timeToMinutes(it.departure_time) })
+                }
+                continue
+            }
+
+            // Apply other filters (price, time range, seats)
+            if (trip.ticket_price.toInt() in (filter.priceMin / 1000)..(filter.priceMax / 1000)) {
+                if (departureMinutes in filter.timeStart..filter.timeEnd) {
+                    checkAvailableSeats(trip) { availableSeats ->
+                        processedCount++
+                        if (availableSeats in filter.seatsMin..filter.seatsMax) {
+                            filteredTrips.add(trip)
+                        }
+                        if (processedCount == totalCount) {
+                            updateTripsDisplay(filteredTrips.sortedBy { timeToMinutes(it.departure_time) })
+                        }
+                    }
+                } else {
+                    processedCount++
+                    if (processedCount == totalCount) {
+                        updateTripsDisplay(filteredTrips.sortedBy { timeToMinutes(it.departure_time) })
+                    }
+                }
+            } else {
+                processedCount++
+                if (processedCount == totalCount) {
+                    updateTripsDisplay(filteredTrips.sortedBy { timeToMinutes(it.departure_time) })
+                }
+            }
         }
     }
 
@@ -234,55 +326,55 @@ class FindTicketActivity : AppCompatActivity(), MenuProvider{
         // Snackbar.make(binding.root, filterInfo, Snackbar.LENGTH_LONG).show()
     }
 
-    private fun searchTripsWithFilter(filter: TicketFilter) {
-        binding.progressBar3.visibility = View.VISIBLE
-
-        // Lấy data từ viewModel thay vì query lại DB
-        val allTrips = viewModel.tickets.value ?: emptyList()
-        val filteredTrips = mutableListOf<Trip>()
-        var processedCount = 0
-        val totalCount = allTrips.size
-
-        if (totalCount == 0) {
-            updateTripsDisplay(emptyList())
-            return
-        }
-
-        for (trip in allTrips) {
-            // Lọc theo giá vé
-            if (trip.ticket_price.toInt() in (filter.priceMin / 1000)..(filter.priceMax / 1000)) {
-
-                // Lọc theo thời gian
-                val departureMinutes = timeToMinutes(trip.departure_time)
-                if (departureMinutes in filter.timeStart..filter.timeEnd) {
-
-                    // Lọc theo số ghế trống
-                    checkAvailableSeats(trip) { availableSeats ->
-                        processedCount++
-
-                        if (availableSeats in filter.seatsMin..filter.seatsMax) {
-                            filteredTrips.add(trip)
-                        }
-
-                        // Cập nhật UI khi đã xử lý xong tất cả
-                        if (processedCount == totalCount) {
-                            updateTripsDisplay(filteredTrips)
-                        }
-                    }
-                } else {
-                    processedCount++
-                    if (processedCount == totalCount) {
-                        updateTripsDisplay(filteredTrips)
-                    }
-                }
-            } else {
-                processedCount++
-                if (processedCount == totalCount) {
-                    updateTripsDisplay(filteredTrips)
-                }
-            }
-        }
-    }
+//    private fun searchTripsWithFilter(filter: TicketFilter) {
+//        binding.progressBar3.visibility = View.VISIBLE
+//
+//        // Lấy data từ viewModel thay vì query lại DB
+//        val allTrips = viewModel.tickets.value ?: emptyList()
+//        val filteredTrips = mutableListOf<Trip>()
+//        var processedCount = 0
+//        val totalCount = allTrips.size
+//
+//        if (totalCount == 0) {
+//            updateTripsDisplay(emptyList())
+//            return
+//        }
+//
+//        for (trip in allTrips) {
+//            // Lọc theo giá vé
+//            if (trip.ticket_price.toInt() in (filter.priceMin / 1000)..(filter.priceMax / 1000)) {
+//
+//                // Lọc theo thời gian
+//                val departureMinutes = timeToMinutes(trip.departure_time)
+//                if (departureMinutes in filter.timeStart..filter.timeEnd) {
+//
+//                    // Lọc theo số ghế trống
+//                    checkAvailableSeats(trip) { availableSeats ->
+//                        processedCount++
+//
+//                        if (availableSeats in filter.seatsMin..filter.seatsMax) {
+//                            filteredTrips.add(trip)
+//                        }
+//
+//                        // Cập nhật UI khi đã xử lý xong tất cả
+//                        if (processedCount == totalCount) {
+//                            updateTripsDisplay(filteredTrips)
+//                        }
+//                    }
+//                } else {
+//                    processedCount++
+//                    if (processedCount == totalCount) {
+//                        updateTripsDisplay(filteredTrips)
+//                    }
+//                }
+//            } else {
+//                processedCount++
+//                if (processedCount == totalCount) {
+//                    updateTripsDisplay(filteredTrips)
+//                }
+//            }
+//        }
+//    }
 
     private fun timeToMinutes(time: String): Int {
         val parts = time.split(":")

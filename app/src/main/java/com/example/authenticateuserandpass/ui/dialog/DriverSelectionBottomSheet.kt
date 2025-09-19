@@ -18,8 +18,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
 
 class DriverSelectionBottomSheet(
+    private val driverType: DriverType,
     private val onDriverSelected: (User) -> Unit
 ) : BottomSheetDialogFragment() {
+
+    enum class DriverType { MAIN, SHUTTLE }
 
     private var _binding: FragmentDriverSelectionBottomSheetBinding? = null
     private val binding get() = _binding!!
@@ -41,7 +44,12 @@ class DriverSelectionBottomSheet(
 
         setupRecyclerView()
         setupClickListeners()
-        loadMainDrivers()
+        //loadMainDrivers()
+        //loadShuttleDrivers()
+        when (driverType) {
+            DriverType.MAIN -> loadMainDrivers()
+            DriverType.SHUTTLE -> loadShuttleDrivers()
+        }
     }
 
     private fun setupRecyclerView() {
@@ -73,6 +81,34 @@ class DriverSelectionBottomSheet(
 
         lifecycleScope.launch {
             userRepository.getAllMainDriver(object : ResultCallback<Result<List<User>>> {
+                override fun onResult(result: Result<List<User>>) {
+                    Log.d("DriverSelection", "Nhận kết quả từ UserRepository")
+
+                    when (result) {
+                        is Result.Success -> {
+                            Log.d("DriverSelection", "Success - Số lượng tài xế: ${result.data.size}")
+                            result.data.forEachIndexed { index, driver ->
+                                Log.d("DriverSelection", "Driver $index: ${driver.name}, role: ${driver.role}")
+                            }
+
+                            driverAdapter.updateDrivers(result.data)
+                            Log.d("DriverSelection", "Đã gọi updateDrivers() với ${result.data.size} tài xế")
+                        }
+                        is Result.Error -> {
+                            Log.e("DriverSelection", "Lỗi load danh sách tài xế: ${result.error.message}")
+                            Toast.makeText(context, "Không thể tải danh sách tài xế", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    private fun loadShuttleDrivers() {
+        Log.d("DriverSelection", "Bắt đầu load main drivers từ UserRepository...")
+
+        lifecycleScope.launch {
+            userRepository.getAllShuttleDriver(object : ResultCallback<Result<List<User>>> {
                 override fun onResult(result: Result<List<User>>) {
                     Log.d("DriverSelection", "Nhận kết quả từ UserRepository")
 

@@ -12,14 +12,11 @@ import com.example.authenticateuserandpass.data.model.trip.Trip
 import com.example.authenticateuserandpass.data.model.trip.TripList
 import com.example.authenticateuserandpass.data.model.user.User
 import com.example.authenticateuserandpass.data.source.Result
-import com.example.authenticateuserandpass.data.source.remote.TripDataSource
-import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
-import kotlin.text.get
 
 class RemoteTripDataSource : TripDataSource.Remote {
     private val db = FirebaseFirestore.getInstance()
@@ -227,7 +224,7 @@ class RemoteTripDataSource : TripDataSource.Remote {
     ) {
         db.collection("trip")
             .whereEqualTo("main_driver_id", mainDriverId)
-            .whereEqualTo("status", "chưa đi")
+            .whereEqualTo("status", "Chưa đi")
             .get()
             .addOnSuccessListener { tripSnapshots ->
                 val now = System.currentTimeMillis()
@@ -322,55 +319,129 @@ class RemoteTripDataSource : TripDataSource.Remote {
 
         var completedCount = 0
         for (trip in trips) {
-            // Lấy thông tin xe buýt để biết tổng số ghế
-            busesCollection.document(trip.bus_id)
-                .get()
-                .addOnSuccessListener { busDoc ->
-                    val bus = busDoc.toObject(Bus::class.java)
-                    val totalSeats = bus?.seat_count ?: 0
+            val busId = trip.bus_id
 
-                    // Lấy số lượng đặt chỗ để tính ghế còn trống
-                    db.collection("bookings")
-                        .whereEqualTo("trip_id", trip.id)
-                        //.whereIn("status", listOf("confirmed", "pending"))
-                        .get()
-                        .addOnSuccessListener { bookingDocs ->
-                            val bookedSeats = bookingDocs.size()
-                            trip.availableSeats = totalSeats - bookedSeats
+            if (busId.isNullOrBlank()) {
+                // Chưa gán bus -> giả định số ghế mặc định
+                val totalSeats = 24
+                db.collection("bookings")
+                    .whereEqualTo("trip_id", trip.id)
+                    .get()
+                    .addOnSuccessListener { bookingDocs ->
+                        val bookedSeats = bookingDocs.size()
+                        trip.availableSeats = totalSeats - bookedSeats
 
-                            completedCount++
-                            if (completedCount == trips.size) {
-                                onComplete()
-                            }
+                        completedCount++
+                        if (completedCount == trips.size) {
+                            onComplete()
                         }
-                }
+                    }
+            } else {
+                // Có bus_id -> lấy thông tin từ collection buses
+                busesCollection.document(busId)
+                    .get()
+                    .addOnSuccessListener { busDoc ->
+                        val bus = busDoc.toObject(Bus::class.java)
+                        val totalSeats = bus?.seat_count ?: 24
+
+                        db.collection("bookings")
+                            .whereEqualTo("trip_id", trip.id)
+                            .get()
+                            .addOnSuccessListener { bookingDocs ->
+                                val bookedSeats = bookingDocs.size()
+                                trip.availableSeats = totalSeats - bookedSeats
+
+                                completedCount++
+                                if (completedCount == trips.size) {
+                                    onComplete()
+                                }
+                            }
+                    }
+            }
         }
     }
 
-    override suspend fun getTripDetails(tripId: String, callback: ResultCallback<Result<TripDetails>>) {
+//    override suspend fun getTripDetails(tripId: String, callback: ResultCallback<Result<TripDetails>>) {
+//        Log.d("RemoteTripDataSource", "Bắt đầu getTripDetails với tripId=$tripId")
+//        tripsCollection.document(tripId).get()
+//            .addOnSuccessListener { tripDoc ->
+//                val trip = tripDoc.toObject(Trip::class.java)
+//                if (trip != null) {
+//                    // Lấy thông tin tuyến đường
+//                    routesCollection.document(trip.route_id).get()
+//                        .addOnSuccessListener { routeDoc ->
+//                            val route = routeDoc.toObject(Route::class.java)
+//
+//                            // Lấy thông tin xe buýt
+//                            busesCollection.document(trip.bus_id).get()
+//                                .addOnSuccessListener { busDoc ->
+//                                    val bus = busDoc.toObject(Bus::class.java)
+//
+//                                    val tripDetails = TripDetails(
+//                                        trip = trip,
+//                                        route = route ?: Route(),
+//                                        bus = bus ?: Bus()
+//                                    )
+//
+//                                    callback.onResult(Result.Success(tripDetails))
+//                                }
+//                        }
+//                } else {
+//                    callback.onResult(Result.Error(Exception("Trip not found")))
+//                }
+//            }
+//            .addOnFailureListener { e ->
+//                callback.onResult(Result.Error(e))
+//            }
+//    }
+
+    override suspend fun getTripDetails(
+        tripId: String,
+        callback: ResultCallback<Result<TripDetails>>
+    ) {
         Log.d("RemoteTripDataSource", "Bắt đầu getTripDetails với tripId=$tripId")
+
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+        if (currentUserId == null) {
+            callback.onResult(Result.Error(Exception("User not logged in")))
+            return
+        }
+
         tripsCollection.document(tripId).get()
             .addOnSuccessListener { tripDoc ->
                 val trip = tripDoc.toObject(Trip::class.java)
                 if (trip != null) {
+                    // Lọc theo main driver id
+                    if (trip.main_driver_id != currentUserId) {
+                        callback.onResult(Result.Error(Exception("Không có quyền xem trip này")))
+                        return@addOnSuccessListener
+                    }
+
                     // Lấy thông tin tuyến đường
                     routesCollection.document(trip.route_id).get()
                         .addOnSuccessListener { routeDoc ->
                             val route = routeDoc.toObject(Route::class.java)
 
-                            // Lấy thông tin xe buýt
-                            busesCollection.document(trip.bus_id).get()
-                                .addOnSuccessListener { busDoc ->
-                                    val bus = busDoc.toObject(Bus::class.java)
-
-                                    val tripDetails = TripDetails(
-                                        trip = trip,
-                                        route = route ?: Route(),
-                                        bus = bus ?: Bus()
-                                    )
-
-                                    callback.onResult(Result.Success(tripDetails))
-                                }
+                            // Kiểm tra nếu bus_id null hoặc rỗng thì không load bus
+                            if (trip.bus_id.isNullOrEmpty()) {
+                                val tripDetails = TripDetails(
+                                    trip = trip,
+                                    route = route ?: Route(),
+                                    bus = null // để trống
+                                )
+                                callback.onResult(Result.Success(tripDetails))
+                            } else {
+                                busesCollection.document(trip.bus_id).get()
+                                    .addOnSuccessListener { busDoc ->
+                                        val bus = busDoc.toObject(Bus::class.java)
+                                        val tripDetails = TripDetails(
+                                            trip = trip,
+                                            route = route ?: Route(),
+                                            bus = bus
+                                        )
+                                        callback.onResult(Result.Success(tripDetails))
+                                    }
+                            }
                         }
                 } else {
                     callback.onResult(Result.Error(Exception("Trip not found")))
@@ -381,6 +452,89 @@ class RemoteTripDataSource : TripDataSource.Remote {
             }
     }
 
+//    override suspend fun getUserTickets(
+//        userId: String,
+//        callback: ResultCallback<Result<List<UserTicket>>>
+//    ) {
+//        Log.d("RemoteTripDataSource", "🎫 Lấy vé của user: $userId")
+//
+//        bookingsCollection.whereEqualTo("user_id", userId)
+//            .get()
+//            .addOnSuccessListener { bookingSnapshots ->
+//                if (bookingSnapshots.isEmpty) {
+//                    callback.onResult(Result.Success(emptyList()))
+//                    return@addOnSuccessListener
+//                }
+//
+//                val userTickets = mutableListOf<UserTicket>()
+//                var processedCount = 0
+//
+//                for (bookingDoc in bookingSnapshots.documents) {
+//                    val bookingData = bookingDoc.data
+//                    val tripId = bookingData?.get("trip_id") as? String ?: ""
+//                    val bookingStatus = bookingData?.get("status") as? String ?: "Chưa đi"
+//                    val seatNumbers = bookingData?.get("seat_numbers") as? String ?: ""
+//
+//                    // Lấy thông tin trip
+//                    tripsCollection.document(tripId)
+//                        .get()
+//                        .addOnSuccessListener { tripDoc ->
+//                            val trip = tripDoc.toObject(Trip::class.java)
+//                            trip?.let { tripInfo ->
+//                                // Lấy thông tin route
+//                                routesCollection.document(tripInfo.route_id)
+//                                    .get()
+//                                    .addOnSuccessListener { routeDoc ->
+//                                        val route = routeDoc.toObject(Route::class.java)
+//
+//                                        // Lấy thông tin xe chính từ bảng buses
+//                                        busesCollection.document(tripInfo.bus_id)
+//                                            .get()
+//                                            .addOnSuccessListener { mainBusDoc ->
+//                                                val mainBus = mainBusDoc.toObject(Bus::class.java)
+//
+//                                                // Lấy thông tin tài xế chính từ bảng drivers (nếu có)
+//                                                if (!tripInfo.main_driver_id.isNullOrEmpty()) {
+//                                                    db.collection("drivers").document(tripInfo.main_driver_id)
+//                                                        .get()
+//                                                        .addOnSuccessListener { driverDoc ->
+//                                                            val driverData = driverDoc.data
+//                                                            val mainDriverName = driverData?.get("name") as? String ?: ""
+//                                                            val mainDriverPhone = driverData?.get("phone") as? String ?: ""
+//
+//                                                            // Lấy thông tin thanh toán
+//                                                            getPaymentStatusAndCreateTicket(
+//                                                                bookingDoc.id, bookingData, tripInfo, route,
+//                                                                mainBus, mainDriverName, mainDriverPhone,
+//                                                                mainBus?.id, tripInfo.main_driver_id,
+//                                                                userTickets, processedCount, bookingSnapshots.size(), callback
+//                                                            )
+//                                                        }
+//                                                        .addOnFailureListener {
+//                                                            // Tạo ticket mà không có thông tin tài xế
+//                                                            getPaymentStatusAndCreateTicket(
+//                                                                bookingDoc.id, bookingData, tripInfo, route,
+//                                                                mainBus, "", "",
+//                                                                mainBus?.id, tripInfo.main_driver_id,
+//                                                                userTickets, processedCount, bookingSnapshots.size(), callback
+//                                                            )
+//                                                        }
+//                                                } else {
+//                                                    // Không có main_driver_id
+//                                                    getPaymentStatusAndCreateTicket(
+//                                                        bookingDoc.id, bookingData, tripInfo, route,
+//                                                        mainBus, "", "",
+//                                                        mainBus?.id, tripInfo.main_driver_id,
+//                                                        userTickets, processedCount, bookingSnapshots.size(), callback
+//                                                    )
+//                                                }
+//                                            }
+//                                    }
+//                            }
+//                        }
+//                }
+//            }
+//    }
     override suspend fun getUserTickets(
         userId: String,
         callback: ResultCallback<Result<List<UserTicket>>>
@@ -416,48 +570,58 @@ class RemoteTripDataSource : TripDataSource.Remote {
                                     .addOnSuccessListener { routeDoc ->
                                         val route = routeDoc.toObject(Route::class.java)
 
-                                        // Lấy thông tin xe chính từ bảng buses
-                                        busesCollection.document(tripInfo.bus_id)
-                                            .get()
-                                            .addOnSuccessListener { mainBusDoc ->
-                                                val mainBus = mainBusDoc.toObject(Bus::class.java)
+                                        // Check bus_id có rỗng không
+                                        if (!tripInfo.bus_id.isNullOrEmpty()) {
+                                            busesCollection.document(tripInfo.bus_id)
+                                                .get()
+                                                .addOnSuccessListener { mainBusDoc ->
+                                                    val mainBus = mainBusDoc.toObject(Bus::class.java)
 
-                                                // Lấy thông tin tài xế chính từ bảng drivers (nếu có)
-                                                if (!tripInfo.main_driver_id.isNullOrEmpty()) {
-                                                    db.collection("drivers").document(tripInfo.main_driver_id)
-                                                        .get()
-                                                        .addOnSuccessListener { driverDoc ->
-                                                            val driverData = driverDoc.data
-                                                            val mainDriverName = driverData?.get("name") as? String ?: ""
-                                                            val mainDriverPhone = driverData?.get("phone") as? String ?: ""
+                                                    // Check main_driver_id có rỗng không
+                                                    if (!tripInfo.main_driver_id.isNullOrEmpty()) {
+                                                        db.collection("drivers").document(tripInfo.main_driver_id)
+                                                            .get()
+                                                            .addOnSuccessListener { driverDoc ->
+                                                                val driverData = driverDoc.data
+                                                                val mainDriverName = driverData?.get("name") as? String ?: ""
+                                                                val mainDriverPhone = driverData?.get("phone") as? String ?: ""
 
-                                                            // Lấy thông tin thanh toán
-                                                            getPaymentStatusAndCreateTicket(
-                                                                bookingDoc.id, bookingData, tripInfo, route,
-                                                                mainBus, mainDriverName, mainDriverPhone,
-                                                                mainBus?.id, tripInfo.main_driver_id,
-                                                                userTickets, processedCount, bookingSnapshots.size(), callback
-                                                            )
-                                                        }
-                                                        .addOnFailureListener {
-                                                            // Tạo ticket mà không có thông tin tài xế
-                                                            getPaymentStatusAndCreateTicket(
-                                                                bookingDoc.id, bookingData, tripInfo, route,
-                                                                mainBus, "", "",
-                                                                mainBus?.id, tripInfo.main_driver_id,
-                                                                userTickets, processedCount, bookingSnapshots.size(), callback
-                                                            )
-                                                        }
-                                                } else {
-                                                    // Không có main_driver_id
-                                                    getPaymentStatusAndCreateTicket(
-                                                        bookingDoc.id, bookingData, tripInfo, route,
-                                                        mainBus, "", "",
-                                                        mainBus?.id, tripInfo.main_driver_id,
-                                                        userTickets, processedCount, bookingSnapshots.size(), callback
-                                                    )
+                                                                // Tạo ticket có bus + driver
+                                                                getPaymentStatusAndCreateTicket(
+                                                                    bookingDoc.id, bookingData, tripInfo, route,
+                                                                    mainBus, mainDriverName, mainDriverPhone,
+                                                                    mainBus?.id, tripInfo.main_driver_id,
+                                                                    userTickets, processedCount, bookingSnapshots.size(), callback
+                                                                )
+                                                            }
+                                                            .addOnFailureListener {
+                                                                // Tạo ticket có bus nhưng không có driver
+                                                                getPaymentStatusAndCreateTicket(
+                                                                    bookingDoc.id, bookingData, tripInfo, route,
+                                                                    mainBus, "", "",
+                                                                    mainBus?.id, tripInfo.main_driver_id,
+                                                                    userTickets, processedCount, bookingSnapshots.size(), callback
+                                                                )
+                                                            }
+                                                    } else {
+                                                        // Không có driver
+                                                        getPaymentStatusAndCreateTicket(
+                                                            bookingDoc.id, bookingData, tripInfo, route,
+                                                            mainBus, "", "",
+                                                            mainBus?.id, tripInfo.main_driver_id,
+                                                            userTickets, processedCount, bookingSnapshots.size(), callback
+                                                        )
+                                                    }
                                                 }
-                                            }
+                                        } else {
+                                            // Không có bus_id -> bỏ qua bus
+                                            getPaymentStatusAndCreateTicket(
+                                                bookingDoc.id, bookingData, tripInfo, route,
+                                                null, "", "",
+                                                null, tripInfo.main_driver_id,
+                                                userTickets, processedCount, bookingSnapshots.size(), callback
+                                            )
+                                        }
                                     }
                             }
                         }
@@ -465,27 +629,54 @@ class RemoteTripDataSource : TripDataSource.Remote {
             }
     }
 
+//    override suspend fun addTrip(
+//        trip: Trip,
+//        callback: ResultCallback<Result<String>>
+//    ) {
+//        try {
+//            val tripData = hashMapOf(
+//                "route_id" to trip.route_id,
+//                "bus_id" to trip.bus_id,
+//                "main_driver_id" to trip.main_driver_id,
+//                "trip_date" to trip.trip_date,
+//                "departure_time" to trip.departure_time,
+//                "ticket_price" to trip.ticket_price,
+//                "availableSeats" to trip.availableSeats,
+//                "distance" to trip.distance,
+//                "duration" to trip.duration,
+//                "status" to trip.status
+//            )
+//
+//            tripsCollection.add(tripData)
+//                .addOnSuccessListener { documentReference ->
+//                    callback.onResult(Result.Success(documentReference.id))
+//                }
+//                .addOnFailureListener { exception ->
+//                    callback.onResult(Result.Error(exception))
+//                }
+//        } catch (e: Exception) {
+//            callback.onResult(Result.Error(e))
+//        }
+//    }
+
     override suspend fun addTrip(
         trip: Trip,
         callback: ResultCallback<Result<String>>
     ) {
         try {
-            val tripData = hashMapOf(
-                "route_id" to trip.route_id,
-                "bus_id" to trip.bus_id,
-                "main_driver_id" to trip.main_driver_id,
-                "trip_date" to trip.trip_date,
-                "departure_time" to trip.departure_time,
-                "ticket_price" to trip.ticket_price,
-                "availableSeats" to trip.availableSeats,
-                "distance" to trip.distance,
-                "duration" to trip.duration,
-                "status" to trip.status
-            )
-
-            tripsCollection.add(tripData)
+            tripsCollection.add(trip) // Firestore auto generate documentId
                 .addOnSuccessListener { documentReference ->
-                    callback.onResult(Result.Success(documentReference.id))
+                    val tripId = documentReference.id
+                    val tripWithId = trip.copy(id = tripId) // gán id vào object
+
+                    // Cập nhật lại field id vào document
+                    documentReference.set(tripWithId)
+                        .addOnSuccessListener {
+                            callback.onResult(Result.Success(tripId))
+                        }
+                        .addOnFailureListener { exception ->
+                            callback.onResult(Result.Error(exception))
+                        }
                 }
                 .addOnFailureListener { exception ->
                     callback.onResult(Result.Error(exception))
@@ -609,9 +800,9 @@ data class TripDetails(
     val user: User = User(),
     val trip: Trip = Trip(),
     val route: Route = Route(),
-    val bus: Bus = Bus(),
+    val bus: Bus? = Bus(),
     val payment: Payment? = null
-)
+) : java.io.Serializable
 
 //    override suspend fun loadTrip(
 //        origin: String,

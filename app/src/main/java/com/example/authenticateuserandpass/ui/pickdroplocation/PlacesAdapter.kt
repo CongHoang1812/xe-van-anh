@@ -7,13 +7,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.authenticateuserandpass.R
 import com.example.authenticateuserandpass.data.model.placeSuggestion.PlaceSuggestion
 
 class PlacesAdapter(private val onClick: (PlaceSuggestion) -> Unit) :
     ListAdapter<PlaceSuggestion, PlacesAdapter.PlaceViewHolder>(DiffCallback()) {
 
     class PlaceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textView: TextView = itemView.findViewById(android.R.id.text1)
+        val textView: TextView = itemView.findViewById(R.id.textView92)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<PlaceSuggestion>() {
@@ -25,7 +26,7 @@ class PlacesAdapter(private val onClick: (PlaceSuggestion) -> Unit) :
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaceViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_1, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_place, parent, false)
         return PlaceViewHolder(view)
     }
 

@@ -26,7 +26,7 @@ class MyTicketDetailActivity : AppCompatActivity() {
 //        }
         ticket = intent.getParcelableExtra("TICKET_DATA") ?: return
         Log.d("MyTicketDetailActivity", "Received ticket: $ticket")
-        val bookingCode = ticket.ticketCode
+        val bookingCode = ticket.ticketCode + ticket.paymentStatus
 
         generateQRCode(bookingCode)
         binding.tvTicketCodeMyTicket.text = ticket.ticketCode
@@ -56,7 +56,7 @@ class MyTicketDetailActivity : AppCompatActivity() {
 
     private fun generateQRCode(data: String) {
         try {
-            val size = 800 // pixels — chỉnh tuỳ ý (kích thước cao hơn -> dễ quét)
+            val size = 1000 // pixels — chỉnh tuỳ ý (kích thước cao hơn -> dễ quét)
             val barcodeEncoder = BarcodeEncoder()
             val bitmap: Bitmap = barcodeEncoder.encodeBitmap(data, BarcodeFormat.QR_CODE, size, size)
             binding.imgQrCode.setImageBitmap(bitmap)

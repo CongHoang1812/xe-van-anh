@@ -126,7 +126,7 @@ class TripViewModel(
                                         departureTime = details.trip.departure_time,
                                         arrivalTime = calculateArrivalTime(details.trip.departure_time, details.trip.duration),
                                         availableSeats = 24 -  details.trip.availableSeats,
-                                        totalSeats = details.bus.seat_count,
+                                        totalSeats = details.bus?.seat_count ?: 24,
                                         stops = 28, // TODO: Lấy số điểm dừng thực tế từ dữ liệu
                                         price = details.trip.ticket_price,
                                         duration = details.trip.duration,

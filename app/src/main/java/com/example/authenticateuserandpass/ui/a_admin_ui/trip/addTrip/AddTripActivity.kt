@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 
 class AddTripActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddTripBinding
+
     private val tripRepository = com.example.authenticateuserandpass.data.repository.trip.TripRepositoryImpl()
     // Variables để lưu thông tin đã chọn
     private var selectedBus: Bus? = null
@@ -62,9 +63,10 @@ class AddTripActivity : AppCompatActivity() {
         }
 
 
+
     }
     private fun showDriverSelectionBottomSheet() {
-        val driverSelectionBottomSheet = DriverSelectionBottomSheet { selectedDriver ->
+        val driverSelectionBottomSheet = DriverSelectionBottomSheet(DriverSelectionBottomSheet.DriverType.MAIN) { selectedDriver ->
             onDriverSelected(selectedDriver)
         }
         driverSelectionBottomSheet.show(supportFragmentManager, "DriverSelectionBottomSheet")

@@ -28,4 +28,21 @@ class BusDataSource {
                 callback.onResult(Result.Error(exception))
             }
     }
+    fun addBus(bus: Bus, callback: ResultCallback<Result<String>>) {
+        val busData = hashMapOf(
+            "type" to bus.type,
+            "license_plate" to bus.license_plate,
+            "seat_count" to bus.seat_count
+        )
+
+        busCollection.add(busData)
+            .addOnSuccessListener { documentReference ->
+                // Lấy id do Firestore tạo
+                val id = documentReference.id
+                callback.onResult(Result.Success(id))
+            }
+            .addOnFailureListener { exception ->
+                callback.onResult(Result.Error(exception))
+            }
+    }
 }

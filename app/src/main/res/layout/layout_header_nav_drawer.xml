@@ -14,7 +14,7 @@
         android:text="@string/title_my_android_app"
         android:textAppearance="?attr/textAppearanceHeadlineSmall"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView8" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/textView9"
@@ -28,21 +28,17 @@
         app:layout_constraintStart_toStartOf="@+id/tv_ticket_price_my_ticket"
         app:layout_constraintTop_toBottomOf="@+id/tv_ticket_price_my_ticket" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView8"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="8dp"
-        app:cardCornerRadius="48dp"
-        app:layout_constraintEnd_toEndOf="@+id/tv_ticket_price_my_ticket"
-        app:layout_constraintStart_toStartOf="@+id/tv_ticket_price_my_ticket"
-        app:layout_constraintTop_toTopOf="parent">
+
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            app:srcCompat="@drawable/logo"
+            android:layout_width="165dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/logo3"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="@+id/tv_ticket_price_my_ticket"
+            app:layout_constraintStart_toStartOf="@+id/tv_ticket_price_my_ticket"
+            app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/des_ba_icon" />
-    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

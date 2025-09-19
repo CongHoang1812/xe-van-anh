@@ -43,8 +43,8 @@ class KhachTraFragment : Fragment() {
     }
     private fun loadKhachTra() {
         firestore.collection("bookings")
-            .whereEqualTo("shuttle_driver_id", shuttleDriverId)
-            .whereEqualTo("status", "Đang đi")
+            .whereEqualTo("dropoff_driver_id", shuttleDriverId)
+            .whereEqualTo("status", "Đã đi")
             .addSnapshotListener { bookingSnap, error ->
                 if (error != null) {
                     Toast.makeText(requireContext(), "Lỗi khi lấy dữ liệu", Toast.LENGTH_SHORT).show()

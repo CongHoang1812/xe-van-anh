@@ -70,6 +70,7 @@ dependencies {
     implementation("commons-codec:commons-codec:1.14")
     implementation(libs.androidx.annotation)
     implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.cardview)
     ksp(libs.room.compiler)
     implementation("io.github.florent37:shapeofview:1.4.7")
     implementation("com.facebook.android:facebook-login:latest.release")

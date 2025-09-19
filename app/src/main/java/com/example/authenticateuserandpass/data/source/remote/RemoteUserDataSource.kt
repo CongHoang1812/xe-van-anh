@@ -60,4 +60,16 @@ class RemoteUserDataSource() : UserDataSource{
                 callback.onResult(Result.Error(exception))
             }
     }
+    override suspend fun getAllShuttleDriver(callback: ResultCallback<Result<List<User>>>) {
+        firestore.collection("users")
+            .whereEqualTo("role", "shuttle_driver")
+            .get()
+            .addOnSuccessListener { documents ->
+                val shuttleDrivers = documents.mapNotNull { it.toObject(User::class.java) }
+                callback.onResult(Result.Success(shuttleDrivers))
+            }
+            .addOnFailureListener { exception ->
+                callback.onResult(Result.Error(exception))
+            }
+    }
 }

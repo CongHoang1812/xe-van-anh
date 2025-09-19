@@ -18,6 +18,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.authenticateuserandpass.ui.HomeActivity
@@ -146,9 +147,16 @@ class PickAnDropActivity : AppCompatActivity(), MenuProvider {
 
         binding.rvSuggestions.layoutManager = LinearLayoutManager(this)
         binding.rvSuggestions.adapter = adapter
+        binding.rvSuggestions.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                LinearLayoutManager.VERTICAL
+            )
+        )
 
         binding.rvSuggestions1.layoutManager = LinearLayoutManager(this)
         binding.rvSuggestions1.adapter = adapter1
+        binding.rvSuggestions1.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
         binding.etSearchPickUp.doOnTextChanged { text, _, _, _ ->
             if (userJustSelected) {

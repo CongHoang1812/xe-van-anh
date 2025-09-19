@@ -3,9 +3,9 @@
     android:id="@+id/tvChild"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp"
-    android:textSize="13sp"
-    android:textColor="#FF5722"
-    android:background="#FFF3E0"
+    android:background="@color/deep_purple_50"
+    android:ellipsize="end"
     android:maxLines="1"
-    android:ellipsize="end" />
+    android:padding="12dp"
+    android:textColor="@color/deep_purple_600"
+    android:textSize="13sp" />

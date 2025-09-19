@@ -129,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="/5000 ghế"
+                android:text="/456 ghế"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 android:textColor="@color/gray"
                 app:layout_constraintStart_toStartOf="@+id/textView66"
@@ -155,8 +155,8 @@
                 app:cpb_background_progressbar_color="#E0E0E0"
                 app:cpb_background_progressbar_width="8dp"
                 app:cpb_progress_max="100"
-                app:cpb_progressbar_color_end="#FF9800"
-                app:cpb_progressbar_color_start="#FF0000"
+                app:cpb_progressbar_color_end="#42A5F5"
+                app:cpb_progressbar_color_start="#0D47A1"
                 app:cpb_progressbar_width="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -206,7 +206,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="/500 chuyến"
+                android:text="/24 chuyến"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 android:textColor="@color/gray"
                 app:layout_constraintStart_toStartOf="@+id/textView662"
@@ -223,7 +223,7 @@
             app:layout_constraintGuide_percent="0.5" />
 
         <TextView
-            android:id="@+id/textView76"
+            android:id="@+id/tv_revenue_today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

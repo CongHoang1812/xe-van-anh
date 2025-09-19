@@ -13,17 +13,19 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/primary_color"
+        android:background="@color/deep_purple_100"
         android:elevation="4dp"
+        app:titleTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Thống Kê Doanh Thu"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -44,12 +46,20 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <Button
+                android:id="@+id/btnSelectMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tháng: "
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp" />
+
             <!-- Title for weekly revenue chart -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="Doanh Thu Theo Tuần"
+                android:text="Doanh Thu Theo Tháng"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -107,7 +117,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="16,200,000 VNĐ"
-                        android:textColor="@color/primary_color"
+                        android:textColor="@color/deep_purple_500"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -142,7 +152,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2,314,286 VNĐ"
-                        android:textColor="@color/primary_color"
+                        android:textColor="@color/deep_purple_500"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -176,7 +186,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Thứ 7"
-                        android:textColor="@color/primary_color"
+                        android:textColor="@color/deep_purple_500"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 

@@ -21,6 +21,7 @@ import com.example.authenticateuserandpass.data.model.user.User
 import com.example.authenticateuserandpass.data.repository.user.UserRepositoryImpl
 import com.example.authenticateuserandpass.databinding.ActivityUserManagementBinding
 import com.example.authenticateuserandpass.ui.a_admin_ui.user.createNew.CreateNewUserActivity
+import com.example.authenticateuserandpass.ui.a_admin_ui.user.detailUser.DetailUserActivity
 import com.example.authenticateuserandpass.ui.a_admin_ui.user.updateUser.UpdateUserActivity
 
 import kotlin.getValue
@@ -81,7 +82,9 @@ class UserManagementActivity : AppCompatActivity(), MenuProvider {
             }
         }, clickListener = object : OnClickListener {
             override fun onCLick(id: String) {
-                Toast.makeText(this@UserManagementActivity, "Click vào user với ID: $id", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@UserManagementActivity, DetailUserActivity::class.java)
+                //intent.putExtra("user", user)
+                startActivity(intent)
             }
         })
 

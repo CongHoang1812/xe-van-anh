@@ -42,7 +42,7 @@ class KhachDonFragment : Fragment() {
 
     private fun loadKhachDon() {
         firestore.collection("bookings")
-            .whereEqualTo("shuttle_driver_id", shuttleDriverId)
+            .whereEqualTo("pickup_driver_id", shuttleDriverId)
             .whereEqualTo("status", "Chưa đi")
             .addSnapshotListener { bookingSnap, error ->
                 if (error != null) {

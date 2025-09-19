@@ -1,10 +1,12 @@
 package com.example.authenticateuserandpass.ui.a_admin_ui.route.add_update
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
@@ -48,6 +50,7 @@ class AddEditRouteActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
             title = if (isEditMode) "Sửa tuyến đường" else "Thêm tuyến đường"
         }
+        binding.toolbar.navigationIcon?.setTint(Color.BLACK)
     }
 
     private fun setupViewModel() {

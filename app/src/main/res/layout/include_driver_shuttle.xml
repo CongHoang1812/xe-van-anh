@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:text="App for shuttle driver"
-        android:textColor="#FF5722"
+        android:textColor="@color/deep_purple_600"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/greetingText"
         app:layout_constraintTop_toBottomOf="@id/greetingText"

@@ -41,6 +41,9 @@
     <string name="login_failed">"Login failed"</string>
     <string name="direction">Direction</string>
     <string name="error_report">Error report</string>
+    <string name="about_us">
+        Là một trong những thương hiệu nổi tiếng trong  lĩnh vực kinh doanh tuyến xe khách Thanh Hóa - Hà Nội và ngược lại, Nhà Xe Vân Anh Thanh Hóa thực sự là một lựa chọn tuyệt vời cho những người có nhu cầu di chuyển giữa Hà Nội và Thanh Hóa, hoặc ngược lại.\n\nDịch vụ của nhà xe Vân Anh Limousine không chỉ đảm bảo sự thoải mái và an toàn mà còn mang đến trải nghiệm vượt trội và sang trọng.\n\nĐiều đặc biệt là chúng tôi chú trọng đến chất lượng dịch vụ và tiện nghi trên xe, đảm bảo rằng mọi hành khách đều có trải nghiệm tốt nhất. Dòng xe trung chuyển đến xe giường nằm đều được đầu tư mua mới mới càng làm tăng thêm sự lựa chọn và sự thoải mái cho hành khách trên mọi tuyến đường.
+    </string>
 
 
 </resources>

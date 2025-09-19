@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.authenticateuserandpass.data.firebaseModel.HotService
 import com.example.authenticateuserandpass.databinding.ItemHotServiceBinding
 import androidx.core.net.toUri
+import com.example.authenticateuserandpass.ui.webview.WebViewActivity
 
 class HotServiceAdapter : RecyclerView.Adapter<HotServiceAdapter.ViewHolder>()  {
     private val hotServices : MutableList<HotService> = mutableListOf()
@@ -52,8 +53,10 @@ class HotServiceAdapter : RecyclerView.Adapter<HotServiceAdapter.ViewHolder>()  
             binding.root.setOnClickListener {
                 val url = hotService.Url
                 if (url.isNotBlank()) {
-                    val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-                    binding.root.context.startActivity(intent)
+                    val context = binding.root.context
+                    val intent = Intent(context, WebViewActivity::class.java)
+                    intent.putExtra("webview", hotService.Url)
+                    context.startActivity(intent)
                 }
 
             }

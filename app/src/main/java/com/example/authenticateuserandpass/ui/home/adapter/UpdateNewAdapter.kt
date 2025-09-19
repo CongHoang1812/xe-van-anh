@@ -11,6 +11,7 @@ import com.example.authenticateuserandpass.data.firebaseModel.HotService
 import com.example.authenticateuserandpass.data.firebaseModel.UpdateNews
 import com.example.authenticateuserandpass.databinding.ItemHotServiceBinding
 import com.example.authenticateuserandpass.databinding.ItemUpdateNewBinding
+import com.example.authenticateuserandpass.ui.webview.WebViewActivity
 
 class UpdateNewAdapter : RecyclerView.Adapter<UpdateNewAdapter.ViewHolder>()  {
     private val updateNews : MutableList<UpdateNews> = mutableListOf()
@@ -52,8 +53,10 @@ class UpdateNewAdapter : RecyclerView.Adapter<UpdateNewAdapter.ViewHolder>()  {
             binding.root.setOnClickListener {
                 val url = updateNews.Url
                 if (url.isNotBlank()) {
-                    val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-                    binding.root.context.startActivity(intent)
+                    val context = binding.root.context
+                    val intent = Intent(context, WebViewActivity::class.java)
+                    intent.putExtra("webview", updateNews.Url)
+                    context.startActivity(intent)
                 }
 
             }

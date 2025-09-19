@@ -11,6 +11,7 @@ import com.example.authenticateuserandpass.databinding.ItemAdminTicketBinding
 import com.google.android.material.chip.Chip
 
 class TicketAdapter(
+    private val onItemClick: (TripDetails) -> Unit,
     private val onEditClick: (TripDetails) -> Unit,
     private val onDeleteClick: (TripDetails) -> Unit
 ) : RecyclerView.Adapter<TicketAdapter.TicketViewHolder>() {
@@ -56,13 +57,23 @@ class TicketAdapter(
                 tvRoute.text = "${tripDetails.route.origin} - ${tripDetails.route.destination}"
 
                 tvPrice.text = "Giá: ${tripDetails.trip.ticket_price}.000 vnđ"
-                if(tripDetails.booking.shuttle_driver_id  != ""){
+                if(tripDetails.booking.pickup_driver_id  != ""){
                     tvDriverPickup.text = "Trung chuyển đón: ${tripDetails.user.name} - ${tripDetails.user.phone}"
                 }else{
                     tvDriverPickup.text = "Trung chuyển đón: Chưa gán"
                 }
 
+                if(tripDetails.booking.dropoff_driver_id  != ""){
+                    tvDriverDropoff.text = "Trung chuyển trả: ${tripDetails.user.name} - ${tripDetails.user.phone}"
+                }else{
+                    tvDriverDropoff.text = "Trung chuyển trả: Chưa gán"
+                }
+
                 setChipColors(chipStatus, tripDetails.payment?.status)
+
+                root.setOnClickListener {
+                    onItemClick(tripDetails)
+                }
 
                 btnEdit.setOnClickListener {
                     onEditClick(tripDetails)

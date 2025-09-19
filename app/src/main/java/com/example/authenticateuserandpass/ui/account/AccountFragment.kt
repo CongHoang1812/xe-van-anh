@@ -12,8 +12,12 @@ import com.bumptech.glide.Glide
 import com.example.authenticateuserandpass.ui.MainActivity
 import com.example.authenticateuserandpass.data.model.user.User
 import com.example.authenticateuserandpass.databinding.FragmentAccountBinding
+import com.example.authenticateuserandpass.ui.account.aboutUs.AboutUsActivity
+import com.example.authenticateuserandpass.ui.account.bookingIntruction.IntructionsBookingActivity
+import com.example.authenticateuserandpass.ui.account.contact.ContactActivity
 import com.example.authenticateuserandpass.ui.account.viewprofile.ViewProfileActivity
 import com.example.authenticateuserandpass.ui.feedback.FeedbackActivity
+import com.example.authenticateuserandpass.ui.webview.WebViewActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.jvm.java
@@ -45,17 +49,16 @@ class AccountFragment : Fragment() {
         }
         binding.layoutAboutUs.setOnClickListener {
             val url = "https://xevananh.com/vi/gioi-thieu-nha-xe-van-anh.html?id=4f4ec44b-2920-4c3f-8227-d8dca47f0271" // URL bạn muốn mở
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            val intent = Intent(requireContext(), AboutUsActivity::class.java)
             startActivity(intent)
         }
         binding.bookingIns.setOnClickListener {
             val url = "https://xevananh.com/vi/1huong-dan-dat-ve.html?id=772a23af-93fd-4767-b394-e9b34286a829" // URL bạn muốn mở
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            val intent = Intent(requireContext(), IntructionsBookingActivity::class.java)
             startActivity(intent)
         }
         binding.Support.setOnClickListener {
-            val url = "https://xevananh.com/vi/contact" // URL bạn muốn mở
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            val intent = Intent(requireContext(), ContactActivity::class.java)
             startActivity(intent)
         }
         binding.TripReview.setOnClickListener {
@@ -63,7 +66,8 @@ class AccountFragment : Fragment() {
             startActivity(intent)
         }
         binding.DeleteAccount.setOnClickListener {
-            Toast.makeText(requireContext(), "Tính năng đang phát triển", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext(), WebViewActivity::class.java)
+            startActivity(intent)
         }
         binding.Logout.setOnClickListener {
 

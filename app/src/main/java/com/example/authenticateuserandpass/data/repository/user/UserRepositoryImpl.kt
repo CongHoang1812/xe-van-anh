@@ -26,6 +26,9 @@ class UserRepositoryImpl : UserRepository  {
     override suspend fun getAllMainDriver(callback: ResultCallback<Result<List<User>>>) {
         remoteUserDataSource.getAllMainDriver(callback)
     }
+    override suspend fun getAllShuttleDriver(callback: ResultCallback<Result<List<User>>>) {
+        remoteUserDataSource.getAllShuttleDriver(callback)
+    }
 
     suspend fun checkEmailExists(email: String): Boolean {
         return try {

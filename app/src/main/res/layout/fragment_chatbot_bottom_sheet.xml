@@ -13,7 +13,7 @@
         android:orientation="horizontal"
         android:padding="16dp"
         android:gravity="center_vertical"
-        android:background="#FFD54F">
+        android:background="@color/deep_purple_100">
 
         <!-- Bot Avatar -->
         <androidx.cardview.widget.CardView
@@ -66,7 +66,8 @@
             android:layout_height="32dp"
             android:src="@drawable/ic_close"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Đóng" />
+            android:contentDescription="Đóng"
+            app:tint="@color/black" />
 
     </LinearLayout>
 
