@@ -11,6 +11,7 @@ import com.example.authenticateuserandpass.data.firebaseModel.HotService
 import com.example.authenticateuserandpass.data.firebaseModel.UpdateNews
 import com.example.authenticateuserandpass.databinding.ItemHotServiceBinding
 import com.example.authenticateuserandpass.databinding.ItemUpdateNewBinding
+import com.example.authenticateuserandpass.ui.home.NewsActivity
 import com.example.authenticateuserandpass.ui.webview.WebViewActivity
 
 class UpdateNewAdapter : RecyclerView.Adapter<UpdateNewAdapter.ViewHolder>()  {
@@ -51,15 +52,22 @@ class UpdateNewAdapter : RecyclerView.Adapter<UpdateNewAdapter.ViewHolder>()  {
                 .load(updateNews.ImagePath)
                 .into(binding.imgUpdateNew)
             binding.root.setOnClickListener {
-                val url = updateNews.Url
-                if (url.isNotBlank()) {
-                    val context = binding.root.context
-                    val intent = Intent(context, WebViewActivity::class.java)
-                    intent.putExtra("webview", updateNews.Url)
-                    context.startActivity(intent)
-                }
-
+                val context = binding.root.context
+                val intent = Intent(context, NewsActivity::class.java)
+                context.startActivity(intent)
             }
+//            binding.root.setOnClickListener {
+//                val url = updateNews.Url
+//                if (url.isNotBlank()) {
+//                    val context = binding.root.context
+//                    val intent = Intent(context, WebViewActivity::class.java)
+//                    intent.putExtra("webview", updateNews.Url)
+//                    context.startActivity(intent)
+//                }
+//
+//            }
+
+
         }
 
 

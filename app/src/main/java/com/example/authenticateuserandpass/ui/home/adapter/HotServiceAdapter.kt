@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.authenticateuserandpass.data.firebaseModel.HotService
 import com.example.authenticateuserandpass.databinding.ItemHotServiceBinding
 import androidx.core.net.toUri
+import com.example.authenticateuserandpass.ui.home.HotServiceActivity
 import com.example.authenticateuserandpass.ui.webview.WebViewActivity
 
 class HotServiceAdapter : RecyclerView.Adapter<HotServiceAdapter.ViewHolder>()  {
@@ -51,15 +52,24 @@ class HotServiceAdapter : RecyclerView.Adapter<HotServiceAdapter.ViewHolder>()  
                 .into(binding.imgHotService)
             Log.d("HotServiceBind", "Binding item : ${hotService.Title}, ${hotService.Content}, ${hotService.ImagePath}, ${hotService.Url}")
             binding.root.setOnClickListener {
-                val url = hotService.Url
-                if (url.isNotBlank()) {
-                    val context = binding.root.context
-                    val intent = Intent(context, WebViewActivity::class.java)
-                    intent.putExtra("webview", hotService.Url)
-                    context.startActivity(intent)
-                }
+                val url = hotService.ImagePath
+                val context = binding.root.context
+                val intent = Intent(context, HotServiceActivity::class.java)
+                intent.putExtra("url", url)
+                context.startActivity(intent)
 
             }
+//            binding.root.setOnClickListener {
+//                val url = hotService.Url
+//                if (url.isNotBlank()) {
+//                    val context = binding.root.context
+//                    val intent = Intent(context, WebViewActivity::class.java)
+//                    intent.putExtra("webview", hotService.Url)
+//                    context.startActivity(intent)
+//                }
+//
+//            }
+
         }
 
 

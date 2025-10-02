@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.account.aboutUs.AboutUsActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView87"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="Dịch vụ vận chuyển hàng hoá"
+            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView88"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="03:30 12/09/2025"
+            android:textAppearance="@style/TextAppearance.Gmp.Sys.Typescale.BodyMedium"
+            app:layout_constraintStart_toStartOf="@+id/textView87"
+            app:layout_constraintTop_toBottomOf="@+id/textView87" />
+
+        <TextView
+            android:id="@+id/textView89"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Dịch vụ vận chuyển hàng hoá"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView88"
+            app:layout_constraintTop_toBottomOf="@+id/textView88" />
+
+        <TextView
+            android:id="@+id/textView90"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:lineSpacingExtra="5dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:textColor="#333333"
+            android:text="Nhà xe Vân Anh cung cấp dịch vụ vận chuyển hàng hóa (gửi hàng) dọc theo các tuyến đường chính của mình, chủ yếu là các tuyến từ Thanh Hóa đi Hà Nội, Nghệ An, Hải Phòng, Bắc Ninh và Vĩnh Phúc. Để biết chi tiết về dịch vụ, bạn nên liên hệ trực tiếp với nhà xe qua số tổng đài 1900 996638 hoặc 02373 899 899 để được tư vấn về địa điểm, giờ giấc và quy trình gửi hàng. "
+            app:layout_constraintEnd_toEndOf="@+id/textView89"
+            app:layout_constraintStart_toStartOf="@+id/textView89"
+            app:layout_constraintTop_toBottomOf="@+id/textView89" />
+
+        <ImageView
+            android:id="@+id/imageView20"
+            android:layout_width="0dp"
+            android:layout_height="220dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="@+id/textView90"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textView90"
+            app:layout_constraintTop_toBottomOf="@+id/textView90"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+        <TextView
+            android:id="@+id/textView91"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Tại Thanh Hóa nhà xe vừa tiếp tục đầu tư mua mới 40 xe Xpander màu trắng phục vụ nhu cầu trung chuyển cho bà con xứ Thanh. Đây là dòng xe 7 chỗ rộng rãi, được trang bị nhiều tiện ích hiện đại, mang đến cho hành khách những chuyến đưa đón êm ái, thoải mái và nhanh chóng nhất."
+            app:layout_constraintEnd_toEndOf="@+id/imageView20"
+            android:textColor="#333333"
+            android:lineSpacingExtra="5dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            app:layout_constraintStart_toStartOf="@+id/imageView20"
+            app:layout_constraintTop_toBottomOf="@+id/imageView20" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

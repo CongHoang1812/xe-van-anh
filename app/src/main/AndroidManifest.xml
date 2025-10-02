@@ -28,6 +28,12 @@
         tools:ignore="ObsoleteSdkInt"
         tools:targetApi="31">
         <activity
+            android:name=".ui.home.HotServiceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.NewsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.a_admin_ui.bus.AddBusActivity"
             android:exported="false" />
         <activity
@@ -64,7 +70,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
+            android:value="AIzaSyC0F8saxAHwwpKIz5TjJcnvKCDNNPV4drQ" />
 
         <activity
             android:name=".ui.SplashActivity"

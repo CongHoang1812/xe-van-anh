@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:text="Xin chào name's driver"
+        android:text="Xin chào Lê Văn Hoàng"
         android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
         android:textColor="#042F40"
         android:textSize="21dp"

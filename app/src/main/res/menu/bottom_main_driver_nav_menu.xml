@@ -6,19 +6,19 @@
     <item
         android:id="@+id/nav_1"
         android:icon="@drawable/baseline_home_24"
-        android:title="Home"
+        android:title="Trang chủ"
         app:showAsAction="ifRoom|withText"
         tools:ignore="HardcodedText" />
     <item
         android:id="@+id/nav_2"
         android:icon="@drawable/outline_airport_shuttle_24"
-        android:title="Journeys"
+        android:title="Chuyến đi"
         app:showAsAction="ifRoom|withText"
         tools:ignore="HardcodedText" />
     <item
         android:id="@+id/nav_3"
         android:icon="@drawable/ic_person_24"
-        android:title="Account"
+        android:title="Tài khoản"
         app:showAsAction="ifRoom|withText"
         tools:ignore="HardcodedText" />
 </menu>

@@ -1,5 +1,6 @@
 package com.example.authenticateuserandpass.ui.payment
 
+import android.app.AlertDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -34,6 +35,7 @@ import com.example.authenticateuserandpass.ui.findticket.FindTicketViewModel
 import com.example.authenticateuserandpass.utils.zalopay.Api.CreateOrder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -51,6 +53,7 @@ class ChoosePaymentActivity : AppCompatActivity() {
     private lateinit var rbZaloPay: RadioButton
     private lateinit var rbCash: RadioButton
     private lateinit var btnPay: Button
+    private lateinit var rbMomo: RadioButton
     private lateinit var cardZaloPay: CardView
     private lateinit var cardCash: CardView
     private lateinit var totalPrice: String
@@ -70,6 +73,7 @@ class ChoosePaymentActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityChosePaymentBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        rbMomo = findViewById(R.id.rbMomo)
         rbZaloPay = findViewById(R.id.rbZaloPay)
         rbCash = findViewById(R.id.rbCash)
         btnPay = findViewById(R.id.btnPay)
@@ -77,9 +81,17 @@ class ChoosePaymentActivity : AppCompatActivity() {
         cardCash = findViewById(R.id.cardCash)
         rbZaloPay.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) rbCash.isChecked = false
+            if (isChecked) rbMomo.isChecked = false
         }
         rbCash.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) rbZaloPay.isChecked = false
+            if (isChecked) rbMomo.isChecked = false
+        }
+        rbMomo.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked){
+                rbZaloPay.isChecked = false
+                rbCash.isChecked = false
+            }
         }
 
         // Cho phép click cả cardView để chọn
@@ -100,6 +112,7 @@ class ChoosePaymentActivity : AppCompatActivity() {
                     Log.d("Payment", "Chọn thanh toán tiền mặt")
                     payWithCash()
                 }
+
                 else -> {
                     Toast.makeText(this, "Vui lòng chọn phương thức thanh toán", Toast.LENGTH_SHORT)
                         .show()
@@ -365,6 +378,87 @@ class ChoosePaymentActivity : AppCompatActivity() {
         }
 
 
+//    private fun createBookingAndPayment(
+//        userId: String,
+//        trip: Trip,
+//        selectedSeats: String,
+//        pickupLocation: String,
+//        dropoffLocation: String,
+//        note: String,
+//        paymentMethod: String,
+//        paymentStatus: String,
+//        transactionId: String,
+//        totalAmount: String
+//    ) {
+//        val origin = intent.getStringExtra("origin")
+//        val destination = intent.getStringExtra("destination")
+//        val tripDate = intent.getStringExtra("tripDate")
+//
+//        val db = FirebaseFirestore.getInstance()
+//        val bookingsRef = db.collection("bookings")
+//        val paymentsRef = db.collection("payments")
+//        val timestamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+//
+//        val seatList = selectedSeats.split(",").map { it.trim() }
+//
+//        // Tạo 1 payment duy nhất cho toàn bộ booking
+//        val paymentId = paymentsRef.document().id
+//        val payment = Payment(
+//            id = paymentId,
+//            bookingId = "", // Sẽ cập nhật với danh sách booking IDs
+//            amount = totalAmount,
+//            paymentMethod = paymentMethod,
+//            status = paymentStatus,
+//            transactionId = transactionId,
+//            paidAt = if (paymentStatus == "Đã thanh toán") timestamp else "",
+//            createdAt = timestamp
+//        )
+//
+//        val bookingIds = mutableListOf<String>()
+//
+//        // Tạo booking cho từng ghế
+//        for (seat in seatList) {
+//            val bookingId = bookingsRef.document().id
+//            bookingIds.add(bookingId)
+//
+//            val booking = Booking(
+//                id = bookingId,
+//                user_id = userId,
+//                trip_id = trip.id,
+//                seat_id = seat,
+//                status = "Chưa đi",
+//                pickup_location = pickupLocation,
+//                dropoff_location = dropoffLocation,
+//                note = note,
+//                book_at = timestamp
+//            )
+//
+//            // Lưu booking
+//            bookingsRef.document(bookingId).set(booking)
+//                .addOnSuccessListener {
+//                    Log.d("Booking", "✔ Đặt ghế $seat thành công")
+//                }
+//                .addOnFailureListener {
+//                    Log.e("Booking", "❌ Lỗi khi đặt ghế $seat: ${it.message}")
+//                }
+//        }
+//
+//        // Cập nhật payment với danh sách booking IDs
+//        val updatedPayment = payment.copy(bookingId = bookingIds.joinToString(","))
+//
+//        // Lưu payment (chỉ 1 payment cho toàn bộ booking)
+//        paymentsRef.document(paymentId).set(updatedPayment)
+//            .addOnSuccessListener {
+//                Log.d("Payment", "✔ Tạo payment thành công cho ${seatList.size} ghế")
+//            }
+//            .addOnFailureListener {
+//                Log.e("Payment", "❌ Lỗi khi tạo payment: ${it.message}")
+//            }
+//
+//        // Load lại trips để cập nhật UI
+//        viewModel.loadTrips(origin.toString(), destination.toString(), tripDate.toString())
+//    }
+
     private fun createBookingAndPayment(
         userId: String,
         trip: Trip,
@@ -377,73 +471,85 @@ class ChoosePaymentActivity : AppCompatActivity() {
         transactionId: String,
         totalAmount: String
     ) {
-        val origin = intent.getStringExtra("origin")
-        val destination = intent.getStringExtra("destination")
-        val tripDate = intent.getStringExtra("tripDate")
+        val origin = intent.getStringExtra("origin") ?: ""
+        val destination = intent.getStringExtra("destination") ?: ""
+        val tripDate = intent.getStringExtra("tripDate") ?: ""
 
         val db = FirebaseFirestore.getInstance()
         val bookingsRef = db.collection("bookings")
         val paymentsRef = db.collection("payments")
-        val timestamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+        val timestamp =
+            SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
 
         val seatList = selectedSeats.split(",").map { it.trim() }
 
-        // Tạo 1 payment duy nhất cho toàn bộ booking
-        val paymentId = paymentsRef.document().id
-        val payment = Payment(
-            id = paymentId,
-            bookingId = "", // Sẽ cập nhật với danh sách booking IDs
-            amount = totalAmount,
-            paymentMethod = paymentMethod,
-            status = paymentStatus,
-            transactionId = transactionId,
-            paidAt = if (paymentStatus == "Đã thanh toán") timestamp else "",
-            createdAt = timestamp
-        )
-
-        val bookingIds = mutableListOf<String>()
-
-        // Tạo booking cho từng ghế
-        for (seat in seatList) {
-            val bookingId = bookingsRef.document().id
-            bookingIds.add(bookingId)
-
-            val booking = Booking(
-                id = bookingId,
-                user_id = userId,
-                trip_id = trip.id,
-                seat_id = seat,
-                status = "Chưa đi",
-                pickup_location = pickupLocation,
-                dropoff_location = dropoffLocation,
-                note = note,
-                book_at = timestamp
-            )
-
-            // Lưu booking
-            bookingsRef.document(bookingId).set(booking)
-                .addOnSuccessListener {
-                    Log.d("Booking", "✔ Đặt ghế $seat thành công")
+        // 1. Kiểm tra trùng ghế trước khi transaction
+        bookingsRef
+            .whereEqualTo("trip_id", trip.id)
+            .whereIn("seat_id", seatList)  // check nhiều ghế cùng lúc
+            .get()
+            .addOnSuccessListener { snapshot ->
+                if (!snapshot.isEmpty) {
+                    // Có ghế đã được đặt
+                    val takenSeats = snapshot.documents.map { it.getString("seat_id") ?: "" }
+                    AlertDialog.Builder(this)
+                        .setTitle("Thông báo")
+                        .setMessage("Các ghế đã được đặt: ${takenSeats.joinToString(", ")}")
+                        .setPositiveButton("OK", null)
+                        .show()
+                    return@addOnSuccessListener
                 }
-                .addOnFailureListener {
-                    Log.e("Booking", "❌ Lỗi khi đặt ghế $seat: ${it.message}")
+
+                // 2. Không trùng ghế → chạy transaction
+                db.runTransaction { transaction ->
+                    val paymentId = paymentsRef.document().id
+                    val bookingIds = mutableListOf<String>()
+
+                    val payment = Payment(
+                        id = paymentId,
+                        bookingId = "",
+                        amount = totalAmount,
+                        paymentMethod = paymentMethod,
+                        status = paymentStatus,
+                        transactionId = transactionId,
+                        paidAt = if (paymentStatus == "Đã thanh toán") timestamp else "",
+                        createdAt = timestamp
+                    )
+                    transaction.set(paymentsRef.document(paymentId), payment)
+
+                    for (seat in seatList) {
+                        val bookingId = bookingsRef.document().id
+                        bookingIds.add(bookingId)
+
+                        val booking = Booking(
+                            id = bookingId,
+                            user_id = userId,
+                            trip_id = trip.id,
+                            seat_id = seat,
+                            status = "Chưa đi",
+                            pickup_location = pickupLocation,
+                            dropoff_location = dropoffLocation,
+                            note = note,
+                            book_at = timestamp
+                        )
+                        transaction.set(bookingsRef.document(bookingId), booking)
+                    }
+
+                    transaction.update(
+                        paymentsRef.document(paymentId),
+                        "bookingId",
+                        bookingIds.joinToString(",")
+                    )
+                }.addOnSuccessListener {
+                    Toast.makeText(this, "Đặt vé thành công", Toast.LENGTH_SHORT).show()
+                    viewModel.loadTrips(origin, destination, tripDate)
+                }.addOnFailureListener { e ->
+                    Toast.makeText(this, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
-        }
-
-        // Cập nhật payment với danh sách booking IDs
-        val updatedPayment = payment.copy(bookingId = bookingIds.joinToString(","))
-
-        // Lưu payment (chỉ 1 payment cho toàn bộ booking)
-        paymentsRef.document(paymentId).set(updatedPayment)
-            .addOnSuccessListener {
-                Log.d("Payment", "✔ Tạo payment thành công cho ${seatList.size} ghế")
             }
-            .addOnFailureListener {
-                Log.e("Payment", "❌ Lỗi khi tạo payment: ${it.message}")
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Lỗi khi kiểm tra ghế: ${e.message}", Toast.LENGTH_SHORT).show()
             }
-
-        // Load lại trips để cập nhật UI
-        viewModel.loadTrips(origin.toString(), destination.toString(), tripDate.toString())
     }
 
     // Thêm các phương thức xử lý timeout và quản lý booking tạm thời

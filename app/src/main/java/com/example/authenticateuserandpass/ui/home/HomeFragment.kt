@@ -67,10 +67,10 @@ class HomeFragment : Fragment() {
         RouteCardData("BX Nước Ngầm", "Thiệu Hóa", R.drawable.xe)
     )
     val routeList2 = listOf(
-        RecentRoute("15/09/2025", "Bến xe Giáp Bát", "TP Thanh Hóa"),
-        RecentRoute("16/09/2025", "BX Nước Ngầm", "TP Hồ Chí Minh"),
-        RecentRoute("17/09/2025", "Bến xe Phía Bắc", "BX Miền Tây"),
-        RecentRoute("18/09/2025", "Nha Trang", "Phan Thiết")
+        RecentRoute("25/09/2025", "Bến xe Giáp Bát", "TP Thanh Hóa"),
+        RecentRoute("24/09/2025", "BX Nước Ngầm", "TP Hồ Chí Minh"),
+        RecentRoute("20/09/2025", "Bến xe Phía Bắc", "BX Miền Tây"),
+        RecentRoute("19/09/2025", "Nha Trang", "Phan Thiết")
     )
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

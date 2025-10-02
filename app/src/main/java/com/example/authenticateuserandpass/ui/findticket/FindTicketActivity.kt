@@ -169,6 +169,30 @@ class FindTicketActivity : AppCompatActivity(), MenuProvider{
 
     private fun updateDisplayedDate() {
         binding.txtSelectedDate.text = getFormattedDate(calendar)
+
+        // So sánh ngày trong calendar với hôm nay
+        val today = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+
+        val selectedDay = Calendar.getInstance().apply {
+            time = calendar.time
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+
+        if (selectedDay.before(today) || selectedDay == today) {
+            // Nếu là hôm nay hoặc ngày trong quá khứ thì ẩn nút Prev
+            binding.btnPrev.visibility = View.GONE
+        } else {
+            // Ngày sau hôm nay thì hiện lại nút Prev
+            binding.btnPrev.visibility = View.VISIBLE
+        }
     }
 
     private fun getFormattedDate(cal: Calendar): String {
@@ -461,16 +485,4 @@ class FindTicketActivity : AppCompatActivity(), MenuProvider{
             else -> false
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

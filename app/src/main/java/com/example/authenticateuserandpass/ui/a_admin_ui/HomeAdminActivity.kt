@@ -55,7 +55,7 @@ class HomeAdminActivity : AppCompatActivity() {
         binding.circularProgressBar.roundBorder = true
         binding.circularProgressBar2.roundBorder = true
         val totalSeats = 456
-        val totalTrip = 24
+        val totalTrip =  19
         countTodayBookings { count ->
             binding.textView66 .text = "$count"
             val percent = if (totalSeats > 0) (count.toFloat() / totalSeats) * 100 else 0f
@@ -98,7 +98,7 @@ class HomeAdminActivity : AppCompatActivity() {
             AdminOption(3, "Quản lý tuyến", R.drawable.ic_route, "Quản lý các tuyến đường"),
             AdminOption(4, "Quản lý xe", R.drawable.bus, "Quản lý đội xe"),
             //AdminOption(5, "Quản lý tài xế", R.drawable.ic_driver, "Quản lý nhân viên lái xe"),
-            AdminOption(6, "Người dùng", R.drawable.ic_customers, "Quản lý thông tin khách hàng"),
+            AdminOption(6, "Quản lý Người dùng", R.drawable.ic_customers, "Quản lý thông tin khách hàng"),
             AdminOption(7, "Báo cáo", R.drawable.ic_report, "Xem báo cáo và thống kê"),
             AdminOption(8, "Cài đặt", R.drawable.ic_settings, "Cài đặt hệ thống"),
             //AdminOption(9, "Quản lý chuyến", R.drawable.ic_directions_bus, "Quản lý các chuyến xe"),
